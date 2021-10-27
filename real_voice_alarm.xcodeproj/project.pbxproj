@@ -8,17 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		0B974AE72726A249000D21D2 /* real_voice_alarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */; };
-		0B974AE92726A249000D21D2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B974AE82726A249000D21D2 /* ContentView.swift */; };
+		0B974AE92726A249000D21D2 /* VoiceAlarmHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B974AE82726A249000D21D2 /* VoiceAlarmHome.swift */; };
 		0B974AEB2726A24A000D21D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B974AEA2726A24A000D21D2 /* Assets.xcassets */; };
 		0B974AEE2726A24A000D21D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B974AED2726A24A000D21D2 /* Preview Assets.xcassets */; };
+		0BA14D7C2729547200A9E646 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA14D7B2729547200A9E646 /* CoreDataManager.swift */; };
+		0BA14D7E272955A400A9E646 /* VoiceAlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA14D7D272955A400A9E646 /* VoiceAlarmViewModel.swift */; };
+		0BA14D82272958BB00A9E646 /* CoreDataContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0BA14D80272958BB00A9E646 /* CoreDataContainer.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0B974AE32726A249000D21D2 /* real_voice_alarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = real_voice_alarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = real_voice_alarmApp.swift; sourceTree = "<group>"; };
-		0B974AE82726A249000D21D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0B974AE82726A249000D21D2 /* VoiceAlarmHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAlarmHome.swift; sourceTree = "<group>"; };
 		0B974AEA2726A24A000D21D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B974AED2726A24A000D21D2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0BA14D7B2729547200A9E646 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		0BA14D7D272955A400A9E646 /* VoiceAlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAlarmViewModel.swift; sourceTree = "<group>"; };
+		0BA14D81272958BB00A9E646 /* CoreDataContainer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataContainer.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +57,10 @@
 		0B974AE52726A249000D21D2 /* real_voice_alarm */ = {
 			isa = PBXGroup;
 			children = (
-				0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */,
-				0B974AE82726A249000D21D2 /* ContentView.swift */,
+				0BA14D7F2729588500A9E646 /* model */,
+				0B974AF72726C2F0000D21D2 /* service */,
+				0B974AF62726C2E3000D21D2 /* view_model */,
+				0B974AF52726C2D3000D21D2 /* view */,
 				0B974AEA2726A24A000D21D2 /* Assets.xcassets */,
 				0B974AEC2726A24A000D21D2 /* Preview Content */,
 			);
@@ -65,6 +73,39 @@
 				0B974AED2726A24A000D21D2 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0B974AF52726C2D3000D21D2 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */,
+				0B974AE82726A249000D21D2 /* VoiceAlarmHome.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		0B974AF62726C2E3000D21D2 /* view_model */ = {
+			isa = PBXGroup;
+			children = (
+				0BA14D7D272955A400A9E646 /* VoiceAlarmViewModel.swift */,
+			);
+			path = view_model;
+			sourceTree = "<group>";
+		};
+		0B974AF72726C2F0000D21D2 /* service */ = {
+			isa = PBXGroup;
+			children = (
+				0BA14D7B2729547200A9E646 /* CoreDataManager.swift */,
+			);
+			path = service;
+			sourceTree = "<group>";
+		};
+		0BA14D7F2729588500A9E646 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				0BA14D80272958BB00A9E646 /* CoreDataContainer.xcdatamodeld */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +178,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B974AE92726A249000D21D2 /* ContentView.swift in Sources */,
+				0BA14D7C2729547200A9E646 /* CoreDataManager.swift in Sources */,
+				0B974AE92726A249000D21D2 /* VoiceAlarmHome.swift in Sources */,
 				0B974AE72726A249000D21D2 /* real_voice_alarmApp.swift in Sources */,
+				0BA14D82272958BB00A9E646 /* CoreDataContainer.xcdatamodeld in Sources */,
+				0BA14D7E272955A400A9E646 /* VoiceAlarmViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +387,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0BA14D80272958BB00A9E646 /* CoreDataContainer.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0BA14D81272958BB00A9E646 /* CoreDataContainer.xcdatamodel */,
+			);
+			currentVersion = 0BA14D81272958BB00A9E646 /* CoreDataContainer.xcdatamodel */;
+			path = CoreDataContainer.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0B974ADB2726A249000D21D2 /* Project object */;
 }

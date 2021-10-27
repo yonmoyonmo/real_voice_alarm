@@ -11,7 +11,7 @@ import SwiftUI
 struct real_voice_alarmApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            VoiceAlarmHome()
         }
     }
 }
