@@ -17,17 +17,18 @@ class CoreDataManager {
         container = NSPersistentContainer(name:"CoreDataContainer");
         container.loadPersistentStores { description, error in
             if let error = error {
-                print("CoreDataManager init error : \(error.localizedDescription)");
+                print("CoreDataManager init error : \(error)");
             }
         }
         context = container.viewContext;
     }
     
-    func save() {
+    func save(savedEntity: String) {
         do{
-            try context.save();
-        }catch let error{
-            print("CoreDataManager save error : \(error.localizedDescription)");
+            try context.save()
+            print("\(savedEntity) is saved")
+        }catch let error {
+            print("core data manager save error : \(error.localizedDescription)")
         }
     }
     
