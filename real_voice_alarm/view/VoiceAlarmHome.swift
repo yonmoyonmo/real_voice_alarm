@@ -13,12 +13,17 @@ struct VoiceAlarmHome: View {
     var body: some View {
         NavigationView {
             VStack{
-                Text("DEMO 01 | 2021-10-28")
+                Text("DEMO 01 | 2021-10-28 ~ ??")
                 
                 ScrollView(.horizontal, showsIndicators: true, content: {
                     HStack(){
                         ForEach(vm.alarms){alarm in
-                            Text(alarm.tagName ?? "shithole").padding()
+                            VStack {
+                                Text(alarm.tagName ?? "shithole").padding()
+                                Text(alarm.audioName ?? "shit").padding()
+                                Text(alarm.uuid?.uuidString ?? "shshsit").padding()
+                            }
+                            
                         }
                     }
                 }).onAppear(perform: {
