@@ -28,6 +28,8 @@ class AudioRecorder: NSObject, ObservableObject {
     }
     
     var audioName: String?
+    var audioFilename: URL?
+    var audioData: [String: Any] = [:]
     
     var recordings = [Recording]()
     
@@ -53,8 +55,8 @@ class AudioRecorder: NSObject, ObservableObject {
         //
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let audioFilename = documentPath.appendingPathComponent("\(title)_\(dateFormatter.string(from: Date())).m4a")
         
+        audioFilename = documentPath.appendingPathComponent("\(title)_\(dateFormatter.string(from: Date())).m4a")
         audioName = "\(title)_\(dateFormatter.string(from: Date())).m4a"
         
         let settings = [
@@ -65,7 +67,7 @@ class AudioRecorder: NSObject, ObservableObject {
         ]
         
         do{
-            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+            audioRecorder = try AVAudioRecorder(url: audioFilename!, settings: settings)
             audioRecorder.record()
             recording = true
         }catch let error{
@@ -73,11 +75,13 @@ class AudioRecorder: NSObject, ObservableObject {
         }
     }
     
-    func stopRecording() -> String {
+    func stopRecording() -> [String:Any] {
         audioRecorder.stop()
         recording = false
         fatchRecordings()
-        return audioName!
+        audioData["audioName"] = audioName
+        audioData["audioFilename"] = audioFilename
+        return audioData
     }
     
     func fatchRecordings() {

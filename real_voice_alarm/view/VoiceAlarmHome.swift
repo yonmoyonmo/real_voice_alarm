@@ -24,7 +24,7 @@ struct VoiceAlarmHome: View {
                                 VStack(alignment: .leading) {
                                     Text(alarm.tagName ?? "shithole").padding()
                                     Text(alarm.audioName ?? "shit").padding()
-                                    Text(alarm.uuid?.uuidString ?? "shshsit").padding()
+                                    Text(alarm.uuid ?? "shshsit").padding()
                                 }
                                 .padding()
                                 .border(Color.green)

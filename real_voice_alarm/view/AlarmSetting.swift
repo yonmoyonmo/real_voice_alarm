@@ -15,7 +15,10 @@ struct AlarmSetting: View {
     
     @State var tagName: String = ""
     @State var fireAt: Date = Date()
+    
     @State var audioName: String?
+    @State var audioURL: URL?
+    @State var audioData:[String: Any] = [:]
     
     
     var body: some View {
@@ -39,7 +42,9 @@ struct AlarmSetting: View {
                 }
             }else{
                 Button(action: {
-                    audioName = audioRecorder.stopRecording()
+                    audioData = audioRecorder.stopRecording()
+                    audioName = audioData["audioName"] as? String
+                    audioURL = audioData["audioFilename"] as? URL
                 }) {
                     Image(systemName: "stop.fill")
                         .resizable()
@@ -58,7 +63,8 @@ struct AlarmSetting: View {
                 //save alarm
                 recorderAlarm.saveAlarm(tagName: tagName,
                                         fireAt: fireAt,
-                                        audioName: audioName ?? "default")
+                                        audioName: audioName ?? "default",
+                                        audioURL: audioURL!)
             }) {
                 Text("save alarm").bold()
             }

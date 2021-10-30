@@ -13,7 +13,7 @@ class NotificationManager{
     static let instance = NotificationManager()
     
     func requestAuthorization() {
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        let options: UNAuthorizationOptions = [.alert, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: options) { (success, error) in
             if let error = error {
                 print("Error \(error)")

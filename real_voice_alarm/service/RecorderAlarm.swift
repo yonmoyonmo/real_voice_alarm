@@ -18,12 +18,11 @@ class RecorderAlarm: ObservableObject {
     
     @Published var isFiring: Bool = false
     
-    func saveAlarm(tagName:String, fireAt: Date, audioName: String) {
+    func saveAlarm(tagName:String, fireAt: Date, audioName: String, audioURL: URL) {
         
         notificationManager.requestAuthorization()
         
         let id:UUID = UUID()
-        print("debug, saveAlarm function, uuid : " + id.uuidString)
         
         let newAlarm = AlarmEntity(context: coreDataManager.context)
         newAlarm.tagName = tagName
@@ -31,7 +30,8 @@ class RecorderAlarm: ObservableObject {
         newAlarm.audioName = audioName
         newAlarm.isDay = false
         newAlarm.repeatingDays = ""
-        newAlarm.uuid = id
+        newAlarm.uuid = id.uuidString
+        newAlarm.audioURL = audioURL
        
         notificationManager.scheduleAlarm(tagName: tagName, fireAt: fireAt, audioName: audioName, id: id.uuidString)
        
