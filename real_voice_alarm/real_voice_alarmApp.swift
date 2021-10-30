@@ -6,7 +6,7 @@
 //
 /**
  해야할 것
-
+ 
  */
 import SwiftUI
 
@@ -34,10 +34,12 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         return true
     }
     
+    //foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter,
-             willPresent notification: UNNotification,
-             withCompletionHandler completionHandler:
-                @escaping (UNNotificationPresentationOptions) -> Void) {
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler:
+                                @escaping (UNNotificationPresentationOptions) -> Void) {
+        
         print("noti delegate debug++++++++++++++++++++")
         print("foreground notification received")
         
@@ -48,9 +50,18 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         let alarmEntity = coreDataManager.findAlarmById(uuid: id)
         print(alarmEntity[0].audioURL!)
         recorderAlarm.isFiring = true
-        audioPlayer.startPlayback(audio: alarmEntity[0].audioURL!)
+        //audioPlayer.startPlayback(audio: alarmEntity[0].audioURL!)
         print("+++++++++++++++++++++++++++++++++++++++")
         
-        completionHandler(.banner)
-       }
+        completionHandler(.list)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("##########################")
+        print("background noti received")
+        recorderAlarm.isFiring = true
+        print("##########################")
+    }
+    
 }
