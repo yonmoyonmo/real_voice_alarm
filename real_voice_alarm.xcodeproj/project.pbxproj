@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B6AAF74272C0807004769CE /* AlarmingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6AAF73272C0807004769CE /* AlarmingScreen.swift */; };
 		0B974AE72726A249000D21D2 /* real_voice_alarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */; };
 		0B974AE92726A249000D21D2 /* VoiceAlarmHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B974AE82726A249000D21D2 /* VoiceAlarmHome.swift */; };
 		0B974AEB2726A24A000D21D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B974AEA2726A24A000D21D2 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B6AAF73272C0807004769CE /* AlarmingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmingScreen.swift; sourceTree = "<group>"; };
 		0B974AE32726A249000D21D2 /* real_voice_alarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = real_voice_alarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = real_voice_alarmApp.swift; sourceTree = "<group>"; };
 		0B974AE82726A249000D21D2 /* VoiceAlarmHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAlarmHome.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */,
 				0B974AE82726A249000D21D2 /* VoiceAlarmHome.swift */,
 				0BDDA64E272A93120005F810 /* AlarmSetting.swift */,
+				0B6AAF73272C0807004769CE /* AlarmingScreen.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6AAF74272C0807004769CE /* AlarmingScreen.swift in Sources */,
 				0BDDA64D272A8D870005F810 /* Helper.swift in Sources */,
 				0BA14D7C2729547200A9E646 /* CoreDataManager.swift in Sources */,
 				0BDDA645272A8C5D0005F810 /* AudioRecorder.swift in Sources */,

@@ -19,6 +19,9 @@ struct real_voice_alarmApp: App {
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    
+    let recorderAlarm = RecorderAlarm.instance
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("app launched")
         UNUserNotificationCenter.current().delegate = self
@@ -29,11 +32,17 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
              willPresent notification: UNNotification,
              withCompletionHandler completionHandler:
                 @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("noti delegate debug++++++++++++++++++++")
         print("foreground notification received")
+        
         let title:String = notification.request.content.title
         let id:String = notification.request.identifier
         print(title)
         print(id)
+        recorderAlarm.isFiring = true
+        
+        print("+++++++++++++++++++++++++++++++++++++++")
+        
         completionHandler(.banner)
        }
 }

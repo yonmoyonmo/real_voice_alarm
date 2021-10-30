@@ -8,17 +8,15 @@
 import Foundation
 import AVFoundation
 import UserNotifications
+import CoreData
 
-/*
- 오늘 해야할 것
- 알람 스케쥴 만들고 데이터 생성하기
-    알람 만들 때 필요한 녹음기 만들기
- */
-
-class RecorderAlarm {
-    static let instance = RecorderAlarm();
-    let coreDataManager = CoreDataManager.instance;
-    let notificationManager = NotificationManager.instance;
+class RecorderAlarm: ObservableObject {
+    static let instance = RecorderAlarm() //singleton object
+    
+    let coreDataManager = CoreDataManager.instance
+    let notificationManager = NotificationManager.instance
+    
+    @Published var isFiring: Bool = false
     
     func saveAlarm(tagName:String, fireAt: Date, audioName: String) {
         
@@ -41,6 +39,5 @@ class RecorderAlarm {
         
         print("alarm saved and sheduled")
     }
-    
     
 }
