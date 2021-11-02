@@ -35,7 +35,7 @@ class RecorderAlarm: ObservableObject {
        
         notificationManager.scheduleAlarm(tagName: tagName, fireAt: fireAt, audioName: audioName, id: id.uuidString)
        
-        coreDataManager.save(savedEntity: tagName)
+        coreDataManager.save(savedAlarmName: tagName)
         
         print("alarm saved and sheduled")
     }

@@ -23,7 +23,7 @@ class CoreDataManager {
         context = container.viewContext;
     }
     
-    func save(savedEntity: String) {
+    func save(savedAlarmName: String) {
         do{
             try context.save()
             print("\(savedEntity) is saved")

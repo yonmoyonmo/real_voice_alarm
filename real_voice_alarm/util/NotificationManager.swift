@@ -33,6 +33,7 @@ class NotificationManager{
         print(fireAt)
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fireAt)
         print(dateComponents)
+        print("=============")
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         

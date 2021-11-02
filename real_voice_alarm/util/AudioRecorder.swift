@@ -34,8 +34,6 @@ class AudioRecorder: NSObject, ObservableObject {
     var recordings = [Recording]()
     
     func startRecording(title: String) {
-        let fileManager = FileManager.default
-        
         let recordingSession = AVAudioSession.sharedInstance()
         do {
             try recordingSession.setCategory(.playAndRecord, mode: .default)
@@ -44,15 +42,11 @@ class AudioRecorder: NSObject, ObservableObject {
             print("failed to set up recording session")
         }
         
-        //test : save file to /Library/Sounds/
+        //saving file to /Library/Sounds/
         var documentPath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
         documentPath = documentPath.appendingPathComponent("Sounds")
-        do {
-            try fileManager.createDirectory(at: documentPath, withIntermediateDirectories: false, attributes: nil)
-        }catch let e{
-            print(e.localizedDescription)
-        }
-        //
+        //디렉토리 무조건 있다
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
@@ -96,15 +90,9 @@ class AudioRecorder: NSObject, ObservableObject {
         for element in debug01 {
             print(element)
         }
-        //
+        //--------
         
         documentDirectory = documentDirectory.appendingPathComponent("Sounds")
-        //make dir /Library/Sounds/
-        do {
-            try fileManager.createDirectory(at: documentDirectory, withIntermediateDirectories: false, attributes: nil)
-        }catch let e{
-            print(e.localizedDescription)
-        }
         
         let directoryContents = try! fileManager.contentsOfDirectory(at: documentDirectory, includingPropertiesForKeys: nil)
         
@@ -120,7 +108,7 @@ class AudioRecorder: NSObject, ObservableObject {
     
     func deleteRecording(urlsToDelete: [URL]){
         for url in urlsToDelete {
-            print(url)
+            print("delete Recordeing debug : \(url)")
             do{
                 try FileManager.default.removeItem(at: url)
             }catch{
