@@ -32,8 +32,8 @@ class CoreDataManager {
         }
     }
     
-    func findAlarmById(uuid: String) -> [AlarmEntity] {
-        var alarmEntity: [AlarmEntity] = []
+    func findAlarmById(uuid: String) -> AlarmEntity {
+        var alarmEntity: AlarmEntity = AlarmEntity()
         
         let fetchRequest: NSFetchRequest<AlarmEntity>
         fetchRequest = AlarmEntity.fetchRequest()
@@ -41,7 +41,7 @@ class CoreDataManager {
             format: "uuid == %@", uuid
         )
         do{
-            alarmEntity = try context.fetch(fetchRequest)
+            alarmEntity = try context.fetch(fetchRequest)[0]
         }catch let error{
             print("find alarm error : \(error.localizedDescription)")
         }

@@ -35,6 +35,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
             audioPlayer.delegate = self
             audioPlayer.play()
             isPlaying = true
+            print("playing")
         }catch{
             print("Playback failed")
         }
@@ -44,6 +45,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
     func stopPlayback() {
         audioPlayer.stop()
         isPlaying = false
+        print("stopped")
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {

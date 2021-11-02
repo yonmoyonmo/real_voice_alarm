@@ -5,8 +5,7 @@
 //  Created by yonmo on 2021/10/25.
 //
 /**
- 해야할 것
- 
+메모장
  */
 import SwiftUI
 
@@ -24,13 +23,12 @@ struct real_voice_alarmApp: App {
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     let recorderAlarm = RecorderAlarm.instance
-    let coreDataManager = CoreDataManager.instance
-    
-    var audioPlayer = AudioPlayer()
+    let notificationManager = NotificationManager.instance
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("app launched")
         UNUserNotificationCenter.current().delegate = self
+        notificationManager.requestAuthorization()
         return true
     }
     
@@ -43,25 +41,30 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         print("noti delegate debug++++++++++++++++++++")
         print("foreground notification received")
         
-        let title:String = notification.request.content.title
         let id:String = notification.request.identifier
-        print(title)
         print(id)
-        let alarmEntity = coreDataManager.findAlarmById(uuid: id)
-        print(alarmEntity[0].audioURL!)
         recorderAlarm.isFiring = true
-        //audioPlayer.startPlayback(audio: alarmEntity[0].audioURL!)
+        recorderAlarm.firingAlarmId = id
+        
         print("+++++++++++++++++++++++++++++++++++++++")
         
         completionHandler(.list)
     }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
+    //background
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         print("##########################")
         print("background noti received")
+        
+        let id:String = response.notification.request.identifier
+        print(id)
         recorderAlarm.isFiring = true
+        recorderAlarm.firingAlarmId = id
+        
         print("##########################")
+        
+        completionHandler()
     }
     
 }

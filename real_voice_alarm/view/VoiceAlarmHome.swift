@@ -15,6 +15,7 @@ struct VoiceAlarmHome: View {
         NavigationView {
             VStack{
                 Text("DEMO 01 | 2021-10-28 ~ ??").padding()
+                //conditional Screen
                 if recorderAlarm.isFiring == true {
                     AlarmingScreen()
                 }else {

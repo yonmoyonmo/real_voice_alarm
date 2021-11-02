@@ -16,11 +16,11 @@ class RecorderAlarm: ObservableObject {
     let coreDataManager = CoreDataManager.instance
     let notificationManager = NotificationManager.instance
     
+    @Published var firingAlarmId: String = ""
     @Published var isFiring: Bool = false
     
     func saveAlarm(tagName:String, fireAt: Date, audioName: String, audioURL: URL) {
         
-        notificationManager.requestAuthorization()
         
         let id:UUID = UUID()
         
