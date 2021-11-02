@@ -12,16 +12,29 @@ class VoiceAlarmHomeViewModel: ObservableObject {
     
     let coreDataManager = CoreDataManager.instance
     
-    @Published var alarms:[AlarmEntity] = []
+    @Published var dayAlarms:[AlarmEntity] = []
+    @Published var nightAlarms:[AlarmEntity] = []
     
     init(){
         getAlarms()
     }
     
     func getAlarms(){
-        let request = NSFetchRequest<AlarmEntity>(entityName: "AlarmEntity")
+        let dayRequest:NSFetchRequest<AlarmEntity>
+        dayRequest = AlarmEntity.fetchRequest()
+        dayRequest.predicate = NSPredicate(
+            format: "isDay == %@", NSNumber(booleanLiteral: true)
+        )
+        
+        let nightRequest:NSFetchRequest<AlarmEntity>
+        nightRequest = AlarmEntity.fetchRequest()
+        nightRequest.predicate = NSPredicate(
+            format: "isDay == %@", NSNumber(booleanLiteral: false)
+        )
+        
         do{
-            alarms = try coreDataManager.context.fetch(request)
+            dayAlarms = try coreDataManager.context.fetch(dayRequest)
+            nightAlarms = try coreDataManager.context.fetch(nightRequest)
         }catch let error {
             print("alarm fetching error : \(error.localizedDescription)")
         }

@@ -26,7 +26,7 @@ class RecorderAlarm: ObservableObject {
         newAlarm.tagName = tagName
         newAlarm.fireAt = fireAt
         newAlarm.audioName = audioName
-        newAlarm.isDay = false
+        newAlarm.isDay = isDay(fireAt: fireAt)
         newAlarm.repeatingDays = ""
         newAlarm.uuid = id.uuidString
         newAlarm.audioURL = audioURL
@@ -38,4 +38,17 @@ class RecorderAlarm: ObservableObject {
         print("alarm saved and sheduled")
     }
     
+    //00시 - 12시(am) == day
+    //12시 1분 ~ 23시 59분(pm) == night
+    func isDay(fireAt: Date)->Bool{
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: fireAt)
+        if 12 < hour {
+            return false
+        }else {
+            return true
+        }
+    }
+    
 }
+

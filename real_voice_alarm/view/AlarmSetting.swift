@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct AlarmSetting: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @ObservedObject var audioRecorder: AudioRecorder = AudioRecorder()
+    let vm:VoiceAlarmHomeViewModel
     
     let recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
@@ -23,11 +25,31 @@ struct AlarmSetting: View {
     
     var body: some View {
         VStack {
-            TextField("Enter Alarm Name", text: $tagName).padding().textFieldStyle(.roundedBorder)
+            HStack{
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("취소").foregroundColor(.black)
+                }
+                Spacer()
+                Button(action: {
+                    //save alarm
+                    recorderAlarm.saveAlarm(tagName: tagName,
+                                            fireAt: fireAt,
+                                            audioName: audioName ?? "default",
+                                            audioURL: audioURL!)
+                    vm.getAlarms()
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("완료").bold()
+                }}
+            
             DatePicker("", selection: $fireAt, displayedComponents: .hourAndMinute)
                 .datePickerStyle(.wheel)
             
-            //요일 반복은 아직 구현 안할 것임.
+            TextField("Enter Alarm Name", text: $tagName).padding().textFieldStyle(.roundedBorder)
+            
+            //recorder
             if audioRecorder.recording == false {
                 Button(action: {
                     audioRecorder.startRecording(title: "\(tagName)")
@@ -55,25 +77,14 @@ struct AlarmSetting: View {
                         .padding(.bottom, 40)
                 }
             }
-            //레코딩 버튼임
             
             RecordingsList(audioRecorder: audioRecorder)
-            
-            Button(action: {
-                //save alarm
-                recorderAlarm.saveAlarm(tagName: tagName,
-                                        fireAt: fireAt,
-                                        audioName: audioName ?? "default",
-                                        audioURL: audioURL!)
-            }) {
-                Text("save alarm").bold()
-            }
         }.padding(20)
     }
 }
 
 struct AlarmSetting_Previews: PreviewProvider {
     static var previews: some View {
-        AlarmSetting()
+        AlarmSetting(vm:VoiceAlarmHomeViewModel())
     }
 }

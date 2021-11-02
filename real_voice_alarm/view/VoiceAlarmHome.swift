@@ -20,9 +20,8 @@ struct VoiceAlarmHome: View {
                 }else {
                     //home
                     Text("다음 알람까지 남은 시간 들어가는 곳").padding()
-                    
-                    AlarmCardView(alarms: vm.alarms)
-                    AlarmCardView(alarms: vm.alarms)
+                    AlarmCardView(alarms: vm.dayAlarms, viewModel: vm)
+                    AlarmCardView(alarms: vm.nightAlarms, viewModel: vm)
                         .onAppear(perform: {
                             vm.getAlarms()
                         })

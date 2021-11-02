@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AlarmCardView: View {
     var alarms:[AlarmEntity]
+    var viewModel:VoiceAlarmHomeViewModel
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false, content: {
@@ -16,7 +17,7 @@ struct AlarmCardView: View {
                 ForEach(alarms){alarm in
                     AlarmCard(alarm: alarm)
                 }
-                addNewCardCard()
+                addNewCardCard(viewModel:viewModel)
             }
         })
     }
@@ -42,13 +43,19 @@ struct AlarmCard: View {
 }
 
 struct addNewCardCard: View{
+    @State private var showModal = false
+    var viewModel:VoiceAlarmHomeViewModel
+    
     var body: some View{
         VStack(alignment: .center) {
             Button(action: {
                 print("alarm setting modal")
+                self.showModal = true
             }){
                 Image(systemName: "plus.circle.fill").frame(width:250, height: 180, alignment: .center)
                     .font(.system(size: 56.0, weight: .bold))
+            }.sheet(isPresented: self.$showModal) {
+                AlarmSetting(vm:viewModel)
             }
         }
         .frame(width: 250, height: 180, alignment: .top)
@@ -63,6 +70,6 @@ struct addNewCardCard: View{
 struct AlarmCard_Previews: PreviewProvider {
     static var previews: some View {
         let alarms:[AlarmEntity] = []
-        AlarmCardView(alarms: alarms)
+        AlarmCardView(alarms: alarms, viewModel: VoiceAlarmHomeViewModel())
     }
 }

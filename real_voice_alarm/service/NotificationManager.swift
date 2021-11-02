@@ -29,8 +29,6 @@ class NotificationManager{
         content.subtitle = "아이고 머리야~ 동비 한의원."
         content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
         
-        print("debug fireAt Date")
-        print(fireAt)
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fireAt)
         print(dateComponents)
         print("=============")
