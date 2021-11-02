@@ -12,6 +12,7 @@ struct AlarmingScreen: View {
     @StateObject var alarmingScreenVm: AlarmingScreenViewModel = AlarmingScreenViewModel()
     var audioPlayer: AudioPlayer = AudioPlayer()
     
+    
     var body: some View {
         //conditional Screen
         if recorderAlarm.isFiring == false {
@@ -19,13 +20,16 @@ struct AlarmingScreen: View {
         }
         
         Text("alarming").padding()
-        
+            .onAppear(perform: {
+                alarmingScreenVm.getCurrentAlarm(id: recorderAlarm.firingAlarmId)
+                audioPlayer.startPlayback(audio: alarmingScreenVm.currentAlarm.audioURL!)
+            })
         Button(action: {
             recorderAlarm.isFiring = false
+            audioPlayer.stopPlayback()
         }){
             Text("dismiss")
         }
-        
     }
 }
 

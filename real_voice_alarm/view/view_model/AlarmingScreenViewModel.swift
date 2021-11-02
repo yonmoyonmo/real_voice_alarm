@@ -11,4 +11,8 @@ class AlarmingScreenViewModel: ObservableObject{
     let coreDataManager = CoreDataManager.instance
     @Published var currentAlarm:AlarmEntity = AlarmEntity()
     
+    func getCurrentAlarm(id:String){
+        currentAlarm = coreDataManager.findAlarmById(uuid: id)
+    }
+    
 }
