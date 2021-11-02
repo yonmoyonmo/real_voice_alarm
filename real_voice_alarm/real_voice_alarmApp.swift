@@ -5,7 +5,7 @@
 //  Created by yonmo on 2021/10/25.
 //
 /**
-메모장
+ 메모장
  */
 import SwiftUI
 
@@ -35,7 +35,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
         //-------목소리 저장할 directory 맨들기-------//
         let fileManager = FileManager.default
-        let documentDirectory = fileManager.urls(for: .libraryDirectory, in: .userDomainMask)[0]
+        var documentDirectory = fileManager.urls(for: .libraryDirectory, in: .userDomainMask)[0]
+        documentDirectory = documentDirectory.appendingPathComponent("Sounds")
+        
         var isDir : ObjCBool = false
         if fileManager.fileExists(atPath: documentDirectory.absoluteString, isDirectory:&isDir) {
             if isDir.boolValue {
@@ -46,8 +48,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                 print("\(documentDirectory.absoluteString) exists but it's a file")
             }
         }else{
-            print("\(documentDirectory.absoluteString) dose not exists. creating directory.")
             do {
+                print("\(documentDirectory.absoluteString) dose not exists. creating directory.")
                 try fileManager.createDirectory(at: documentDirectory, withIntermediateDirectories: false, attributes: nil)
             }catch let e{
                 print(e.localizedDescription)

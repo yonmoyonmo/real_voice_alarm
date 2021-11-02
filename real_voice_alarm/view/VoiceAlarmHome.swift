@@ -14,32 +14,19 @@ struct VoiceAlarmHome: View {
     var body: some View {
         NavigationView {
             VStack{
-                Text("DEMO 01 | 2021-10-28 ~ ??").padding()
                 //conditional Screen
                 if recorderAlarm.isFiring == true {
                     AlarmingScreen()
                 }else {
-                    ScrollView(.horizontal, showsIndicators: true, content: {
-                        HStack(){
-                            ForEach(vm.alarms){alarm in
-                                VStack(alignment: .leading) {
-                                    Text(alarm.tagName ?? "shithole").padding()
-                                    Text(alarm.audioName ?? "shit").padding()
-                                    Text(alarm.uuid ?? "shshsit").padding()
-                                }
-                                .padding()
-                                .border(Color.green)
-                                
-                            }
-                        }
-                    }).onAppear(perform: {
-                        vm.getAlarms()
-                    })
-                    NavigationLink(destination: AlarmSetting()){
-                        Text("알람 맨들기")
-                    }.padding()
+                    //home
+                    Text("다음 알람까지 남은 시간 들어가는 곳").padding()
+                    
+                    AlarmCardView(alarms: vm.alarms)
+                    AlarmCardView(alarms: vm.alarms)
+                        .onAppear(perform: {
+                            vm.getAlarms()
+                        })
                 }
-                
             }
         }
     }

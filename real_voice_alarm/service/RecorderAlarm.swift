@@ -20,8 +20,6 @@ class RecorderAlarm: ObservableObject {
     @Published var isFiring: Bool = false
     
     func saveAlarm(tagName:String, fireAt: Date, audioName: String, audioURL: URL) {
-        
-        
         let id:UUID = UUID()
         
         let newAlarm = AlarmEntity(context: coreDataManager.context)
@@ -34,7 +32,7 @@ class RecorderAlarm: ObservableObject {
         newAlarm.audioURL = audioURL
        
         notificationManager.scheduleAlarm(tagName: tagName, fireAt: fireAt, audioName: audioName, id: id.uuidString)
-       
+        
         coreDataManager.save(savedAlarmName: tagName)
         
         print("alarm saved and sheduled")

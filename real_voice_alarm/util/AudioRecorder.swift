@@ -80,20 +80,11 @@ class AudioRecorder: NSObject, ObservableObject {
     
     func fatchRecordings() {
         recordings.removeAll()
+        
         let fileManager = FileManager.default
-        
-        //find files in /Libray/Sounds/
         var documentDirectory = fileManager.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-        
-        //what's in this array
-        let debug01 = fileManager.urls(for: .libraryDirectory, in: .userDomainMask)
-        for element in debug01 {
-            print(element)
-        }
-        //--------
-        
         documentDirectory = documentDirectory.appendingPathComponent("Sounds")
-        
+
         let directoryContents = try! fileManager.contentsOfDirectory(at: documentDirectory, includingPropertiesForKeys: nil)
         
         for audio in directoryContents {

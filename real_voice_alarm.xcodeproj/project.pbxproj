@@ -24,6 +24,7 @@
 		0BDDA64D272A8D870005F810 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA64C272A8D870005F810 /* Helper.swift */; };
 		0BDDA64F272A93120005F810 /* AlarmSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA64E272A93120005F810 /* AlarmSetting.swift */; };
 		0BDDA651272AD49C0005F810 /* RecordingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA650272AD49C0005F810 /* RecordingList.swift */; };
+		0BE1C7972731B3DF0021501B /* AlarmCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE1C7962731B3DF0021501B /* AlarmCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		0BDDA64C272A8D870005F810 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		0BDDA64E272A93120005F810 /* AlarmSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSetting.swift; sourceTree = "<group>"; };
 		0BDDA650272AD49C0005F810 /* RecordingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingList.swift; sourceTree = "<group>"; };
+		0BE1C7962731B3DF0021501B /* AlarmCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 		0B974AF72726C2F0000D21D2 /* service */ = {
 			isa = PBXGroup;
 			children = (
+				0BDDA648272A8CA10005F810 /* NotificationManager.swift */,
 				0BA14D7B2729547200A9E646 /* CoreDataManager.swift */,
 				0BDDA63D272A76BD0005F810 /* RecorderAlarm.swift */,
 			);
@@ -140,7 +143,6 @@
 			children = (
 				0BDDA644272A8C5D0005F810 /* AudioRecorder.swift */,
 				0BDDA646272A8C7F0005F810 /* AudioPlayer.swift */,
-				0BDDA648272A8CA10005F810 /* NotificationManager.swift */,
 				0BDDA64C272A8D870005F810 /* Helper.swift */,
 			);
 			path = util;
@@ -150,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				0BDDA650272AD49C0005F810 /* RecordingList.swift */,
+				0BE1C7962731B3DF0021501B /* AlarmCardView.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B6AAF74272C0807004769CE /* AlarmingScreen.swift in Sources */,
+				0BE1C7972731B3DF0021501B /* AlarmCardView.swift in Sources */,
 				0B4B948F273135FB0075FC02 /* AlarmingScreenViewModel.swift in Sources */,
 				0BDDA64D272A8D870005F810 /* Helper.swift in Sources */,
 				0BA14D7C2729547200A9E646 /* CoreDataManager.swift in Sources */,
