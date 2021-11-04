@@ -12,6 +12,10 @@ import CoreLocation
 class NotificationManager{
     static let instance = NotificationManager()
     
+    init(){
+        print("Notification Manager is created")
+    }
+    
     func requestAuthorization() {
         let options: UNAuthorizationOptions = [.alert, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: options) { (success, error) in
@@ -25,30 +29,24 @@ class NotificationManager{
     
     func scheduleAlarm(tagName:String, fireAt: Date, audioName: String, id: String) {
         let content = UNMutableNotificationContent()
-        content.title = "Voice Alarm Test"
-        content.subtitle = "아이고 머리야~ 동비 한의원."
+        content.title = "MOTIVOICE IS ARRIVED! SEX"
+        content.subtitle = "TAP THIS AND BE MOTIVATED! SEX"
         content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
         
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fireAt)
-        print(dateComponents)
-        print("=============")
-        
+    
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
-        //identifier를 놓치지 말라, 알람 데이터와 같게 하라.
         let request = UNNotificationRequest(identifier: id,
                                             content: content,
                                             trigger: trigger)
         
         UNUserNotificationCenter.current().add(request)
-        
-        
-        
     }
     
-    func cancelNotification() {
-        //UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: "돠네")
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+    func cancelNotification(id:String) {
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [id])
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
+        print("alarm id \(id) is removed")
     }
 }

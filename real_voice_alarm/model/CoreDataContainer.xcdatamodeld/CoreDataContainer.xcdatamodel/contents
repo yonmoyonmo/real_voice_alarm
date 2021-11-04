@@ -8,8 +8,9 @@
         <attribute name="repeatingDays" optional="YES" attributeType="String"/>
         <attribute name="tagName" optional="YES" attributeType="String"/>
         <attribute name="uuid" optional="YES" attributeType="String"/>
+        <attribute name="volume" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="AlarmEntity" positionX="-63" positionY="-18" width="128" height="134"/>
+        <element name="AlarmEntity" positionX="-63" positionY="-18" width="128" height="149"/>
     </elements>
 </model>

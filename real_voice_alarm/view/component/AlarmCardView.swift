@@ -15,7 +15,7 @@ struct AlarmCardView: View {
         ScrollView(.horizontal, showsIndicators: false, content: {
             HStack(){
                 ForEach(alarms){alarm in
-                    AlarmCard(alarm: alarm)
+                    AlarmCard(alarm: alarm, viewModel: viewModel)
                 }
                 addNewCardCard(viewModel:viewModel)
             }
@@ -25,19 +25,41 @@ struct AlarmCardView: View {
 
 struct AlarmCard: View {
     var alarm:AlarmEntity
+    var viewModel:VoiceAlarmHomeViewModel
+    let recorderAlarm = RecorderAlarm.instance
+    
+    @State private var alarmToggle = true
     
     var body: some View{
         VStack(alignment: .center) {
-            Text(alarm.fireAt!, style: .time)
-                .font(.largeTitle)
-                .padding()
-            Text(alarm.tagName!)
+            HStack{
+                Toggle("", isOn: $alarmToggle).toggleStyle(SwitchToggleStyle(tint: .black)).padding(5)
+            }
+            HStack{
+                VStack{
+                    Text(alarm.tagName!)
+                    Text(alarm.fireAt!, style: .time)
+                        .font(.largeTitle)
+                }
+                Menu{
+                    Button(action: {
+                        recorderAlarm.deleteAlarm(id: alarm.uuid!)
+                        viewModel.getAlarms()
+                    }, label: {
+                        Text("알람 삭제")
+                    })
+                } label:{
+                    Image(systemName: "list.dash").font(.system(size: 20.0, weight: .bold))
+                }
+            }
+            HStack{
+                Text("월화수목금토일드가는곳")
+            }
         }
         .frame(width: 250, height: 180, alignment: .top)
         .cornerRadius(10)
         .overlay(RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.orange, lineWidth: 4))
-        .shadow(radius: 10)
         .padding()
     }
 }
@@ -62,7 +84,6 @@ struct addNewCardCard: View{
         .cornerRadius(10)
         .overlay(RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.orange, lineWidth: 4))
-        .shadow(radius: 10)
         .padding()
     }
 }

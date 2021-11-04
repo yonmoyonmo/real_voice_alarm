@@ -21,6 +21,7 @@ class CoreDataManager {
             }
         }
         context = container.viewContext;
+        print("core data manager is created")
     }
     
     func save(savedAlarmName: String) {
@@ -41,6 +42,7 @@ class CoreDataManager {
             format: "uuid == %@", uuid
         )
         do{
+            //지금은 하나만 주지만 나중엔 뭉탱이로 줘야한다 왜냐면 언스케줄할 때 요일반복된 것도 다 삭제해야하기 때무니다
             alarmEntity = try context.fetch(fetchRequest)[0]
         }catch let error{
             print("find alarm error : \(error.localizedDescription)")
@@ -48,6 +50,16 @@ class CoreDataManager {
         print("find by alarm succsess")
         return alarmEntity
         
+    }
+    
+    func deleteTargetEntity(id: String){
+        let targetAlarm = findAlarmById(uuid: id)
+        context.delete(targetAlarm)
+        do{
+            try context.save()
+        }catch let error{
+            print("delete Alarm entity error : \(error.localizedDescription)")
+        }
     }
     
 }

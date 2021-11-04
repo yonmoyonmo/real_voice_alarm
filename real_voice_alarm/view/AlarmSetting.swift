@@ -20,8 +20,11 @@ struct AlarmSetting: View {
     
     @State var audioName: String?
     @State var audioURL: URL?
+    @State private var volume: Double = 10
     @State var audioData:[String: Any] = [:]
     
+    //예외처리 잔뜩 해야한다.
+    //파일 이름과 알람 태그도 분리해야한다.
     
     var body: some View {
         VStack {
@@ -37,7 +40,9 @@ struct AlarmSetting: View {
                     recorderAlarm.saveAlarm(tagName: tagName,
                                             fireAt: fireAt,
                                             audioName: audioName ?? "default",
-                                            audioURL: audioURL!)
+                                            audioURL: audioURL!,
+                                            volume: volume
+                    )
                     vm.getAlarms()
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
@@ -48,6 +53,11 @@ struct AlarmSetting: View {
                 .datePickerStyle(.wheel)
             
             TextField("Enter Alarm Name", text: $tagName).padding().textFieldStyle(.roundedBorder)
+            
+            
+            //volume slider
+            Slider(value: $volume, in: 0...20, step: 0.1).padding()
+            Text("\(volume)")
             
             //recorder
             if audioRecorder.recording == false {
@@ -77,7 +87,6 @@ struct AlarmSetting: View {
                         .padding(.bottom, 40)
                 }
             }
-            
             RecordingsList(audioRecorder: audioRecorder)
         }.padding(20)
     }
