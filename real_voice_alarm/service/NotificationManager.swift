@@ -91,6 +91,6 @@ class NotificationManager{
         
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ids)
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
-        print("alarm id \(id) is removed")
+        print("alarm id \(id) is unscheduled")
     }
 }

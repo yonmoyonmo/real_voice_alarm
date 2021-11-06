@@ -34,23 +34,8 @@ struct AlarmSetting: View {
     @State private var volume: Double = 10
     
     
-    
     //예외처리 잔뜩 해야한다.
     //일단 이름짓는 것들 길이제한부터
-    
-    func createDate(weekday: Int, hour: Int, minute: Int, year: Int)->Date{
-        
-        var components = DateComponents()
-        components.hour = hour
-        components.minute = minute
-        components.year = year
-        components.weekday = weekday // sunday = 1 ... saturday = 7
-        components.weekdayOrdinal = 10
-        components.timeZone = .current
-        
-        let calendar = Calendar(identifier: .gregorian)
-        return calendar.date(from: components)!
-    }
     
     var body: some View {
         NavigationView{
@@ -65,6 +50,12 @@ struct AlarmSetting: View {
                     
                     //완료 버튼 : 알람 데이터 저장 + 스케쥴링
                     Button(action: {
+                        if(audioURL==nil){
+                            print("오디오 유알엘 없는 경우에 예외처리 하라")
+                            vm.getAlarms()
+                            self.presentationMode.wrappedValue.dismiss()
+                            return
+                        }
                         //save alarm
                         if(!repeatDays.isEmpty){
                             var weekDayFireAtSet:[Date] = []
@@ -117,14 +108,13 @@ struct AlarmSetting: View {
                     Text("목소리 고르기").bold()
                 }
                 
-                
+                Spacer()
                 //recorder
                 if(audioRecorder.recording == true){
                     Image(systemName: "waveform.path").font(.system(size: 56.0, weight: .bold)).foregroundColor(.red)
                 }else{
                     Image(systemName: "waveform.path.ecg").font(.system(size: 56.0, weight: .bold)).foregroundColor(.black)
                 }
-                
                 Text("새로 하나 녹음하려면 아래 버튼을 누르시오")
                 
                 if audioRecorder.recording == false {
@@ -156,6 +146,8 @@ struct AlarmSetting: View {
                 }else{
                     Button(action: {
                         audioData = audioRecorder.stopRecording()
+                        audioName = audioData["audioName"] as! String
+                        audioURL = audioData["audioURL"] as? URL
                         isPlayBack.toggle()
                     }) {
                         Image(systemName: "stop.fill")
@@ -165,10 +157,7 @@ struct AlarmSetting: View {
                             .clipped()
                             .foregroundColor(.red)
                             .padding(.bottom, 40)
-                    }.onAppear(perform: {
-                        audioName = audioData["audioName"] as! String
-                        audioURL = audioData["audioURL"] as? URL
-                    })
+                    }
                 }
                 
             }.padding(20)

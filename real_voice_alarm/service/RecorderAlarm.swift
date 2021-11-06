@@ -90,7 +90,52 @@ class RecorderAlarm: ObservableObject {
         notificationManager.cancelNotification(id: id, repeatingDays: repeatingDays)
     }
     
-   
+    func alarmActiveSwitch(alarm:AlarmEntity){
+        if(alarm.isActive){
+            //turn it false
+            alarm.isActive = false
+            coreDataManager.save(savedAlarmName: alarm.tagName!)
+        }else{
+            //turn it true
+            alarm.isActive = true
+            coreDataManager.save(savedAlarmName: alarm.tagName!)
+        }
+    }
+    
+    func switchScheduledAlarms(isOn: Bool, alarm: AlarmEntity){
+        if(isOn){
+            //turn on
+            alarmActiveSwitch(alarm: alarm)
+            
+            if(alarm.repeatingDays != []){
+                //repeatingDays가 있을 때
+                var weekDayFireAtSet:[Date] = []
+                let components = Calendar.current.dateComponents([.hour, .minute, .year], from: alarm.fireAt!)
+                for repeatDay in alarm.repeatingDays {
+                    weekDayFireAtSet.append(createDate(weekday: repeatDay,
+                                                       hour:components.hour!,
+                                                       minute:components.minute! ,
+                                                       year: components.year!))
+                }
+                notificationManager.scheduleRepeatingAlarms(dates: weekDayFireAtSet,
+                                                            tagName: alarm.tagName!,
+                                                            id: alarm.uuid!,
+                                                            audioName: alarm.audioName!)
+            }else{
+                //일회성일때
+                notificationManager.scheduleAlarm(tagName: alarm.tagName!,
+                                                  fireAt: alarm.fireAt!,
+                                                  audioName: alarm.audioName!,
+                                                  id: alarm.uuid!)
+            }
+        }else{
+            //turn off
+            alarmActiveSwitch(alarm: alarm)
+            
+            //그냥 모조리 스케쥴 빼버리긔
+            notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
+        }
+    }
     
 }
 

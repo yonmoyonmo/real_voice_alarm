@@ -15,7 +15,7 @@ struct AlarmCardView: View {
         ScrollView(.horizontal, showsIndicators: false, content: {
             HStack(){
                 ForEach(alarms){alarm in
-                    AlarmCard(alarm: alarm, viewModel: viewModel)
+                    AlarmCard(alarm: alarm, viewModel: viewModel, alarmToggle: alarm.isActive )
                 }
                 addNewCardCard(viewModel:viewModel)
             }
@@ -28,12 +28,15 @@ struct AlarmCard: View {
     var viewModel:VoiceAlarmHomeViewModel
     let recorderAlarm = RecorderAlarm.instance
     
-    @State private var alarmToggle = true
+    @State var alarmToggle:Bool
     
     var body: some View{
         VStack(alignment: .center) {
             HStack{
-                Toggle("", isOn: $alarmToggle).toggleStyle(SwitchToggleStyle(tint: .black)).padding(5)
+                Toggle("", isOn: $alarmToggle).onChange(of: alarmToggle){ value in
+                    print("toggled the alarm switch \(value)")
+                    recorderAlarm.switchScheduledAlarms(isOn: value, alarm: alarm)
+                }.toggleStyle(SwitchToggleStyle(tint: .black)).padding(5)
             }
             HStack{
                 VStack{
@@ -65,7 +68,7 @@ struct AlarmCard: View {
         .frame(width: 250, height: 180, alignment: .top)
         .cornerRadius(10)
         .overlay(RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.orange, lineWidth: 4))
+                    .stroke(Color.black, lineWidth: 4))
         .padding()
     }
 }
@@ -89,7 +92,7 @@ struct addNewCardCard: View{
         .frame(width: 250, height: 180, alignment: .top)
         .cornerRadius(10)
         .overlay(RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.orange, lineWidth: 4))
+                    .stroke(Color.black, lineWidth: 4))
         .padding()
     }
 }

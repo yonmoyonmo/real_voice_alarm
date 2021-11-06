@@ -27,6 +27,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("app launched")
         
+        //어플리케이션 실행했을 때 알람 타임인 경우 알람스크린으로 갈 수 있도록 해야한다.
+        
         //델리게이트 등록
         UNUserNotificationCenter.current().delegate = self
         
