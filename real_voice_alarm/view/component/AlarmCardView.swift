@@ -43,7 +43,7 @@ struct AlarmCard: View {
                 }
                 Menu{
                     Button(action: {
-                        recorderAlarm.deleteAlarm(id: alarm.uuid!)
+                        recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
                         viewModel.getAlarms()
                     }, label: {
                         Text("알람 삭제")
@@ -52,8 +52,14 @@ struct AlarmCard: View {
                     Image(systemName: "list.dash").font(.system(size: 20.0, weight: .bold))
                 }
             }
-            HStack{
-                Text("월화수목금토일드가는곳")
+            if (!alarm.repeatingDays.isEmpty){
+                HStack{
+                    ForEach(alarm.repeatingDays, id: \.self){ repeatDay in
+                        Text(RepeatDays(rawValue: repeatDay)!.shortName)
+                    }
+                }
+            }else{
+                Text("반복 없음")
             }
         }
         .frame(width: 250, height: 180, alignment: .top)

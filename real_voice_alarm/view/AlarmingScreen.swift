@@ -27,7 +27,6 @@ struct AlarmingScreen: View {
         }.onAppear(perform: {
             alarmingScreenVm.getCurrentAlarm(id: recorderAlarm.firingAlarmId)
             let floatVolume = Float(alarmingScreenVm.currentAlarm.volume)
-            print("volume : \(floatVolume)")
             audioPlayer.startAlarmSound(audio: alarmingScreenVm.currentAlarm.audioURL!, volume: floatVolume)
         })
     }

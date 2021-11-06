@@ -70,12 +70,25 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         print("foreground notification received")
         
         let id:String = notification.request.identifier
+        var newId:String = ""
         print(id)
-        recorderAlarm.isFiring = true
-        recorderAlarm.firingAlarmId = id
-        
+        if id.contains("@"){
+            let deviderIndex:String.Index = id.firstIndex(of: "@")!
+            newId = String(id[...deviderIndex])
+            
+            if let i = newId.firstIndex(of: "@"){
+                newId.remove(at: i)
+            }
+            print(newId)
+            recorderAlarm.isFiring = true
+            recorderAlarm.firingAlarmId = newId
+        }else{
+            recorderAlarm.isFiring = true
+            recorderAlarm.firingAlarmId = id
+        }
         print("+++++++++++++++++++++++++++++++++++++++")
         
+        //list가 뭔지 아직 모름
         completionHandler(.list)
     }
     //background
@@ -86,10 +99,23 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         print("background noti received")
         
         let id:String = response.notification.request.identifier
+        var newId:String = ""
         print(id)
-        recorderAlarm.isFiring = true
-        recorderAlarm.firingAlarmId = id
-        
+        if id.contains("@"){
+            let deviderIndex:String.Index = id.firstIndex(of: "@")!
+            newId = String(id[...deviderIndex])
+            
+            if let i = newId.firstIndex(of: "@"){
+                newId.remove(at: i)
+            }
+            
+            print(newId)
+            recorderAlarm.isFiring = true
+            recorderAlarm.firingAlarmId = newId
+        }else{
+            recorderAlarm.isFiring = true
+            recorderAlarm.firingAlarmId = id
+        }
         print("##########################")
         
         completionHandler()
