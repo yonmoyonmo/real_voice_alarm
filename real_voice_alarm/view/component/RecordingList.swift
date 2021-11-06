@@ -10,11 +10,13 @@ import SwiftUI
 struct RecordingsList: View {
     
     @ObservedObject var audioRecorder: AudioRecorder
+    @Binding var audioName:String
+    @Binding var audioURL:URL?
     
     var body: some View {
         List {
             ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
-                RecordingRow(audioURL: recording.fileURL)
+                RecordingRow(audioURLforShow: recording.fileURL, audioURLforSave: $audioURL, audioName: $audioName)
             }.onDelete(perform: delete)
         }
     }
@@ -26,24 +28,33 @@ struct RecordingsList: View {
         }
         audioRecorder.deleteRecording(urlsToDelete: urlsToDelete)
     }
-    
-   
-    
 }
 
 struct RecordingRow: View{
+    @Environment(\.presentationMode) var presentationMode
     
-    var audioURL: URL
+    var audioURLforShow: URL
+    
+    @Binding var audioURLforSave: URL?
+    @Binding var audioName:String
+    
     @ObservedObject var audioPlayer = AudioPlayer()
     
     var body: some View{
         HStack{
-            Text("\(audioURL.lastPathComponent)")
+            Text("\(audioURLforShow.lastPathComponent)")
+                .onTapGesture {
+                    audioURLforSave = audioURLforShow
+                    audioName = audioURLforShow.lastPathComponent
+                    print($audioName)
+                    presentationMode.wrappedValue.dismiss()
+                }
+            
             Spacer()
             if audioPlayer.isPlaying == false {
                 Button(action: {
                     print("playing")
-                    audioPlayer.startPlayback(audio: self.audioURL)
+                    audioPlayer.startPlayback(audio: self.audioURLforShow)
                 }){
                     Image(systemName: "play.circle").imageScale(.large)
                 }
@@ -59,9 +70,5 @@ struct RecordingRow: View{
     }
 }
 
-struct RecordingsList_Previews: PreviewProvider {
-    static var previews: some View {
-        RecordingsList(audioRecorder: AudioRecorder())
-    }
-}
+
 

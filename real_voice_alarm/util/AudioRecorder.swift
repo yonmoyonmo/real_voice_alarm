@@ -26,10 +26,9 @@ class AudioRecorder: NSObject, ObservableObject {
             objectWillChange.send(self)
         }
     }
-    
-    var audioName: String?
+
     var audioFilename: URL?
-    var audioData: [String: Any] = [:]
+    var audioName: String = ""
     
     var recordings = [Recording]()
     
@@ -45,13 +44,9 @@ class AudioRecorder: NSObject, ObservableObject {
         //saving file to /Library/Sounds/
         var documentPath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
         documentPath = documentPath.appendingPathComponent("Sounds")
-        //디렉토리 무조건 있다
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        audioFilename = documentPath.appendingPathComponent("\(title)_\(dateFormatter.string(from: Date())).m4a")
-        audioName = "\(title)_\(dateFormatter.string(from: Date())).m4a"
+        audioFilename = documentPath.appendingPathComponent("\(title).m4a")
+        audioName = "\(title).m4a"
         
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -69,12 +64,14 @@ class AudioRecorder: NSObject, ObservableObject {
         }
     }
     
-    func stopRecording() -> [String:Any] {
+
+    func stopRecording() -> [String:Any]{
         audioRecorder.stop()
         recording = false
         fatchRecordings()
-        audioData["audioName"] = audioName
-        audioData["audioFilename"] = audioFilename
+        var audioData: [String:Any] = [:]
+        audioData["audioName"] = self.audioName
+        audioData["audioURL"] = self.audioFilename
         return audioData
     }
     
