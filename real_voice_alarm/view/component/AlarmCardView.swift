@@ -15,7 +15,7 @@ struct AlarmCardView: View {
         ScrollView(.horizontal, showsIndicators: false, content: {
             HStack(){
                 ForEach(alarms){alarm in
-                    AlarmCard(alarm: alarm, viewModel: viewModel, alarmToggle: alarm.isActive )
+                    AlarmCard(alarm: alarm, viewModel: viewModel, alarmToggle: alarm.isActive)
                 }
                 addNewCardCard(viewModel:viewModel)
             }
@@ -29,6 +29,8 @@ struct AlarmCard: View {
     let recorderAlarm = RecorderAlarm.instance
     
     @State var alarmToggle:Bool
+    
+    @State var showEditAlarmModal:Bool = false
     
     var body: some View{
         VStack(alignment: .center) {
@@ -51,8 +53,16 @@ struct AlarmCard: View {
                     }, label: {
                         Text("알람 삭제")
                     })
+                    Button(action: {
+                        print("alarm setting modal")
+                        self.showEditAlarmModal = true
+                    }, label: {
+                        Text("알람 편집")
+                    }).sheet(isPresented: self.$showEditAlarmModal) {
+                        AlarmEdit(alarm: alarm, vm: viewModel)
+                    }
                 } label:{
-                    Image(systemName: "list.dash").font(.system(size: 20.0, weight: .bold))
+                    Image(systemName: "pencil").font(.system(.largeTitle)).foregroundColor(.black)
                 }
             }
             if (!alarm.repeatingDays.isEmpty){
@@ -74,18 +84,19 @@ struct AlarmCard: View {
 }
 
 struct addNewCardCard: View{
-    @State private var showModal = false
+    @State private var showAddAlarmModal = false
     var viewModel:VoiceAlarmHomeViewModel
     
     var body: some View{
         VStack(alignment: .center) {
             Button(action: {
                 print("alarm setting modal")
-                self.showModal = true
+                self.showAddAlarmModal = true
             }){
                 Image(systemName: "plus.circle.fill").frame(width:250, height: 180, alignment: .center)
+                    .foregroundColor(.black)
                     .font(.system(size: 56.0, weight: .bold))
-            }.sheet(isPresented: self.$showModal) {
+            }.sheet(isPresented: self.$showAddAlarmModal) {
                 AlarmSetting(vm:viewModel)
             }
         }
