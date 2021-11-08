@@ -20,6 +20,7 @@ class VoiceAlarmHomeViewModel: ObservableObject {
     }
     
     func getAlarms(){
+        print("alarm fetched")
         let dayRequest:NSFetchRequest<AlarmEntity>
         dayRequest = AlarmEntity.fetchRequest()
         dayRequest.predicate = NSPredicate(

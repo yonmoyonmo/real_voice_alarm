@@ -14,7 +14,7 @@ struct real_voice_alarmApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     var body: some Scene {
         WindowGroup {
-            VoiceAlarmHome()
+            VoiceAlarmHome().environmentObject(VoiceAlarmHomeViewModel())
         }
     }
 }

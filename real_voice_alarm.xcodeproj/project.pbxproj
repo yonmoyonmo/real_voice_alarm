@@ -19,6 +19,7 @@
 		0BCD14E927392EA500E0031F /* AlarmEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCD14E827392EA500E0031F /* AlarmEdit.swift */; };
 		0BCD14EB273930A800E0031F /* PlayBackAlart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCD14EA273930A800E0031F /* PlayBackAlart.swift */; };
 		0BCD14ED273930DF00E0031F /* TextFieldAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCD14EC273930DF00E0031F /* TextFieldAlert.swift */; };
+		0BCD14EF27393C1700E0031F /* View+customAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCD14EE27393C1600E0031F /* View+customAlert.swift */; };
 		0BDDA63E272A76BD0005F810 /* RecorderAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA63D272A76BD0005F810 /* RecorderAlarm.swift */; };
 		0BDDA645272A8C5D0005F810 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA644272A8C5D0005F810 /* AudioRecorder.swift */; };
 		0BDDA647272A8C7F0005F810 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA646272A8C7F0005F810 /* AudioPlayer.swift */; };
@@ -48,6 +49,7 @@
 		0BCD14E827392EA500E0031F /* AlarmEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEdit.swift; sourceTree = "<group>"; };
 		0BCD14EA273930A800E0031F /* PlayBackAlart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayBackAlart.swift; sourceTree = "<group>"; };
 		0BCD14EC273930DF00E0031F /* TextFieldAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAlert.swift; sourceTree = "<group>"; };
+		0BCD14EE27393C1600E0031F /* View+customAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+customAlert.swift"; sourceTree = "<group>"; };
 		0BDDA63D272A76BD0005F810 /* RecorderAlarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderAlarm.swift; sourceTree = "<group>"; };
 		0BDDA644272A8C5D0005F810 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		0BDDA646272A8C7F0005F810 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				0BE8F1B52736BB84009B97FE /* RepeatDaysSettingView.swift */,
 				0BCD14EA273930A800E0031F /* PlayBackAlart.swift */,
 				0BCD14EC273930DF00E0031F /* TextFieldAlert.swift */,
+				0BCD14EE27393C1600E0031F /* View+customAlert.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				0BCD14EB273930A800E0031F /* PlayBackAlart.swift in Sources */,
 				0B974AE92726A249000D21D2 /* VoiceAlarmHome.swift in Sources */,
 				0BE8F1A42736AFFE009B97FE /* RepeatDays.swift in Sources */,
+				0BCD14EF27393C1700E0031F /* View+customAlert.swift in Sources */,
 				0BDDA649272A8CA10005F810 /* NotificationManager.swift in Sources */,
 				0BDDA651272AD49C0005F810 /* RecordingList.swift in Sources */,
 				0BDDA647272A8C7F0005F810 /* AudioPlayer.swift in Sources */,

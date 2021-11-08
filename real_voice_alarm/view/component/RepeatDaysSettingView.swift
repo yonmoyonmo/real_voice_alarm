@@ -18,6 +18,52 @@ struct RepeatDaysSettingView: View {
     @State var selectedFri: Bool = false
     @State var selectedSat: Bool = false
     
+    func setForEdit(){
+        if repeatDays.contains(.sunday){
+            self.selectedSun = true
+        }else{
+            self.selectedSun = false
+        }
+        
+        if repeatDays.contains(.monday){
+            self.selectedMon = true
+        }else{
+            self.selectedMon = false
+        }
+        
+        if repeatDays.contains(.tuesday){
+            self.selectedTue = true
+        }else{
+            self.selectedTue = false
+        }
+        
+        if repeatDays.contains(.wednesday){
+            self.selectedWed = true
+        }else{
+            self.selectedWed = false
+        }
+        
+        if repeatDays.contains(.thursday){
+            self.selectedThu = true
+        }else{
+            self.selectedThu = false
+        }
+        
+        if repeatDays.contains(.friday){
+            self.selectedFri = true
+        }else{
+            self.selectedFri = false
+        }
+        
+        if repeatDays.contains(.saturday){
+            self.selectedSat = true
+        }else{
+            self.selectedSat = false
+        }
+    }
+    
+    
+    
     var body: some View {
         HStack{
             //----------//
@@ -147,6 +193,8 @@ struct RepeatDaysSettingView: View {
                 })
             }
             
+        }.onAppear(){
+            setForEdit()
         }
     }
 }

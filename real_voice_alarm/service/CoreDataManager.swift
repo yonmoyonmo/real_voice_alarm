@@ -61,5 +61,4 @@ class CoreDataManager {
             print("delete Alarm entity error : \(error.localizedDescription)")
         }
     }
-    
 }

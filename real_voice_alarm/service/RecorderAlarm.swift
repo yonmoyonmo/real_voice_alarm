@@ -67,8 +67,65 @@ class RecorderAlarm: ObservableObject {
             intRepeatingDays.append(repeatingDay.intName)
         }
         newAlarm.repeatingDays = intRepeatingDays
+        
         notificationManager.scheduleRepeatingAlarms(dates: fireAtList, tagName: tagName, id: id.uuidString, audioName: audioName)
         coreDataManager.save(savedAlarmName: tagName)
+    }
+    
+    func updateAlarm(alarm: AlarmEntity, tagName:String, fireAt: Date, audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]){
+        //한개만 업데이트
+        alarm.tagName = tagName
+        alarm.fireAt = fireAt
+        alarm.audioName = audioName
+        alarm.audioURL = audioURL
+        alarm.volume = volume
+        let intRepeatingDays:[Int] = []
+        alarm.repeatingDays = intRepeatingDays
+        alarm.isDay = isDay(fireAt: fireAt)
+        
+        print("\(tagName) is now updating...")
+        coreDataManager.save(savedAlarmName: tagName)
+        
+        if(alarm.isActive){
+            print("re-schedule updated alarm")
+            notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: intRepeatingDays)
+            notificationManager.scheduleAlarm(
+                tagName: tagName,
+                fireAt: fireAt,
+                audioName: audioName,
+                id: alarm.uuid!
+            )
+        }
+        print("alarm updated and re-scheduled")
+    }
+    
+    func updateRepeatingAlarms(alarm: AlarmEntity,tagName:String, fireAtList: [Date], audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]){
+        alarm.tagName = tagName
+        alarm.fireAt = fireAtList[0]
+        alarm.isDay = isDay(fireAt: fireAtList[0])
+        
+        alarm.audioName = audioName
+        alarm.audioURL = audioURL
+        alarm.volume = volume
+        var intRepeatingDays:[Int] = []
+        for repeatingDay in repeatingDays {
+            intRepeatingDays.append(repeatingDay.intName)
+        }
+        alarm.repeatingDays = intRepeatingDays
+        
+        print("\(tagName) is now updating...")
+        coreDataManager.save(savedAlarmName: tagName)
+        
+        if(alarm.isActive){
+            print("re-schedule updated alarms")
+            notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: intRepeatingDays)
+            notificationManager.scheduleRepeatingAlarms(
+                dates: fireAtList,
+                tagName: tagName,
+                id: alarm.uuid!,
+                audioName: audioName)
+        }
+        print("alarms updated and re-scheduled")
     }
     
     func deleteAlarm(id:String, repeatingDays:[Int]){
@@ -93,8 +150,6 @@ class RecorderAlarm: ObservableObject {
     func switchScheduledAlarms(isOn: Bool, alarm: AlarmEntity){
         if(isOn){
             //turn on
-            alarmActiveSwitch(alarm: alarm)
-            
             if(alarm.repeatingDays != []){
                 //repeatingDays가 있을 때
                 var weekDayFireAtSet:[Date] = []
@@ -109,19 +164,23 @@ class RecorderAlarm: ObservableObject {
                                                             tagName: alarm.tagName!,
                                                             id: alarm.uuid!,
                                                             audioName: alarm.audioName!)
+                //isActive = true
+                alarmActiveSwitch(alarm: alarm)
             }else{
                 //일회성일때
                 notificationManager.scheduleAlarm(tagName: alarm.tagName!,
                                                   fireAt: alarm.fireAt!,
                                                   audioName: alarm.audioName!,
                                                   id: alarm.uuid!)
+                //isActive = true
+                alarmActiveSwitch(alarm: alarm)
             }
         }else{
             //turn off
-            alarmActiveSwitch(alarm: alarm)
-            
             //그냥 모조리 스케쥴 빼버리긔
             notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
+            //isActive = false
+            alarmActiveSwitch(alarm: alarm)
         }
     }
     

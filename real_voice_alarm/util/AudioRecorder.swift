@@ -15,6 +15,7 @@ class AudioRecorder: NSObject, ObservableObject {
     override init() {
         super.init()
         fatchRecordings()
+        print("audio recorder initialized")
     }
     
     let objectWillChange = PassthroughSubject<AudioRecorder, Never>()

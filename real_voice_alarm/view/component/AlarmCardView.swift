@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct AlarmCardView: View {
-    var alarms:[AlarmEntity]
-    var viewModel:VoiceAlarmHomeViewModel
+    @Binding var alarms:[AlarmEntity]
+    @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false, content: {
             HStack(){
                 ForEach(alarms){alarm in
-                    AlarmCard(alarm: alarm, viewModel: viewModel, alarmToggle: alarm.isActive)
+                    AlarmCard(alarm: alarm, alarmToggle: alarm.isActive)
                 }
-                addNewCardCard(viewModel:viewModel)
+                addNewCardCard()
             }
         })
     }
@@ -25,12 +25,21 @@ struct AlarmCardView: View {
 
 struct AlarmCard: View {
     var alarm:AlarmEntity
-    var viewModel:VoiceAlarmHomeViewModel
+    @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
     let recorderAlarm = RecorderAlarm.instance
     
     @State var alarmToggle:Bool
     
     @State var showEditAlarmModal:Bool = false
+    
+    func intRepeatingDaysToEnumSet(repeatingDays: [Int]) ->[RepeatDays] {
+        var result:[RepeatDays] = []
+        let intRepetingDays = self.alarm.repeatingDays
+        for intRepetingDay in intRepetingDays {
+            result.append(RepeatDays(rawValue: intRepetingDay)!)
+        }
+        return result
+    }
     
     var body: some View{
         VStack(alignment: .center) {
@@ -53,17 +62,25 @@ struct AlarmCard: View {
                     }, label: {
                         Text("알람 삭제")
                     })
-                    Button(action: {
-                        print("alarm setting modal")
-                        self.showEditAlarmModal = true
-                    }, label: {
-                        Text("알람 편집")
-                    }).sheet(isPresented: self.$showEditAlarmModal) {
-                        AlarmEdit(alarm: alarm, vm: viewModel)
-                    }
                 } label:{
                     Image(systemName: "pencil").font(.system(.largeTitle)).foregroundColor(.black)
                 }
+            }
+            //edit alarm
+            Button(action: {
+                self.showEditAlarmModal.toggle()
+            }, label: {
+                Text("알람 편집")
+            }).sheet(isPresented: self.$showEditAlarmModal) {
+                AlarmEdit(
+                    alarm: self.alarm,
+                    tagNameEditted: self.alarm.tagName!,
+                    fireAtEditted: self.alarm.fireAt!,
+                    repeatDaysEditted: intRepeatingDaysToEnumSet(repeatingDays: self.alarm.repeatingDays),
+                    audioNameEditted: self.alarm.audioName!,
+                    audioURLEditted: self.alarm.audioURL!,
+                    volumeEditted: self.alarm.volume
+                )
             }
             if (!alarm.repeatingDays.isEmpty){
                 HStack{
@@ -85,19 +102,22 @@ struct AlarmCard: View {
 
 struct addNewCardCard: View{
     @State private var showAddAlarmModal = false
-    var viewModel:VoiceAlarmHomeViewModel
-    
+    @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
+
     var body: some View{
         VStack(alignment: .center) {
-            Button(action: {
-                print("alarm setting modal")
-                self.showAddAlarmModal = true
-            }){
+            Button(
+                action: {
+                    print("alarm setting modal")
+                    self.showAddAlarmModal.toggle()
+                }
+            ){
                 Image(systemName: "plus.circle.fill").frame(width:250, height: 180, alignment: .center)
                     .foregroundColor(.black)
                     .font(.system(size: 56.0, weight: .bold))
-            }.sheet(isPresented: self.$showAddAlarmModal) {
-                AlarmSetting(vm:viewModel)
+            }
+            .sheet(isPresented: self.$showAddAlarmModal) {
+                AlarmSetting()
             }
         }
         .frame(width: 250, height: 180, alignment: .top)
@@ -108,9 +128,3 @@ struct addNewCardCard: View{
     }
 }
 
-struct AlarmCard_Previews: PreviewProvider {
-    static var previews: some View {
-        let alarms:[AlarmEntity] = []
-        AlarmCardView(alarms: alarms, viewModel: VoiceAlarmHomeViewModel())
-    }
-}

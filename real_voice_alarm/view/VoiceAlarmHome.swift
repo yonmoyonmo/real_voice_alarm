@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct VoiceAlarmHome: View {
-    @StateObject var vm = VoiceAlarmHomeViewModel()
+    @ObservedObject var vm = VoiceAlarmHomeViewModel()
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
     var body: some View {
@@ -20,8 +20,8 @@ struct VoiceAlarmHome: View {
                 }else {
                     //home
                     Text("다음 알람까지 남은 시간 들어가는 곳").padding()
-                    AlarmCardView(alarms: vm.dayAlarms, viewModel: vm)
-                    AlarmCardView(alarms: vm.nightAlarms, viewModel: vm)
+                    AlarmCardView(alarms: $vm.dayAlarms)
+                    AlarmCardView(alarms: $vm.nightAlarms)
                         .onAppear(perform: {
                             vm.getAlarms()
                         })

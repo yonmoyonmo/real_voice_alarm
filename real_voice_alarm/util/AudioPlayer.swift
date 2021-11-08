@@ -62,9 +62,14 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
     }
     
     func stopPlayback() {
-        audioPlayer.stop()
-        isPlaying = false
-        print("stopped")
+        if(isPlaying){
+            audioPlayer.stop()
+            isPlaying = false
+            print("stopped")
+        }else{
+            print("audio player is fucked up")
+            return
+        }
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
