@@ -22,19 +22,7 @@ class RecorderAlarm: ObservableObject {
     init(){
         print("recorder alarm instance is created")
     }
-    
-    //00시 - 12시(am) == day
-    //12시 1분 ~ 23시 59분(pm) == night
-    func isDay(fireAt: Date)->Bool{
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: fireAt)
-        if 12 < hour {
-            return false
-        }else {
-            return true
-        }
-    }
-    
+ 
     func saveAlarm(tagName:String, fireAt: Date, audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]) {
         
         let id:UUID = UUID()
