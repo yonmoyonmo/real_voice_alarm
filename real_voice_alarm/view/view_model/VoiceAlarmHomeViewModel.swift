@@ -11,6 +11,7 @@ import CoreData
 class VoiceAlarmHomeViewModel: ObservableObject {
     
     let coreDataManager = CoreDataManager.instance
+    let notificationManager = NotificationManager.instance
     
     @Published var dayAlarms:[AlarmEntity] = []
     @Published var nightAlarms:[AlarmEntity] = []
@@ -39,5 +40,10 @@ class VoiceAlarmHomeViewModel: ObservableObject {
         }catch let error {
             print("alarm fetching error : \(error.localizedDescription)")
         }
+        getNextAlarm()
+    }
+    
+    func getNextAlarm(){
+        notificationManager.getPendingNotis()
     }
 }

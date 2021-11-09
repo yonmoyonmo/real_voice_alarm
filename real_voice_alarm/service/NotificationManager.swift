@@ -93,4 +93,21 @@ class NotificationManager{
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
         print("alarm id \(id) is unscheduled")
     }
+    
+    func getPendingNotis(){
+        let center = UNUserNotificationCenter.current()
+        var requestIds:[UNNotificationRequest] = []
+        center.getPendingNotificationRequests(completionHandler: { requests in
+            for request in requests {
+                let sibal = request
+                print("디버깅1")
+                print(sibal)
+                requestIds.append(sibal)
+                print(requestIds.count)
+            }
+            print("디버깅2")
+            print(requestIds.count)
+        })
+        
+    }
 }

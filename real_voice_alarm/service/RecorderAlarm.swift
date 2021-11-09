@@ -24,7 +24,6 @@ class RecorderAlarm: ObservableObject {
     }
  
     func saveAlarm(tagName:String, fireAt: Date, audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]) {
-        
         let id:UUID = UUID()
         
         let newAlarm = AlarmEntity(context: coreDataManager.context)

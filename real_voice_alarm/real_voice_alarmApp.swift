@@ -28,6 +28,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         print("app launched")
         
         //어플리케이션 실행했을 때 알람 타임인 경우 알람스크린으로 갈 수 있도록 해야한다.
+        //아직 불씨가 살아있는 딜리버드 노티를 잡아서 어케 하면 될듯
         
         //델리게이트 등록
         UNUserNotificationCenter.current().delegate = self
@@ -58,7 +59,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             }
         }
         //-------------------------------//
-        
         return true
     }
     
