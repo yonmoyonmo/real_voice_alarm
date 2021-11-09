@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct VoiceAlarmHome: View {
-    @ObservedObject var vm = VoiceAlarmHomeViewModel()
+    @EnvironmentObject var vm: VoiceAlarmHomeViewModel
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
     var body: some View {
