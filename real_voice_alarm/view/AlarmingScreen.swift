@@ -22,6 +22,7 @@ struct AlarmingScreen: View {
         Button(action: {
             recorderAlarm.isFiring = false
             audioPlayer.stopPlayback()
+            recorderAlarm.removeDeliverdAlarms()
         }){
             Text("dismiss")
         }.onAppear(perform: {

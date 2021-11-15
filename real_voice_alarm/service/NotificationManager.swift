@@ -74,7 +74,6 @@ class NotificationManager{
                     print("Uh oh! We had an error: \(error)")
                 }
             }
-            print(newId + " is schduled")
         }
     }
     
@@ -94,20 +93,21 @@ class NotificationManager{
         print("alarm id \(id) is unscheduled")
     }
     
-    func getPendingNotis(){
-        let center = UNUserNotificationCenter.current()
-        var requestIds:[UNNotificationRequest] = []
-        center.getPendingNotificationRequests(completionHandler: { requests in
-            for request in requests {
-                let sibal = request
-                print("디버깅1")
-                print(sibal)
-                requestIds.append(sibal)
-                print(requestIds.count)
-            }
-            print("디버깅2")
-            print(requestIds.count)
-        })
-        
-    }
+    
+//    func getPendingNotis(){
+//        let center = UNUserNotificationCenter.current()
+//        var requestIds:[UNNotificationRequest] = []
+//        center.getPendingNotificationRequests(completionHandler: { requests in
+//            for request in requests {
+//                let sibal = request
+//                print("디버깅1")
+//                print(sibal)
+//                requestIds.append(sibal)
+//                print(requestIds.count)
+//            }
+//            print("디버깅2")
+//            print(requestIds.count)
+//        })
+//    }
+    
 }

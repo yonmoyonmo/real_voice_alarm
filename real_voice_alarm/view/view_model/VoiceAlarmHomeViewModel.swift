@@ -40,10 +40,5 @@ class VoiceAlarmHomeViewModel: ObservableObject {
         }catch let error {
             print("alarm fetching error : \(error.localizedDescription)")
         }
-        getNextAlarm()
-    }
-    
-    func getNextAlarm(){
-        notificationManager.getPendingNotis()
     }
 }

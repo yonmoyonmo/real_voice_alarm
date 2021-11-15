@@ -6,16 +6,30 @@
 //
 /**
  메모장
+ 먼가 알람 편집 했을 때 소리 위치를 못찾아간다.
  */
 import SwiftUI
 
 @main
 struct real_voice_alarmApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @Environment(\.scenePhase) var scenePhase
+    
     var body: some Scene {
         WindowGroup {
             VoiceAlarmHome().environmentObject(VoiceAlarmHomeViewModel())
-        }
+        }.onChange(of: scenePhase, perform:{ phase in
+            switch phase{
+            case .active:
+                print("active")
+                appDelegate.recorderAlarm.checkCurrentDeliverdAlarmId()
+            case .background:
+                print("background")
+            case .inactive:
+                print("inactive")
+            @unknown default: print("ScenePhase: unexpected state")
+            }
+        })
     }
 }
 
@@ -27,10 +41,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("app launched")
         
-        //어플리케이션 실행했을 때 알람 타임인 경우 알람스크린으로 갈 수 있도록 해야한다.
-        //아직 불씨가 살아있는 딜리버드 노티를 잡아서 어케 하면 될듯
-        
-        //델리게이트 등록
+        //노티피케이션 델리게이트 등록
         UNUserNotificationCenter.current().delegate = self
         
         //노티피케이션 권한 요청
@@ -73,7 +84,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
         let id:String = notification.request.identifier
         var newId:String = ""
-        print(id)
+        
         if id.contains("@"){
             let deviderIndex:String.Index = id.firstIndex(of: "@")!
             newId = String(id[...deviderIndex])
@@ -93,7 +104,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         //list가 뭔지 아직 모름
         completionHandler(.list)
     }
-    //background
+    
+    //background, when touch the noti bar
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -102,7 +114,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
         let id:String = response.notification.request.identifier
         var newId:String = ""
-        print(id)
+        
         if id.contains("@"){
             let deviderIndex:String.Index = id.firstIndex(of: "@")!
             newId = String(id[...deviderIndex])

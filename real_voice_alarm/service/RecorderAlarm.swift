@@ -183,5 +183,41 @@ class RecorderAlarm: ObservableObject {
         }
     }
     
+    func checkCurrentDeliverdAlarmId(){
+        let center = UNUserNotificationCenter.current()
+        var firstDeliverdAlarmId:String = ""
+        var newId = ""
+        center.getDeliveredNotifications(completionHandler: { deliverdNotis in
+            if deliverdNotis.isEmpty{
+                print("empty deliverd")
+            }else{
+                //있다면 @를 뗀다
+                firstDeliverdAlarmId = deliverdNotis[0].request.identifier
+                
+                if firstDeliverdAlarmId.contains("@"){
+                    let deviderIndex:String.Index = firstDeliverdAlarmId.firstIndex(of: "@")!
+                    newId = String(firstDeliverdAlarmId[...deviderIndex])
+                    
+                    if let i = newId.firstIndex(of: "@"){
+                        newId.remove(at: i)
+                    }
+                }else{
+                    newId = firstDeliverdAlarmId
+                }
+                print("[][][][][][][][]")
+                print(newId)
+                print("[][][][][][][][]")
+                self.isFiring = true
+                self.firingAlarmId = newId
+            }
+        })
+    }
+    
+    func removeDeliverdAlarms(){
+        print("remove all delived alarms")
+        let center = UNUserNotificationCenter.current()
+        center.removeAllDeliveredNotifications()
+    }
+    
 }
 
