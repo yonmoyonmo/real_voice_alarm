@@ -60,7 +60,8 @@ struct AlarmSetting: View {
                                     weekDayFireAtSet.append(createDate(weekday: repeatDay.intName,
                                                                        hour:components.hour!,
                                                                        minute:components.minute! ,
-                                                                       year: components.year!))
+                                                                       year: components.year!
+                                                                      ))
                                 }
                                 recorderAlarm.saveRepeatingAlarms(tagName: tagName,
                                                                   fireAtList: weekDayFireAtSet,
@@ -68,7 +69,10 @@ struct AlarmSetting: View {
                                                                   audioURL: audioURL!,
                                                                   volume: volume,
                                                                   repeatingDays : repeatDays)
+                                
                                 vm.getAlarms()
+                                recorderAlarm.setLastingTimeOfNext()
+                                
                                 self.presentationMode.wrappedValue.dismiss()
                             }else{
                                 recorderAlarm.saveAlarm(tagName: tagName,
@@ -78,7 +82,10 @@ struct AlarmSetting: View {
                                                         volume: volume,
                                                         repeatingDays : repeatDays
                                 )
+                                
                                 vm.getAlarms()
+                                recorderAlarm.setLastingTimeOfNext()
+                                
                                 self.presentationMode.wrappedValue.dismiss()
                             }
                         }, label:{

@@ -19,11 +19,16 @@ struct VoiceAlarmHome: View {
                     AlarmingScreen()
                 }else {
                     //home
-                    Text("다음 알람까지 남은 시간을 분단위로 변할 때마다 보여줘야 하는 부분").padding()
+                    
+                    
+                    Text("\(recorderAlarm.lastingTimeForNext)").padding()
+                    
+                    
                     AlarmCardView(alarms: $vm.dayAlarms)
                     AlarmCardView(alarms: $vm.nightAlarms)
                         .onAppear(perform: {
                             vm.getAlarms()
+                            recorderAlarm.setLastingTimeOfNext()
                         })
                 }
             }

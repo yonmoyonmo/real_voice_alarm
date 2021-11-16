@@ -33,7 +33,14 @@ class NotificationManager{
         content.subtitle = "\(tagName)"
         content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
         
-        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fireAt)
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .weekday], from: fireAt)
+        
+        content.userInfo = [
+            "year" : "\(dateComponents.year!)",
+            "weekday": "\(dateComponents.weekday!)",
+            "hour":"\(dateComponents.hour!)",
+            "minute":"\(dateComponents.minute!)"
+        ]
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
@@ -43,17 +50,18 @@ class NotificationManager{
         
         UNUserNotificationCenter.current().add(request) {(error) in
             if let error = error {
-                print("Uh oh! We had an error: \(error)")
+                print("schedule alarm error : \(error)")
             }
         }
     }
     
     //리피팅 알람 세팅
     func scheduleRepeatingAlarms(dates: [Date],tagName:String, id:String, audioName:String) {
-        
         var componentsToSaveList:[DateComponents] = []
+        let content = UNMutableNotificationContent()
+        
         for date in dates {
-            componentsToSaveList.append(Calendar.current.dateComponents([.weekday,.hour,.minute,.second,], from: date))
+            componentsToSaveList.append(Calendar.current.dateComponents([.weekday,.hour,.minute,.second, .year], from: date))
         }
         
         for componentsToSave in componentsToSaveList {
@@ -62,16 +70,21 @@ class NotificationManager{
             let newId = id + devider + repeatingId!
             let trigger = UNCalendarNotificationTrigger(dateMatching: componentsToSave, repeats: true)
             
-            let content = UNMutableNotificationContent()
             content.title = "MOTIVOICE IS ARRIVED!"
             content.body = "\(tagName)"
             content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
+            content.userInfo = [
+                "year" : "\(componentsToSave.year!)",
+                "weekday": "\(componentsToSave.weekday!)",
+                "hour":"\(componentsToSave.hour!)",
+                "minute":"\(componentsToSave.minute!)"
+            ]
             
             let request = UNNotificationRequest(identifier: newId, content: content, trigger: trigger)
             
             UNUserNotificationCenter.current().add(request) {(error) in
                 if let error = error {
-                    print("Uh oh! We had an error: \(error)")
+                    print("scheduleRepeatingAlarms error: \(error)")
                 }
             }
         }
@@ -92,22 +105,5 @@ class NotificationManager{
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
         print("alarm id \(id) is unscheduled")
     }
-    
-    
-//    func getPendingNotis(){
-//        let center = UNUserNotificationCenter.current()
-//        var requestIds:[UNNotificationRequest] = []
-//        center.getPendingNotificationRequests(completionHandler: { requests in
-//            for request in requests {
-//                let sibal = request
-//                print("디버깅1")
-//                print(sibal)
-//                requestIds.append(sibal)
-//                print(requestIds.count)
-//            }
-//            print("디버깅2")
-//            print(requestIds.count)
-//        })
-//    }
     
 }

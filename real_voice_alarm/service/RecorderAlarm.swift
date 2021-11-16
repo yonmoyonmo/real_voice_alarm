@@ -18,6 +18,7 @@ class RecorderAlarm: ObservableObject {
     
     @Published var firingAlarmId: String = ""
     @Published var isFiring: Bool = false
+    @Published var lastingTimeForNext: String = ""
     
     init(){
         print("recorder alarm instance is created")
@@ -65,6 +66,7 @@ class RecorderAlarm: ObservableObject {
         for repeatingDay in repeatingDays {
             intRepeatingDays.append(repeatingDay.intName)
         }
+        
         newAlarm.repeatingDays = intRepeatingDays
         
         notificationManager.scheduleRepeatingAlarms(dates: fireAtList, tagName: tagName, id: id.uuidString, audioName: audioName)
@@ -220,5 +222,25 @@ class RecorderAlarm: ObservableObject {
         center.removeAllDeliveredNotifications()
     }
     
+    func setLastingTimeOfNext(){
+        //아이쉬발 어케하지?
+        //일단 나중에 해야지
+        //일단 노 반복 알람을 윅데이로 변환하여 어케어케 해 봐야 할듯
+        let center = UNUserNotificationCenter.current()
+        
+        let now = Date()
+        let nowDateComponents = Calendar.current.dateComponents([.weekday, .year, .hour ,.minute], from: now)
+        
+        var pendingAlarmsDate:[ Any ] = []
+        
+        center.getPendingNotificationRequests(completionHandler: { requests in
+            for request in requests {
+                pendingAlarmsDate.append(request.content.userInfo)
+            }
+            print(pendingAlarmsDate)
+            print(nowDateComponents)
+            print("클로져끝")
+        })
+    }
 }
 
