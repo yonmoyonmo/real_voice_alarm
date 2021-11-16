@@ -204,11 +204,12 @@ class RecorderAlarm: ObservableObject {
                 }else{
                     newId = firstDeliverdAlarmId
                 }
-                print("[][][][][][][][]")
+                print("[ remaining deliverd noti ]")
                 print(newId)
-                print("[][][][][][][][]")
-                self.isFiring = true
-                self.firingAlarmId = newId
+                DispatchQueue.main.async{
+                    self.isFiring = true
+                    self.firingAlarmId = newId
+                }
             }
         })
     }

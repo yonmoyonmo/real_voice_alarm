@@ -22,7 +22,10 @@ struct real_voice_alarmApp: App {
             switch phase{
             case .active:
                 print("active")
-                appDelegate.recorderAlarm.checkCurrentDeliverdAlarmId()
+                DispatchQueue.main.async {
+                    appDelegate.recorderAlarm.checkCurrentDeliverdAlarmId()
+                }
+                
             case .background:
                 print("background")
             case .inactive:
