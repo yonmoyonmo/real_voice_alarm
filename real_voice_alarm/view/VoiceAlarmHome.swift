@@ -19,16 +19,12 @@ struct VoiceAlarmHome: View {
                     AlarmingScreen()
                 }else {
                     //home
-                    
-                    
-                    Text("\(recorderAlarm.hour)시간, \(recorderAlarm.minute)분, \(recorderAlarm.day)일, 남음").padding()
-                    
+                    Text("\(recorderAlarm.day)일 \(recorderAlarm.hour)시간, \(recorderAlarm.minute)분 남음").padding()
                     
                     AlarmCardView(alarms: $vm.dayAlarms)
                     AlarmCardView(alarms: $vm.nightAlarms)
                         .onAppear(perform: {
                             vm.getAlarms()
-                            recorderAlarm.setLastingTimeOfNext()
                         })
                 }
             }

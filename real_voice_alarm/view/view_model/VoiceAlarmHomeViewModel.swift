@@ -12,6 +12,7 @@ class VoiceAlarmHomeViewModel: ObservableObject {
     
     let coreDataManager = CoreDataManager.instance
     let notificationManager = NotificationManager.instance
+    let recorderAlarm = RecorderAlarm.instance
     
     @Published var dayAlarms:[AlarmEntity] = []
     @Published var nightAlarms:[AlarmEntity] = []
@@ -40,5 +41,6 @@ class VoiceAlarmHomeViewModel: ObservableObject {
         }catch let error {
             print("alarm fetching error : \(error.localizedDescription)")
         }
+        recorderAlarm.setLastingTimeOfNext()
     }
 }

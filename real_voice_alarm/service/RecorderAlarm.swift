@@ -169,6 +169,7 @@ class RecorderAlarm: ObservableObject {
                                                             audioName: alarm.audioName!)
                 //isActive = true
                 alarmActiveSwitch(alarm: alarm)
+                setLastingTimeOfNext()
             }else{
                 //일회성일때
                 notificationManager.scheduleAlarm(tagName: alarm.tagName!,
@@ -177,6 +178,7 @@ class RecorderAlarm: ObservableObject {
                                                   id: alarm.uuid!)
                 //isActive = true
                 alarmActiveSwitch(alarm: alarm)
+                setLastingTimeOfNext()
             }
         }else{
             //turn off
@@ -184,6 +186,7 @@ class RecorderAlarm: ObservableObject {
             notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
             //isActive = false
             alarmActiveSwitch(alarm: alarm)
+            setLastingTimeOfNext()
         }
     }
     
@@ -225,6 +228,7 @@ class RecorderAlarm: ObservableObject {
     }
     
     func setLastingTimeOfNext(){
+        print("====== debug set lasting time of next ======")
         let center = UNUserNotificationCenter.current()
         
         let now = Date()
@@ -233,58 +237,102 @@ class RecorderAlarm: ObservableObject {
         var pendingAlarmsDates:[[AnyHashable:Any]] = []
         
         var target:[AnyHashable:Any] = [:]
-        var max7day:Int = 0
         
         center.getPendingNotificationRequests(completionHandler: { requests in
             //setPendings
             for request in requests {
                 pendingAlarmsDates.append(request.content.userInfo)
             }
-            
-//            print(pendingAlarmsDates)
-//            print(nowDateComponents)
-            
+            print(pendingAlarmsDates)
             //setTargets
             for pendingAlarmsDate in pendingAlarmsDates {
-                let targetWeekday = pendingAlarmsDate["weekday" as String] as! Int
-                let targetHour = pendingAlarmsDate["hour" as String] as! Int
-                let targetMinute = pendingAlarmsDate["minute" as String] as! Int
+                let targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
+                let targetHour = (pendingAlarmsDate["hour" as String] as? NSString)!.intValue
+                let targetMinute = (pendingAlarmsDate["minute" as String] as? NSString)!.intValue
                 
                 //find today's next
                 if(targetWeekday == nowDateComponents.weekday!){
-                    print("target weekday : \(targetWeekday)")
                     if(targetHour > nowDateComponents.hour!){
-                        print("target hour : \(targetHour)")
                         target = pendingAlarmsDate
                     }else if(targetHour == nowDateComponents.hour!){
                         if(targetMinute > nowDateComponents.minute!){
-                            print("target mimute : \(targetMinute)")
                             target = pendingAlarmsDate
                         }
                     }
                 }
             }
             if(!target.isEmpty){
-                let targetHour = target["hour" as String] as! Int
-                let targetMinute = target["minute" as String] as! Int
-                self.hour = targetHour - nowDateComponents.hour!
-                self.minute = targetMinute - nowDateComponents.minute!
-                print("setLastingTimeOfNext done!")
+                print("today's next found!")
+                print(target)
+                let targetHour = (target["hour" as String] as? NSString)!.intValue
+                var targetMinute = (target["minute" as String] as? NSString)!.intValue
+                
+                var nowMinute = nowDateComponents.minute!
+                let nowHour = nowDateComponents.hour!
+                
+                var i = 0
+                while(i < targetHour){
+                    i += 1
+                    targetMinute += 60
+                }
+                
+                var j = 0
+                while(j < nowHour){
+                    j += 1
+                    nowMinute += 60
+                }
+                print("now sex hour \(nowHour)")
+                print("now sex minute \(nowMinute)")
+                var realMinute = Int(targetMinute) - nowMinute
+                print("before sex minute \(realMinute)")
+                
+                var realHour = 0
+                if(realMinute >= 60){
+                    realHour = realMinute / 60
+                    print("before sex hour \(realHour)")
+                    var i = 0
+                    while(i<realHour){
+                        i+=1
+                        realMinute = realMinute - 60
+                        
+                    }
+                }
+                print("sex hour \(realHour)")
+                print("sex minute \(realMinute)")
+                DispatchQueue.main.async {
+                    self.hour = realHour
+                    self.minute = realMinute
+                    self.day = 0
+                }
+                print("setLastingTimeOfNext done! sex")
                 return
             }else{
                 //there's no today's alarm
+                //let's find closest nextDay shit
+                var min = 8
                 for pendingAlarmsDate in pendingAlarmsDates {
-                    let targetWeekday = pendingAlarmsDate["weekday" as String] as! Int
-                    let targetHour = pendingAlarmsDate["hour" as String] as! Int
-                    let targetMinute = pendingAlarmsDate["minute" as String] as! Int
-                    
-                    //find nextday's next
-                    if(targetWeekday > nowDateComponents.weekday! && targetWeekday <= 7 ){
-                        //this week
-                    }else if(targetWeekday < nowDateComponents.weekday! && targetWeekday >= 1 ){
-                        //next week
+                    var targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
+                    //오늘과 가장 가까운 다음 날을 찾아야하는디...
+                    //그것은 바로... 7과 오늘 사이라면 차이가 제일 작은 것 1과 오늘 사이라면 차이가 제일 큰것...
+                    if(targetWeekday <= nowDateComponents.weekday!){
+                        targetWeekday = targetWeekday + 7
+                    }
+                    let diff = Int(targetWeekday) - nowDateComponents.weekday!
+                    if(diff < min){
+                        min = diff
                     }
                 }
+                print("min : \(min)")
+                if(min == 8){
+                    min = 0
+                }
+                DispatchQueue.main.async {
+                    self.day = min
+                    self.minute = 0
+                    self.hour = 0
+                }
+                print("setLastingTimeOfNext done!")
+                return
             }
         })
     }
