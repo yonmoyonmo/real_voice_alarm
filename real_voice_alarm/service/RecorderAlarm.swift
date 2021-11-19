@@ -18,7 +18,9 @@ class RecorderAlarm: ObservableObject {
     
     @Published var firingAlarmId: String = ""
     @Published var isFiring: Bool = false
-    @Published var lastingTimeForNext: String = ""
+    @Published var hour: Int = 0
+    @Published var minute: Int = 0
+    @Published var day: Int = 0
     
     init(){
         print("recorder alarm instance is created")
@@ -223,23 +225,67 @@ class RecorderAlarm: ObservableObject {
     }
     
     func setLastingTimeOfNext(){
-        //아이쉬발 어케하지?
-        //일단 나중에 해야지
-        //일단 노 반복 알람을 윅데이로 변환하여 어케어케 해 봐야 할듯
         let center = UNUserNotificationCenter.current()
         
         let now = Date()
         let nowDateComponents = Calendar.current.dateComponents([.weekday, .year, .hour ,.minute], from: now)
         
-        var pendingAlarmsDate:[ Any ] = []
+        var pendingAlarmsDates:[[AnyHashable:Any]] = []
+        
+        var target:[AnyHashable:Any] = [:]
+        var max7day:Int = 0
         
         center.getPendingNotificationRequests(completionHandler: { requests in
+            //setPendings
             for request in requests {
-                pendingAlarmsDate.append(request.content.userInfo)
+                pendingAlarmsDates.append(request.content.userInfo)
             }
-            print(pendingAlarmsDate)
-            print(nowDateComponents)
-            print("클로져끝")
+            
+//            print(pendingAlarmsDates)
+//            print(nowDateComponents)
+            
+            //setTargets
+            for pendingAlarmsDate in pendingAlarmsDates {
+                let targetWeekday = pendingAlarmsDate["weekday" as String] as! Int
+                let targetHour = pendingAlarmsDate["hour" as String] as! Int
+                let targetMinute = pendingAlarmsDate["minute" as String] as! Int
+                
+                //find today's next
+                if(targetWeekday == nowDateComponents.weekday!){
+                    print("target weekday : \(targetWeekday)")
+                    if(targetHour > nowDateComponents.hour!){
+                        print("target hour : \(targetHour)")
+                        target = pendingAlarmsDate
+                    }else if(targetHour == nowDateComponents.hour!){
+                        if(targetMinute > nowDateComponents.minute!){
+                            print("target mimute : \(targetMinute)")
+                            target = pendingAlarmsDate
+                        }
+                    }
+                }
+            }
+            if(!target.isEmpty){
+                let targetHour = target["hour" as String] as! Int
+                let targetMinute = target["minute" as String] as! Int
+                self.hour = targetHour - nowDateComponents.hour!
+                self.minute = targetMinute - nowDateComponents.minute!
+                print("setLastingTimeOfNext done!")
+                return
+            }else{
+                //there's no today's alarm
+                for pendingAlarmsDate in pendingAlarmsDates {
+                    let targetWeekday = pendingAlarmsDate["weekday" as String] as! Int
+                    let targetHour = pendingAlarmsDate["hour" as String] as! Int
+                    let targetMinute = pendingAlarmsDate["minute" as String] as! Int
+                    
+                    //find nextday's next
+                    if(targetWeekday > nowDateComponents.weekday! && targetWeekday <= 7 ){
+                        //this week
+                    }else if(targetWeekday < nowDateComponents.weekday! && targetWeekday >= 1 ){
+                        //next week
+                    }
+                }
+            }
         })
     }
 }

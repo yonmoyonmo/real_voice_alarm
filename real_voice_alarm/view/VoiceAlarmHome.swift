@@ -21,7 +21,7 @@ struct VoiceAlarmHome: View {
                     //home
                     
                     
-                    Text("\(recorderAlarm.lastingTimeForNext)").padding()
+                    Text("\(recorderAlarm.hour)시간, \(recorderAlarm.minute)분, \(recorderAlarm.day)일, 남음").padding()
                     
                     
                     AlarmCardView(alarms: $vm.dayAlarms)
