@@ -243,7 +243,7 @@ class RecorderAlarm: ObservableObject {
             for request in requests {
                 pendingAlarmsDates.append(request.content.userInfo)
             }
-            print(pendingAlarmsDates)
+            //print(pendingAlarmsDates)
             //setTargets
             for pendingAlarmsDate in pendingAlarmsDates {
                 let targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
@@ -263,7 +263,7 @@ class RecorderAlarm: ObservableObject {
             }
             if(!target.isEmpty){
                 print("today's next found!")
-                print(target)
+                //print(target)
                 let targetHour = (target["hour" as String] as? NSString)!.intValue
                 var targetMinute = (target["minute" as String] as? NSString)!.intValue
                 
@@ -281,15 +281,14 @@ class RecorderAlarm: ObservableObject {
                     j += 1
                     nowMinute += 60
                 }
-                print("now sex hour \(nowHour)")
-                print("now sex minute \(nowMinute)")
+                
                 var realMinute = Int(targetMinute) - nowMinute
-                print("before sex minute \(realMinute)")
+                
                 
                 var realHour = 0
                 if(realMinute >= 60){
                     realHour = realMinute / 60
-                    print("before sex hour \(realHour)")
+                    
                     var i = 0
                     while(i<realHour){
                         i+=1
@@ -297,14 +296,13 @@ class RecorderAlarm: ObservableObject {
                         
                     }
                 }
-                print("sex hour \(realHour)")
-                print("sex minute \(realMinute)")
+                
                 DispatchQueue.main.async {
                     self.hour = realHour
                     self.minute = realMinute
                     self.day = 0
                 }
-                print("setLastingTimeOfNext done! sex")
+                print("setLastingTimeOfNext done!")
                 return
             }else{
                 //there's no today's alarm
@@ -322,7 +320,6 @@ class RecorderAlarm: ObservableObject {
                         min = diff
                     }
                 }
-                print("min : \(min)")
                 if(min == 8){
                     min = 0
                 }

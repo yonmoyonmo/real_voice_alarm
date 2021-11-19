@@ -20,6 +20,7 @@
 		0BCD14EB273930A800E0031F /* PlayBackAlart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCD14EA273930A800E0031F /* PlayBackAlart.swift */; };
 		0BCD14ED273930DF00E0031F /* TextFieldAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCD14EC273930DF00E0031F /* TextFieldAlert.swift */; };
 		0BCD14EF27393C1700E0031F /* View+customAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCD14EE27393C1600E0031F /* View+customAlert.swift */; };
+		0BDD4CE82747B5CC004A79F9 /* AfterAlarmScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDD4CE72747B5CC004A79F9 /* AfterAlarmScreen.swift */; };
 		0BDDA63E272A76BD0005F810 /* RecorderAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA63D272A76BD0005F810 /* RecorderAlarm.swift */; };
 		0BDDA645272A8C5D0005F810 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA644272A8C5D0005F810 /* AudioRecorder.swift */; };
 		0BDDA647272A8C7F0005F810 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA646272A8C7F0005F810 /* AudioPlayer.swift */; };
@@ -50,6 +51,7 @@
 		0BCD14EA273930A800E0031F /* PlayBackAlart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayBackAlart.swift; sourceTree = "<group>"; };
 		0BCD14EC273930DF00E0031F /* TextFieldAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAlert.swift; sourceTree = "<group>"; };
 		0BCD14EE27393C1600E0031F /* View+customAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+customAlert.swift"; sourceTree = "<group>"; };
+		0BDD4CE72747B5CC004A79F9 /* AfterAlarmScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterAlarmScreen.swift; sourceTree = "<group>"; };
 		0BDDA63D272A76BD0005F810 /* RecorderAlarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderAlarm.swift; sourceTree = "<group>"; };
 		0BDDA644272A8C5D0005F810 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		0BDDA646272A8C7F0005F810 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				0BDDA64E272A93120005F810 /* AlarmSetting.swift */,
 				0B6AAF73272C0807004769CE /* AlarmingScreen.swift */,
 				0BCD14E827392EA500E0031F /* AlarmEdit.swift */,
+				0BDD4CE72747B5CC004A79F9 /* AfterAlarmScreen.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				0BDDA63E272A76BD0005F810 /* RecorderAlarm.swift in Sources */,
 				0BCD14E927392EA500E0031F /* AlarmEdit.swift in Sources */,
 				0BDDA64F272A93120005F810 /* AlarmSetting.swift in Sources */,
+				0BDD4CE82747B5CC004A79F9 /* AfterAlarmScreen.swift in Sources */,
 				0BCD14ED273930DF00E0031F /* TextFieldAlert.swift in Sources */,
 				0BA14D82272958BB00A9E646 /* CoreDataContainer.xcdatamodeld in Sources */,
 				0BA14D7E272955A400A9E646 /* VoiceAlarmHomeViewModel.swift in Sources */,

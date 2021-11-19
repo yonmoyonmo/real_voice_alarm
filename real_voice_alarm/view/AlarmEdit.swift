@@ -45,6 +45,7 @@ struct AlarmEdit: View {
                         Button(action: {
                             if(audioURLEditted==nil){
                                 print("오디오 유알엘 없는 경우에 예외처리 하라")
+                                print("AlarmEdit's getAalrms")
                                 vm.getAlarms()
                                 self.presentationMode.wrappedValue.dismiss()
                                 return
@@ -72,6 +73,7 @@ struct AlarmEdit: View {
                                     volume: volumeEditted,
                                     repeatingDays : repeatDaysEditted
                                 )
+                                print("AlarmEdit's getAalrms")
                                 vm.getAlarms()
                                 self.presentationMode.wrappedValue.dismiss()
                             }else{
@@ -85,6 +87,7 @@ struct AlarmEdit: View {
                                     volume: volumeEditted,
                                     repeatingDays : repeatDaysEditted
                                 )
+                                print("AlarmEdit's getAalrms")
                                 vm.getAlarms()
                                 self.presentationMode.wrappedValue.dismiss()
                             }

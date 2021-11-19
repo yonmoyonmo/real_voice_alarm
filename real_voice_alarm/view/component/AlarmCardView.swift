@@ -60,6 +60,7 @@ struct AlarmCard: View {
                     Menu{
                         Button(action: {
                             recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
+                            print("AlarmCardView's getAalrms")
                             viewModel.getAlarms()
                         }, label: {
                             Text("알람 삭제")

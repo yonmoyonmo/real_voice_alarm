@@ -11,25 +11,30 @@ struct AlarmingScreen: View {
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     @StateObject var alarmingScreenVm: AlarmingScreenViewModel = AlarmingScreenViewModel()
     var audioPlayer: AudioPlayer = AudioPlayer()
+    @State var showModal:Bool = false
+    @State var isDay:Bool = false
     
     var body: some View {
         //conditional Screen
         if recorderAlarm.isFiring == false {
             VoiceAlarmHome()
         }
-        
         Text("alarming").padding()
         Button(action: {
-            recorderAlarm.isFiring = false
+            //recorderAlarm.isFiring = false 일단 기다려
             audioPlayer.stopPlayback()
             recorderAlarm.removeDeliverdAlarms()
+            showModal.toggle()
         }){
             Text("dismiss")
         }.onAppear(perform: {
             alarmingScreenVm.getCurrentAlarm(id: recorderAlarm.firingAlarmId)
             let floatVolume = Float(alarmingScreenVm.currentAlarm.volume)
+            self.isDay = alarmingScreenVm.currentAlarm.isDay
             audioPlayer.startAlarmSound(audio: alarmingScreenVm.currentAlarm.audioURL!, volume: floatVolume)
-        })
+        }).sheet(isPresented: self.$showModal) {
+            AfterAlarmScreen(isDay: isDay)
+        }
     }
 }
 

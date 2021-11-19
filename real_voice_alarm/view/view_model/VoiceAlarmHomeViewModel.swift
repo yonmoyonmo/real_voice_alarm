@@ -18,6 +18,7 @@ class VoiceAlarmHomeViewModel: ObservableObject {
     @Published var nightAlarms:[AlarmEntity] = []
     
     init(){
+        print("voiceAlarmHome's getAalrms")
         getAlarms()
     }
     
