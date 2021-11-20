@@ -31,6 +31,44 @@ struct AlarmSetting: View {
     @State var isPlayBack: Bool = false
     //-----------------------------------------
     
+    var isDay:Bool
+    
+    var DaydateClosedRange: ClosedRange<Date> {
+        
+        var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
+        minComps.hour = 0
+        minComps.minute = 0
+        
+        var maxComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
+        maxComps.hour = 11
+        maxComps.minute = 59
+        
+        let myCalendar = Calendar(identifier: .gregorian)
+        
+        let min = myCalendar.date(from: minComps)!
+        let max = myCalendar.date(from: maxComps)!
+        
+        return min...max
+    }
+    
+    var NightdateClosedRange: ClosedRange<Date> {
+        
+        var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
+        minComps.hour = 12
+        minComps.minute = 0
+        
+        var maxComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
+        maxComps.hour = 23
+        maxComps.minute = 59
+        
+        let myCalendar = Calendar(identifier: .gregorian)
+        
+        let min = myCalendar.date(from: minComps)!
+        let max = myCalendar.date(from: maxComps)!
+        
+        return min...max
+    }
+    
     //예외처리 잔뜩 해야한다.
     //일단 이름짓는 것들 길이제한부터
     var body: some View {
@@ -94,8 +132,14 @@ struct AlarmSetting: View {
                         })
                     }
                     //데이트 피커
-                    DatePicker("", selection: $fireAt, displayedComponents: .hourAndMinute)
-                        .datePickerStyle(.wheel).padding()
+                    if(isDay == true){
+                        DatePicker("", selection: $fireAt, in: DaydateClosedRange, displayedComponents: .hourAndMinute)
+                            .datePickerStyle(.wheel).padding()
+                    }else{
+                        DatePicker("", selection: $fireAt, in: NightdateClosedRange, displayedComponents: .hourAndMinute)
+                            .datePickerStyle(.wheel).padding()
+                    }
+                    
                     
                     //요일 반복
                     RepeatDaysSettingView(repeatDays: $repeatDays).padding()
@@ -171,8 +215,8 @@ struct AlarmSetting: View {
     }
 }
 
-struct AlarmSetting_Previews: PreviewProvider {
-    static var previews: some View {
-        AlarmSetting()
-    }
-}
+//struct AlarmSetting_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AlarmSetting()
+//    }
+//}

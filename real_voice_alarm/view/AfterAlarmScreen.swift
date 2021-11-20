@@ -16,9 +16,9 @@ struct AfterAlarmScreen: View {
     var body: some View {
         if(isDay){
             Text("저녁에 새로 만들어 보시던가요").padding()
-            AlarmCardView(alarms: $vm.nightAlarms)
+            AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
         }else{
-            AlarmCardView(alarms: $vm.dayAlarms)
+            AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
             Text("낮에 새로 만들어 보시던가요").padding()
         }
         Button(action: {

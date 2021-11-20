@@ -21,8 +21,8 @@ struct VoiceAlarmHome: View {
                     //home
                     Text("\(recorderAlarm.day)일 \(recorderAlarm.hour)시간, \(recorderAlarm.minute)분 남음").padding()
                     
-                    AlarmCardView(alarms: $vm.dayAlarms)
-                    AlarmCardView(alarms: $vm.nightAlarms)
+                    AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
+                    AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
                         .onAppear(perform: {
                             print("VoiceAlarmHome's getAalrms")
                             vm.getAlarms()

@@ -10,6 +10,7 @@ import SwiftUI
 struct AlarmCardView: View {
     @Binding var alarms:[AlarmEntity]
     @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
+    var isDay:Bool
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false, content: {
@@ -17,7 +18,7 @@ struct AlarmCardView: View {
                 ForEach($alarms){$alarm in
                     AlarmCard(alarm: $alarm, alarmToggle: alarm.isActive)
                 }
-                addNewCardCard()
+                addNewCardCard(isDay: self.isDay)
             }
         })
     }
@@ -108,6 +109,7 @@ struct AlarmCard: View {
 struct addNewCardCard: View{
     @State private var showAddAlarmModal = false
     @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
+    var isDay:Bool
 
     var body: some View{
         VStack(alignment: .center) {
@@ -122,7 +124,7 @@ struct addNewCardCard: View{
                     .font(.system(size: 56.0, weight: .bold))
             }
             .sheet(isPresented: self.$showAddAlarmModal) {
-                AlarmSetting()
+                AlarmSetting(isDay: self.isDay)
             }
         }
         .frame(width: 250, height: 180, alignment: .top)
