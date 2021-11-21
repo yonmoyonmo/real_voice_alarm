@@ -12,7 +12,7 @@ struct AlarmSetting: View {
     
     @EnvironmentObject var vm:VoiceAlarmHomeViewModel
     @ObservedObject var audioRecorder: AudioRecorder = AudioRecorder()
-    let audioPlayer: AudioPlayer = AudioPlayer()
+    let audioPlayer: AudioPlayer = AudioPlayer.instance
     let recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
     //-----------------------------------------

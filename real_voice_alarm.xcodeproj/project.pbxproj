@@ -38,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		0B4B948E273135FB0075FC02 /* AlarmingScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmingScreenViewModel.swift; sourceTree = "<group>"; };
+		0B6759892748DF5B000062DF /* real-voice-alarm-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "real-voice-alarm-Info.plist"; sourceTree = SOURCE_ROOT; };
 		0B6AAF73272C0807004769CE /* AlarmingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmingScreen.swift; sourceTree = "<group>"; };
 		0B974AE32726A249000D21D2 /* real_voice_alarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = real_voice_alarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = real_voice_alarmApp.swift; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 		0B974AE52726A249000D21D2 /* real_voice_alarm */ = {
 			isa = PBXGroup;
 			children = (
+				0B6759892748DF5B000062DF /* real-voice-alarm-Info.plist */,
 				0BDDA643272A8C010005F810 /* util */,
 				0BA14D7F2729588500A9E646 /* model */,
 				0B974AF72726C2F0000D21D2 /* service */,
@@ -142,6 +144,8 @@
 		0B974AF72726C2F0000D21D2 /* service */ = {
 			isa = PBXGroup;
 			children = (
+				0BDDA644272A8C5D0005F810 /* AudioRecorder.swift */,
+				0BDDA646272A8C7F0005F810 /* AudioPlayer.swift */,
 				0BDDA648272A8CA10005F810 /* NotificationManager.swift */,
 				0BA14D7B2729547200A9E646 /* CoreDataManager.swift */,
 				0BDDA63D272A76BD0005F810 /* RecorderAlarm.swift */,
@@ -162,8 +166,6 @@
 		0BDDA643272A8C010005F810 /* util */ = {
 			isa = PBXGroup;
 			children = (
-				0BDDA644272A8C5D0005F810 /* AudioRecorder.swift */,
-				0BDDA646272A8C7F0005F810 /* AudioPlayer.swift */,
 				0BDDA64C272A8D870005F810 /* dateHelperFunctions.swift */,
 				0BE8F1A32736AFFE009B97FE /* RepeatDays.swift */,
 				0BDDA64A272A8D510005F810 /* Recording.swift */,
@@ -412,6 +414,7 @@
 				DEVELOPMENT_TEAM = T67M6DRC36;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "real-voice-alarm-Info.plist";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -443,6 +446,7 @@
 				DEVELOPMENT_TEAM = T67M6DRC36;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "real-voice-alarm-Info.plist";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

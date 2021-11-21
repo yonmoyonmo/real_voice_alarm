@@ -58,7 +58,7 @@ class AudioRecorder: NSObject, ObservableObject {
         
         do{
             audioRecorder = try AVAudioRecorder(url: audioFilename!, settings: settings)
-            audioRecorder.record()
+            audioRecorder.record()//forDuration: 29 듀레이션을 줄 지 말지 고민 중, 어차피 노티 사운드는 5초임
             recording = true
         }catch let error{
             print("Could not start recording : \(error.localizedDescription)")

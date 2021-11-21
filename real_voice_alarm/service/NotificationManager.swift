@@ -28,13 +28,14 @@ class NotificationManager{
     }
     
     func scheduleAlarm(tagName:String, fireAt: Date, audioName: String, id: String) {
+        
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .weekday, .second], from: fireAt)
+        dateComponents.second = 0
+        
         let content = UNMutableNotificationContent()
         content.title = "MOTIVOICE IS ARRIVED!"
         content.subtitle = "\(tagName)"
         content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
-        
-        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .weekday], from: fireAt)
-        
         content.userInfo = [
             "year" : "\(dateComponents.year!)",
             "weekday": "\(dateComponents.weekday!)",
@@ -64,10 +65,11 @@ class NotificationManager{
             componentsToSaveList.append(Calendar.current.dateComponents([.weekday,.hour,.minute,.second, .year], from: date))
         }
         
-        for componentsToSave in componentsToSaveList {
+        for var componentsToSave in componentsToSaveList {
             let repeatingId = RepeatDays(rawValue: componentsToSave.weekday!)?.fullName
             let devider:String = "@"
             let newId = id + devider + repeatingId!
+            componentsToSave.second = 0
             let trigger = UNCalendarNotificationTrigger(dateMatching: componentsToSave, repeats: true)
             
             content.title = "MOTIVOICE IS ARRIVED!"
@@ -105,5 +107,6 @@ class NotificationManager{
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
         print("alarm id \(id) is unscheduled")
     }
+    
     
 }

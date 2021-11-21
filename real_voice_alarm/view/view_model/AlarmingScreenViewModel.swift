@@ -9,7 +9,13 @@ import Foundation
 
 class AlarmingScreenViewModel: ObservableObject{
     let coreDataManager = CoreDataManager.instance
-    @Published var currentAlarm:AlarmEntity = AlarmEntity()
+    let recorderAlarm = RecorderAlarm.instance
+    
+    @Published var currentAlarm:AlarmEntity
+    
+    init(){
+        currentAlarm = coreDataManager.findAlarmById(uuid: recorderAlarm.firingAlarmId)
+    }
     
     func getCurrentAlarm(id:String){
         currentAlarm = coreDataManager.findAlarmById(uuid: id)

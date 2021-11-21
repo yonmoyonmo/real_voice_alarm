@@ -6,8 +6,6 @@
 //
 /**
  메모장
- 다음 알람 시간까지 얼마나 남았는지 어케 표현하지?
- 대충 지금시간 - 다음시간 해서 표현하모 댈 것 같은디?
  
  그리고 겟알람쓰가 너무 많이 호출 되는 부분도 고치자
  
@@ -17,8 +15,8 @@ import SwiftUI
 
 @main
 struct real_voice_alarmApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @Environment(\.scenePhase) var scenePhase
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     
     var body: some Scene {
         WindowGroup {
@@ -30,7 +28,6 @@ struct real_voice_alarmApp: App {
                 DispatchQueue.main.async {
                     appDelegate.recorderAlarm.checkCurrentDeliverdAlarmId()
                 }
-                
             case .background:
                 print("background")
             case .inactive:
@@ -87,7 +84,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                                 withCompletionHandler completionHandler:
                                 @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        print("noti delegate debug++++++++++++++++++++")
+        print("+++++++++++++++++++++++++++++++++++++++")
         print("foreground notification received")
         
         let id:String = notification.request.identifier
@@ -124,6 +121,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         var newId:String = ""
         
         if id.contains("@"){
+            print("backgrond noti contains @ \(id)")
             let deviderIndex:String.Index = id.firstIndex(of: "@")!
             newId = String(id[...deviderIndex])
             
@@ -131,10 +129,12 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                 newId.remove(at: i)
             }
             
-            print(newId)
+            print("backgrond noti @ removed \(id)")
+            
             recorderAlarm.isFiring = true
             recorderAlarm.firingAlarmId = newId
         }else{
+            print("backgrond noti \(id)")
             recorderAlarm.isFiring = true
             recorderAlarm.firingAlarmId = id
         }
@@ -144,3 +144,4 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
     
 }
+//0DAB73A4-2490-455F-91E2-73D1FAA6C925

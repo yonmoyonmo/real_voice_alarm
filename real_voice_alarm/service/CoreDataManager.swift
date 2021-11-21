@@ -47,9 +47,7 @@ class CoreDataManager {
         }catch let error{
             print("find alarm error : \(error.localizedDescription)")
         }
-        print("find by alarm succsess")
         return alarmEntity
-        
     }
     
     func deleteTargetEntity(id: String){

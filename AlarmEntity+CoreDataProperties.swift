@@ -25,6 +25,7 @@ extension AlarmEntity {
     @NSManaged public var uuid: String?
     @NSManaged public var volume: Double
     @NSManaged public var isActive: Bool
+    @NSManaged public var isRepeating: Bool
 
 }
 

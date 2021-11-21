@@ -11,33 +11,34 @@ import Combine
 import AVFoundation
 
 class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
-    let objectWillChange = PassthroughSubject<AudioPlayer, Never>()
+    static let instance = AudioPlayer()
     
-    var isPlaying = false {
-        didSet{
-            objectWillChange.send(self)
-        }
-    }
+    var audioPlayer: AVAudioPlayer?
     
-    var audioPlayer: AVAudioPlayer!
+    @Published var isPlaying = false
+    
     
     func startAlarmSound(audio: URL, volume: Float){
+        print("============= startAlarmSound debug ================")
         let playbackSession = AVAudioSession.sharedInstance()
         do{
             try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
-        }catch{
-            print("Playing over the device's speakers failed")
+        }catch let Error{
+            print("Playing over the device's speakers failed :\(Error.localizedDescription)")
         }
+        
         do{
-            audioPlayer = try AVAudioPlayer(contentsOf: audio)
-            audioPlayer.delegate = self
-            audioPlayer.volume = volume
-            audioPlayer.numberOfLoops = 30
-            audioPlayer.play()
+            print("let's play alarm sound at \(audio)")
+            audioPlayer = try AVAudioPlayer.init(contentsOf: audio)
+            
+            audioPlayer?.delegate = self
+            audioPlayer?.volume = volume
+            audioPlayer?.numberOfLoops = 30
+            audioPlayer?.play()
             isPlaying = true
-            print("playing Alarm")
-        }catch{
-            print("alarm sound failed")
+            
+        }catch let Error{
+            print("Playing audio failed :\(Error.localizedDescription) || \(Error)")
         }
     }
     
@@ -52,22 +53,22 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
         
         do{
             audioPlayer = try AVAudioPlayer(contentsOf: audio)
-            audioPlayer.delegate = self
-            audioPlayer.play()
+            audioPlayer?.delegate = self
+            audioPlayer?.play()
             isPlaying = true
             print("playing playback")
-        }catch{
-            print("Playback failed")
+        }catch let Error{
+            print(" playback failed :\(Error.localizedDescription)")
         }
     }
     
     func stopPlayback() {
         if(isPlaying){
-            audioPlayer.stop()
+            audioPlayer?.stop()
             isPlaying = false
             print("stopped")
         }else{
-            print("audio player is fucked up")
+            print("notplaying")
             return
         }
     }
@@ -77,4 +78,8 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
             isPlaying = false
         }
     }
+    
 }
+
+
+

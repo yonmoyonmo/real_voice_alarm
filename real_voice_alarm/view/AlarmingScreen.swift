@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct AlarmingScreen: View {
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     @StateObject var alarmingScreenVm: AlarmingScreenViewModel = AlarmingScreenViewModel()
-    var audioPlayer: AudioPlayer = AudioPlayer()
+    
+    let audioPlayer = AudioPlayer.instance
+    
     @State var showModal:Bool = false
     @State var isDay:Bool = false
     
@@ -21,17 +24,24 @@ struct AlarmingScreen: View {
         }
         Text("alarming").padding()
         Button(action: {
-            //recorderAlarm.isFiring = false 일단 기다려
             audioPlayer.stopPlayback()
             recorderAlarm.removeDeliverdAlarms()
             showModal.toggle()
         }){
             Text("dismiss")
         }.onAppear(perform: {
+            
             alarmingScreenVm.getCurrentAlarm(id: recorderAlarm.firingAlarmId)
+            
             let floatVolume = Float(alarmingScreenVm.currentAlarm.volume)
+            
             self.isDay = alarmingScreenVm.currentAlarm.isDay
+            
+            if(alarmingScreenVm.currentAlarm.isRepeating == false){
+                recorderAlarm.alarmActiveSwitch(alarm: alarmingScreenVm.currentAlarm)
+            }
             audioPlayer.startAlarmSound(audio: alarmingScreenVm.currentAlarm.audioURL!, volume: floatVolume)
+            
         }).sheet(isPresented: self.$showModal) {
             AfterAlarmScreen(isDay: isDay)
         }

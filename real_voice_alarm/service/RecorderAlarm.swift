@@ -18,6 +18,7 @@ class RecorderAlarm: ObservableObject {
     
     @Published var firingAlarmId: String = ""
     @Published var isFiring: Bool = false
+    
     @Published var hour: Int = 0
     @Published var minute: Int = 0
     @Published var day: Int = 0
@@ -40,6 +41,7 @@ class RecorderAlarm: ObservableObject {
         newAlarm.audioName = audioName
         newAlarm.audioURL = audioURL
         newAlarm.volume = volume
+        newAlarm.isRepeating = false
         
         let intRepeatingDays:[Int] = []
         newAlarm.repeatingDays = intRepeatingDays
@@ -63,6 +65,7 @@ class RecorderAlarm: ObservableObject {
         newAlarm.audioName = audioName
         newAlarm.audioURL = audioURL
         newAlarm.volume = volume
+        newAlarm.isRepeating = true
         
         var intRepeatingDays:[Int] = []
         for repeatingDay in repeatingDays {
@@ -333,5 +336,7 @@ class RecorderAlarm: ObservableObject {
             }
         })
     }
+    
 }
+
 

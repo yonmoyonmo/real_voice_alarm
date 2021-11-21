@@ -6,12 +6,13 @@
         <attribute name="fireAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="isActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isDay" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isRepeating" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="repeatingDays" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
         <attribute name="tagName" optional="YES" attributeType="String"/>
         <attribute name="uuid" optional="YES" attributeType="String"/>
         <attribute name="volume" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="AlarmEntity" positionX="-63" positionY="-18" width="128" height="164"/>
+        <element name="AlarmEntity" positionX="-63" positionY="-18" width="128" height="179"/>
     </elements>
 </model>
