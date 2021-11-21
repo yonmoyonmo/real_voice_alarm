@@ -87,22 +87,45 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         print("+++++++++++++++++++++++++++++++++++++++")
         print("foreground notification received")
         
-        let id:String = notification.request.identifier
-        var newId:String = ""
+        let originalId:String = notification.request.identifier
+        print("\(originalId) it's original")
         
-        if id.contains("@"){
-            let deviderIndex:String.Index = id.firstIndex(of: "@")!
-            newId = String(id[...deviderIndex])
+        var shopRemovedId:String = ""
+        var atRemovedId:String = ""
+        
+        //#으로 구분된 것 짤라주기
+        if(originalId.contains("#")){
+            print("foreground noti contains # \(originalId)")
+            let deviderIndex:String.Index = originalId.firstIndex(of: "#")!
+            shopRemovedId = String(originalId[...deviderIndex])
             
-            if let i = newId.firstIndex(of: "@"){
-                newId.remove(at: i)
+            if let i = shopRemovedId.firstIndex(of: "#"){
+                shopRemovedId.remove(at: i)
             }
-            print(newId)
-            recorderAlarm.isFiring = true
-            recorderAlarm.firingAlarmId = newId
+            
+            print("foreground noti # removed \(shopRemovedId)")
         }else{
+            shopRemovedId = originalId
+        }
+        
+        if shopRemovedId.contains("@"){
+            let deviderIndex:String.Index = shopRemovedId.firstIndex(of: "@")!
+            atRemovedId = String(shopRemovedId[...deviderIndex])
+            
+            
+            
+            if let i = atRemovedId.firstIndex(of: "@"){
+                atRemovedId.remove(at: i)
+            }
+            print(atRemovedId)
+            recorderAlarm.repeatingAlarmId = shopRemovedId
             recorderAlarm.isFiring = true
-            recorderAlarm.firingAlarmId = id
+            recorderAlarm.firingAlarmId = atRemovedId
+        }else{
+            print("foreground noti \(shopRemovedId)")
+            recorderAlarm.repeatingAlarmId = ""
+            recorderAlarm.isFiring = true
+            recorderAlarm.firingAlarmId = shopRemovedId
         }
         print("+++++++++++++++++++++++++++++++++++++++")
         
@@ -117,26 +140,48 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         print("##########################")
         print("background noti received")
         
-        let id:String = response.notification.request.identifier
-        var newId:String = ""
+        let originalId:String = response.notification.request.identifier
         
-        if id.contains("@"){
-            print("backgrond noti contains @ \(id)")
-            let deviderIndex:String.Index = id.firstIndex(of: "@")!
-            newId = String(id[...deviderIndex])
+        var shopRemovedId:String = ""
+        var atRemovedId:String = ""
+        
+        //#으로 구분된 것 짤라주기
+        if(originalId.contains("#")){
+            print("backgrond noti contains # \(originalId)")
+            let deviderIndex:String.Index = originalId.firstIndex(of: "#")!
+            shopRemovedId = String(originalId[...deviderIndex])
             
-            if let i = newId.firstIndex(of: "@"){
-                newId.remove(at: i)
+            if let i = shopRemovedId.firstIndex(of: "#"){
+                shopRemovedId.remove(at: i)
             }
             
-            print("backgrond noti @ removed \(id)")
+            print("backgrond noti # removed \(shopRemovedId)")
+        }else{
+            shopRemovedId = originalId
+        }
+        
+        
+        if shopRemovedId.contains("@"){
+            print("backgrond noti contains @ \(shopRemovedId)")
+            
+            recorderAlarm.repeatingAlarmId = shopRemovedId
+            
+            let deviderIndex:String.Index = shopRemovedId.firstIndex(of: "@")!
+            atRemovedId = String(shopRemovedId[...deviderIndex])
+            
+            if let i = atRemovedId.firstIndex(of: "@"){
+                atRemovedId.remove(at: i)
+            }
+            
+            print("backgrond noti @ removed \(atRemovedId)")
             
             recorderAlarm.isFiring = true
-            recorderAlarm.firingAlarmId = newId
+            recorderAlarm.firingAlarmId = atRemovedId
         }else{
-            print("backgrond noti \(id)")
+            print("backgrond noti \(shopRemovedId)")
+            recorderAlarm.repeatingAlarmId = ""
             recorderAlarm.isFiring = true
-            recorderAlarm.firingAlarmId = id
+            recorderAlarm.firingAlarmId = shopRemovedId
         }
         print("##########################")
         

@@ -17,6 +17,7 @@ class RecorderAlarm: ObservableObject {
     let notificationManager = NotificationManager.instance
     
     @Published var firingAlarmId: String = ""
+    @Published var repeatingAlarmId: String = ""
     @Published var isFiring: Bool = false
     
     @Published var hour: Int = 0
@@ -244,7 +245,9 @@ class RecorderAlarm: ObservableObject {
         center.getPendingNotificationRequests(completionHandler: { requests in
             //setPendings
             for request in requests {
-                pendingAlarmsDates.append(request.content.userInfo)
+                if(!request.content.userInfo.isEmpty){
+                    pendingAlarmsDates.append(request.content.userInfo)
+                }
             }
             //print(pendingAlarmsDates)
             //setTargets
@@ -336,7 +339,15 @@ class RecorderAlarm: ObservableObject {
             }
         })
     }
-    
+ 
+    func cancelRingingPendingAlarms(){
+        if(self.repeatingAlarmId == ""){
+            //노 반복 알람의 경우 고냥 아이디를 넘긴다.
+            notificationManager.cancelRingNotis(id: firingAlarmId)
+        }else{
+            notificationManager.cancelRingNotis(id: repeatingAlarmId)
+        }
+    }
 }
 
 

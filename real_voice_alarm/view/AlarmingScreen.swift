@@ -30,7 +30,7 @@ struct AlarmingScreen: View {
         }){
             Text("dismiss")
         }.onAppear(perform: {
-            
+            print("debug ringing \(recorderAlarm.firingAlarmId)")
             alarmingScreenVm.getCurrentAlarm(id: recorderAlarm.firingAlarmId)
             
             let floatVolume = Float(alarmingScreenVm.currentAlarm.volume)
@@ -40,8 +40,12 @@ struct AlarmingScreen: View {
             if(alarmingScreenVm.currentAlarm.isRepeating == false){
                 recorderAlarm.alarmActiveSwitch(alarm: alarmingScreenVm.currentAlarm)
             }
-            audioPlayer.startAlarmSound(audio: alarmingScreenVm.currentAlarm.audioURL!, volume: floatVolume)
             
+            //------------- canceling pending ringing notis ----------------
+            recorderAlarm.cancelRingingPendingAlarms()
+            //--------------------------------------------------------------
+            
+            audioPlayer.startAlarmSound(audio: alarmingScreenVm.currentAlarm.audioURL!, volume: floatVolume)
         }).sheet(isPresented: self.$showModal) {
             AfterAlarmScreen(isDay: isDay)
         }

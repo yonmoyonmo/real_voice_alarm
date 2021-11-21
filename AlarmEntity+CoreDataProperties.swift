@@ -2,7 +2,7 @@
 //  AlarmEntity+CoreDataProperties.swift
 //  real_voice_alarm
 //
-//  Created by yonmo on 2021/11/06.
+//  Created by yonmo on 2021/11/21.
 //
 //
 
@@ -19,12 +19,12 @@ extension AlarmEntity {
     @NSManaged public var audioName: String?
     @NSManaged public var audioURL: URL?
     @NSManaged public var fireAt: Date?
+    @NSManaged public var isActive: Bool
     @NSManaged public var isDay: Bool
     @NSManaged public var repeatingDays: [Int]
     @NSManaged public var tagName: String?
     @NSManaged public var uuid: String?
     @NSManaged public var volume: Double
-    @NSManaged public var isActive: Bool
     @NSManaged public var isRepeating: Bool
 
 }
