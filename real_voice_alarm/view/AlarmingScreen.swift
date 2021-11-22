@@ -49,7 +49,7 @@ struct AlarmingScreen: View {
                 }).padding()
                 
                 Button(action: {
-                    snoozeMinutes += 5
+                    snoozeMinutes -= 5
                 }, label: {
                     Image(systemName: "minus")
                 }).padding()
