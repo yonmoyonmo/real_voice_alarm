@@ -43,13 +43,17 @@ struct AlarmingScreen: View {
                 }
                 
                 Button(action: {
-                    snoozeMinutes += 5
+                    if(snoozeMinutes < 61){
+                        snoozeMinutes += 5
+                    }
                 }, label: {
                     Image(systemName: "plus")
                 }).padding()
                 
                 Button(action: {
-                    snoozeMinutes -= 5
+                    if(snoozeMinutes > 0){
+                        snoozeMinutes -= 5
+                    }
                 }, label: {
                     Image(systemName: "minus")
                 }).padding()
