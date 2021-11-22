@@ -122,7 +122,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         }
         print("---------------------------------------------------------------------------")
         
-        completionHandler(.banner)
+        completionHandler(.list)
     }
     
     //background, when touch the noti bar

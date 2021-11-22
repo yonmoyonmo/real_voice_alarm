@@ -100,9 +100,8 @@ class RecorderAlarm: ObservableObject {
             notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: intRepeatingDays, semaphore: semaphore)
             semaphore.wait()
             
-            debugPendingAlarms(semaphore:semaphore)
-            
-            semaphore.wait()
+//            debugPendingAlarms(semaphore:semaphore)
+//            semaphore.wait()
             
             print("next line of semaphore wait")
             notificationManager.scheduleAlarm(
@@ -112,9 +111,8 @@ class RecorderAlarm: ObservableObject {
                 id: alarm.uuid!
             )
             
-            debugPendingAlarms(semaphore:semaphore)
-            
-            semaphore.wait()
+//            debugPendingAlarms(semaphore:semaphore)
+//            semaphore.wait()
             print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxß")
         }
         print("------------------------- alarm updated and re-scheduled -------------------------")
@@ -144,9 +142,8 @@ class RecorderAlarm: ObservableObject {
             notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: intRepeatingDays ,semaphore: semaphore)
             semaphore.wait()
             
-            debugPendingAlarms(semaphore:semaphore)
-            
-            semaphore.wait()
+//            debugPendingAlarms(semaphore:semaphore)
+//            semaphore.wait()
             
             notificationManager.scheduleRepeatingAlarms(
                 dates: fireAtList,
@@ -154,9 +151,9 @@ class RecorderAlarm: ObservableObject {
                 id: alarm.uuid!,
                 audioName: audioName)
             
-            debugPendingAlarms(semaphore:semaphore)
+//            debugPendingAlarms(semaphore:semaphore)
+//            semaphore.wait()
             
-            semaphore.wait()
             print("xxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxß")
         }
         print("------------------------- alarms updated and re-scheduled -------------------------")
@@ -241,10 +238,20 @@ class RecorderAlarm: ObservableObject {
         var newId = ""
         center.getDeliveredNotifications(completionHandler: { deliverdNotis in
             if deliverdNotis.isEmpty{
-                print("empty deliverd")
+                print("there's no deliverd noti")
             }else{
                 //있다면 @를 뗀다
                 firstDeliverdAlarmId = deliverdNotis[0].request.identifier
+                
+                if(firstDeliverdAlarmId.contains("#")){
+                    let deviderIndex:String.Index = firstDeliverdAlarmId.firstIndex(of: "#")!
+                    firstDeliverdAlarmId = String(firstDeliverdAlarmId[...deviderIndex])
+                    print("\(firstDeliverdAlarmId) sex")
+                    if let i = firstDeliverdAlarmId.firstIndex(of: "#"){
+                        firstDeliverdAlarmId.remove(at: i)
+                    }
+                    print("\(firstDeliverdAlarmId) after sex")
+                }
                 
                 if firstDeliverdAlarmId.contains("@"){
                     let deviderIndex:String.Index = firstDeliverdAlarmId.firstIndex(of: "@")!
@@ -256,8 +263,7 @@ class RecorderAlarm: ObservableObject {
                 }else{
                     newId = firstDeliverdAlarmId
                 }
-                print("[ remaining deliverd noti ]")
-                print(newId)
+                print("[ remaining deliverd noti : \(newId)]")
                 DispatchQueue.main.async{
                     self.isFiring = true
                     self.firingAlarmId = newId
@@ -290,7 +296,7 @@ class RecorderAlarm: ObservableObject {
                     pendingAlarmsDates.append(request.content.userInfo)
                 }
             }
-            print("IN setLastingTimeOfNext :: \(pendingAlarmsDates) and now id :: \(nowDateComponents)")
+            //print("IN setLastingTimeOfNext :: \(pendingAlarmsDates) and now id :: \(nowDateComponents)")
             //setTargets
             for pendingAlarmsDate in pendingAlarmsDates {
                 let targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
@@ -400,6 +406,15 @@ class RecorderAlarm: ObservableObject {
             }
             semaphore.signal()
         })
+    }
+    
+    func snoozeAlarm(alarm:AlarmEntity, snoozeMimutes:Int){
+        let id = alarm.uuid!
+        let todayNow = Date()
+        let tagName = alarm.tagName!
+        let audioName = alarm.audioName!
+        let fireAt = Calendar.current.date(byAdding: .minute, value: snoozeMimutes, to: todayNow)!
+        notificationManager.scheduleAlarm(tagName: tagName, fireAt: fireAt, audioName:audioName , id: id)
     }
 }
 
