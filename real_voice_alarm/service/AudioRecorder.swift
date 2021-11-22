@@ -100,8 +100,8 @@ class AudioRecorder: NSObject, ObservableObject {
             print("delete Recordeing debug : \(url)")
             do{
                 try FileManager.default.removeItem(at: url)
-            }catch{
-                print("File Could not be deleted")
+            }catch let error{
+                print("File Could not be deleted : \(error)")
             }
         }
         fatchRecordings()

@@ -24,7 +24,6 @@ struct VoiceAlarmHome: View {
                     AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
                     AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
                         .onAppear(perform: {
-                            print("VoiceAlarmHome's getAalrms")
                             vm.getAlarms()
                         })
                 }

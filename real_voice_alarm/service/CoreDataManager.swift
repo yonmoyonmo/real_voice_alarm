@@ -27,7 +27,7 @@ class CoreDataManager {
     func save(savedAlarmName: String) {
         do{
             try context.save()
-            print("\(savedAlarmName) is saved")
+            //print("\(savedAlarmName) is saved")
         }catch let error {
             print("core data manager save error : \(error.localizedDescription)")
         }

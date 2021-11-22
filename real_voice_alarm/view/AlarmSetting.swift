@@ -86,7 +86,6 @@ struct AlarmSetting: View {
                         Button(action: {
                             if(audioURL==nil){
                                 print("오디오 유알엘 없는 경우에 예외처리 하라")
-                                print("AlarmSetting's getAalrms")
                                 vm.getAlarms()
                                 self.presentationMode.wrappedValue.dismiss()
                                 return
@@ -108,7 +107,6 @@ struct AlarmSetting: View {
                                                                   audioURL: audioURL!,
                                                                   volume: volume,
                                                                   repeatingDays : repeatDays)
-                                print("AlarmSetting's getAalrms")
                                 vm.getAlarms()
                                 recorderAlarm.setLastingTimeOfNext()
                                 
@@ -121,7 +119,6 @@ struct AlarmSetting: View {
                                                         volume: volume,
                                                         repeatingDays : repeatDays
                                 )
-                                print("AlarmSetting's getAalrms")
                                 vm.getAlarms()
                                 recorderAlarm.setLastingTimeOfNext()
                                 

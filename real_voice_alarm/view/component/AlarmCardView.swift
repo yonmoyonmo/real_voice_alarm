@@ -48,7 +48,6 @@ struct AlarmCard: View {
             VStack(alignment: .center) {
                 HStack{
                     Toggle("", isOn: $alarmToggle).onChange(of: alarmToggle){ value in
-                        print("toggled the alarm switch \(value)")
                         recorderAlarm.switchScheduledAlarms(isOn: value, alarm: alarm)
                     }.toggleStyle(SwitchToggleStyle(tint: .black)).padding(5)
                 }
@@ -61,7 +60,6 @@ struct AlarmCard: View {
                     Menu{
                         Button(action: {
                             recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
-                            print("AlarmCardView's getAalrms")
                             viewModel.getAlarms()
                         }, label: {
                             Text("알람 삭제")
@@ -115,7 +113,6 @@ struct addNewCardCard: View{
         VStack(alignment: .center) {
             Button(
                 action: {
-                    print("alarm setting modal")
                     self.showAddAlarmModal.toggle()
                 }
             ){

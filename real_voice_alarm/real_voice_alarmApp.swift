@@ -24,14 +24,13 @@ struct real_voice_alarmApp: App {
         }.onChange(of: scenePhase, perform:{ phase in
             switch phase{
             case .active:
-                print("active")
                 DispatchQueue.main.async {
                     appDelegate.recorderAlarm.checkCurrentDeliverdAlarmId()
                 }
             case .background:
-                print("background")
+                print("app goes to background")
             case .inactive:
-                print("inactive")
+                print("app is now inactive")
             @unknown default: print("ScenePhase: unexpected state")
             }
         })
@@ -44,7 +43,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     let notificationManager = NotificationManager.instance
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        print("app launched")
+        print("------------------------< App Launched >------------------------")
         
         //노티피케이션 델리게이트 등록
         UNUserNotificationCenter.current().delegate = self
@@ -71,7 +70,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                 print("\(documentDirectory.absoluteString) dose not exists. creating directory.")
                 try fileManager.createDirectory(at: documentDirectory, withIntermediateDirectories: false, attributes: nil)
             }catch let e{
-                print(e.localizedDescription)
+                print("error in making directory \(e.localizedDescription)")
             }
         }
         //-------------------------------//
@@ -84,18 +83,15 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                                 withCompletionHandler completionHandler:
                                 @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        print("+++++++++++++++++++++++++++++++++++++++")
-        print("foreground notification received")
+        print("-------------------------[ foreground notification received ]-------------------------")
         
         let originalId:String = notification.request.identifier
-        print("\(originalId) it's original")
-        
         var shopRemovedId:String = ""
         var atRemovedId:String = ""
         
         //#으로 구분된 것 짤라주기
         if(originalId.contains("#")){
-            print("foreground noti contains # \(originalId)")
+            print("foreground noti contains '#' \(originalId)")
             let deviderIndex:String.Index = originalId.firstIndex(of: "#")!
             shopRemovedId = String(originalId[...deviderIndex])
             
@@ -103,7 +99,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                 shopRemovedId.remove(at: i)
             }
             
-            print("foreground noti # removed \(shopRemovedId)")
+            print("foreground noti '#' removed \(shopRemovedId)")
         }else{
             shopRemovedId = originalId
         }
@@ -111,9 +107,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         if shopRemovedId.contains("@"){
             let deviderIndex:String.Index = shopRemovedId.firstIndex(of: "@")!
             atRemovedId = String(shopRemovedId[...deviderIndex])
-            
-            
-            
             if let i = atRemovedId.firstIndex(of: "@"){
                 atRemovedId.remove(at: i)
             }
@@ -127,54 +120,43 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             recorderAlarm.isFiring = true
             recorderAlarm.firingAlarmId = shopRemovedId
         }
-        print("+++++++++++++++++++++++++++++++++++++++")
+        print("---------------------------------------------------------------------------")
         
-        //list가 뭔지 아직 모름
-        completionHandler(.list)
+        completionHandler(.banner)
     }
     
     //background, when touch the noti bar
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("##########################")
-        print("background noti received")
+        print("-------------------------[ background noti received ]-------------------------")
         
         let originalId:String = response.notification.request.identifier
-        
         var shopRemovedId:String = ""
         var atRemovedId:String = ""
         
         //#으로 구분된 것 짤라주기
         if(originalId.contains("#")){
-            print("backgrond noti contains # \(originalId)")
+            print("backgrond noti contains '#' \(originalId)")
             let deviderIndex:String.Index = originalId.firstIndex(of: "#")!
             shopRemovedId = String(originalId[...deviderIndex])
-            
             if let i = shopRemovedId.firstIndex(of: "#"){
                 shopRemovedId.remove(at: i)
             }
-            
-            print("backgrond noti # removed \(shopRemovedId)")
+            print("backgrond noti '#' removed \(shopRemovedId)")
         }else{
             shopRemovedId = originalId
         }
         
         
         if shopRemovedId.contains("@"){
-            print("backgrond noti contains @ \(shopRemovedId)")
-            
-            recorderAlarm.repeatingAlarmId = shopRemovedId
-            
             let deviderIndex:String.Index = shopRemovedId.firstIndex(of: "@")!
             atRemovedId = String(shopRemovedId[...deviderIndex])
             
             if let i = atRemovedId.firstIndex(of: "@"){
                 atRemovedId.remove(at: i)
             }
-            
-            print("backgrond noti @ removed \(atRemovedId)")
-            
+            recorderAlarm.repeatingAlarmId = shopRemovedId
             recorderAlarm.isFiring = true
             recorderAlarm.firingAlarmId = atRemovedId
         }else{
@@ -183,10 +165,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             recorderAlarm.isFiring = true
             recorderAlarm.firingAlarmId = shopRemovedId
         }
-        print("##########################")
+        print("---------------------------------------------------------------------------")
         
         completionHandler()
     }
     
 }
-//0DAB73A4-2490-455F-91E2-73D1FAA6C925

@@ -19,7 +19,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
     
     
     func startAlarmSound(audio: URL, volume: Float){
-        print("============= startAlarmSound debug ================")
+        //print("============= startAlarmSound debug ================")
         let playbackSession = AVAudioSession.sharedInstance()
         do{
             try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
@@ -28,7 +28,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
         }
         
         do{
-            print("let's play alarm sound at \(audio)")
+            //print("let's play alarm sound at \(audio)")
             audioPlayer = try AVAudioPlayer.init(contentsOf: audio)
             
             audioPlayer?.delegate = self
@@ -47,8 +47,8 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
         
         do{
             try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
-        }catch{
-            print("Playing over the device's speakers failed")
+        }catch let error{
+            print("Playing over the device's speakers failed : \(error)")
         }
         
         do{
@@ -56,7 +56,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
             audioPlayer?.delegate = self
             audioPlayer?.play()
             isPlaying = true
-            print("playing playback")
+            //print("playing playback")
         }catch let Error{
             print(" playback failed :\(Error.localizedDescription)")
         }
@@ -68,7 +68,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
             isPlaying = false
             print("stopped")
         }else{
-            print("notplaying")
+            print("it's not playing")
             return
         }
     }

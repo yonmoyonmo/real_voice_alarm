@@ -45,13 +45,15 @@ struct AlarmEdit: View {
                         Button(action: {
                             if(audioURLEditted==nil){
                                 print("오디오 유알엘 없는 경우에 예외처리 하라")
-                                print("AlarmEdit's getAalrms")
                                 vm.getAlarms()
                                 self.presentationMode.wrappedValue.dismiss()
                                 return
                             }
                             //save alarm
                             if(!repeatDaysEditted.isEmpty){
+                                
+                                print("debug in Alarm Edit repeatDaysEditted : \(repeatDaysEditted)")
+                                
                                 var weekDayFireAtSet:[Date] = []
                                 let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAtEditted)
                                 
@@ -64,6 +66,7 @@ struct AlarmEdit: View {
                                     )
                                 }
                                 //반복알람 업데이트
+                                print("반복이다 \(weekDayFireAtSet), \(repeatDaysEditted)")
                                 recorderAlarm.updateRepeatingAlarms(
                                     alarm: alarm,
                                     tagName: tagNameEditted,
@@ -73,11 +76,11 @@ struct AlarmEdit: View {
                                     volume: volumeEditted,
                                     repeatingDays : repeatDaysEditted
                                 )
-                                print("AlarmEdit's getAalrms")
                                 vm.getAlarms()
                                 self.presentationMode.wrappedValue.dismiss()
                             }else{
                                 //반복알람 아닌 경우의 업데이트
+                                print("반복이 아니다 \(fireAtEditted), \(repeatDaysEditted)")
                                 recorderAlarm.updateAlarm(
                                     alarm: alarm,
                                     tagName: tagNameEditted,
@@ -87,7 +90,6 @@ struct AlarmEdit: View {
                                     volume: volumeEditted,
                                     repeatingDays : repeatDaysEditted
                                 )
-                                print("AlarmEdit's getAalrms")
                                 vm.getAlarms()
                                 self.presentationMode.wrappedValue.dismiss()
                             }

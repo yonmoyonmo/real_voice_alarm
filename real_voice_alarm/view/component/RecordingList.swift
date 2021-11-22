@@ -46,21 +46,18 @@ struct RecordingRow: View{
                 .onTapGesture {
                     audioURLforSave = audioURLforShow
                     audioName = audioURLforShow.lastPathComponent
-                    print($audioName)
                     presentationMode.wrappedValue.dismiss()
                 }
             
             Spacer()
             if audioPlayer.isPlaying == false {
                 Button(action: {
-                    print("playing")
                     audioPlayer.startPlayback(audio: self.audioURLforShow)
                 }){
                     Image(systemName: "play.circle").imageScale(.large)
                 }
             }else{
                 Button(action: {
-                    print("stop playing")
                     audioPlayer.stopPlayback()
                 }){
                     Image(systemName: "stop.fill").imageScale(.large)

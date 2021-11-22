@@ -49,7 +49,7 @@ class RecorderAlarm: ObservableObject {
         
         notificationManager.scheduleAlarm(tagName: tagName, fireAt: fireAt, audioName: audioName, id: id.uuidString)
         coreDataManager.save(savedAlarmName: tagName)
-        print("alarm saved and sheduled")
+        print("------------------------- alarm saved and sheduled -------------------------")
     }
     
     func saveRepeatingAlarms(tagName:String, fireAtList: [Date], audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]){
@@ -89,21 +89,35 @@ class RecorderAlarm: ObservableObject {
         let intRepeatingDays:[Int] = []
         alarm.repeatingDays = intRepeatingDays
         alarm.isDay = isDay(fireAt: fireAt)
+        alarm.isRepeating = false
         
-        print("\(tagName) is now updating...")
+        print("------------------------- \(tagName) is now updating... -------------------------")
         coreDataManager.save(savedAlarmName: tagName)
         
         if(alarm.isActive){
-            print("re-schedule updated alarm")
-            notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: intRepeatingDays)
+            print("------------------------- re-schedule updated alarm -------------------------")
+            let semaphore = DispatchSemaphore(value: 0)
+            notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: intRepeatingDays, semaphore: semaphore)
+            semaphore.wait()
+            
+            debugPendingAlarms(semaphore:semaphore)
+            
+            semaphore.wait()
+            
+            print("next line of semaphore wait")
             notificationManager.scheduleAlarm(
                 tagName: tagName,
                 fireAt: fireAt,
                 audioName: audioName,
                 id: alarm.uuid!
             )
+            
+            debugPendingAlarms(semaphore:semaphore)
+            
+            semaphore.wait()
+            print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxß")
         }
-        print("alarm updated and re-scheduled")
+        print("------------------------- alarm updated and re-scheduled -------------------------")
     }
     
     func updateRepeatingAlarms(alarm: AlarmEntity,tagName:String, fireAtList: [Date], audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]){
@@ -119,30 +133,49 @@ class RecorderAlarm: ObservableObject {
             intRepeatingDays.append(repeatingDay.intName)
         }
         alarm.repeatingDays = intRepeatingDays
+        alarm.isRepeating = true
         
-        print("\(tagName) is now updating...")
+        print("------------------------- \(tagName) is now updating... -------------------------")
         coreDataManager.save(savedAlarmName: tagName)
         
         if(alarm.isActive){
-            print("re-schedule updated alarms")
-            notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: intRepeatingDays)
+            print("------------------------- re-schedule updated alarms -------------------------")
+            let semaphore = DispatchSemaphore(value: 0)
+            notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: intRepeatingDays ,semaphore: semaphore)
+            semaphore.wait()
+            
+            debugPendingAlarms(semaphore:semaphore)
+            
+            semaphore.wait()
+            
             notificationManager.scheduleRepeatingAlarms(
                 dates: fireAtList,
                 tagName: tagName,
                 id: alarm.uuid!,
                 audioName: audioName)
+            
+            debugPendingAlarms(semaphore:semaphore)
+            
+            semaphore.wait()
+            print("xxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxß")
         }
-        print("alarms updated and re-scheduled")
+        print("------------------------- alarms updated and re-scheduled -------------------------")
     }
     
     func deleteAlarm(id:String, repeatingDays:[Int]){
         //아이디로 알람데이터와 노티를 찾아 갈 수 있음
         //알람 삭제하고, 스케쥴 된 노티 삭제
+        print("------------------------- deleteAlarm called -------------------------")
         coreDataManager.deleteTargetEntity(id: id)
-        notificationManager.cancelNotification(id: id, repeatingDays: repeatingDays)
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        notificationManager.cancelNotification(id: id, repeatingDays: repeatingDays, semaphore: semaphore)
+        semaphore.wait()
+        print("\(id) is deleted")
     }
     
     func alarmActiveSwitch(alarm:AlarmEntity){
+        print("------------------------- alarmActiveSwitch called -------------------------")
         if(alarm.isActive){
             //turn it false
             alarm.isActive = false
@@ -155,6 +188,7 @@ class RecorderAlarm: ObservableObject {
     }
     
     func switchScheduledAlarms(isOn: Bool, alarm: AlarmEntity){
+        print("------------------------- switchScheduledAlarms called -------------------------")
         if(isOn){
             //turn on
             if(alarm.repeatingDays != []){
@@ -187,7 +221,9 @@ class RecorderAlarm: ObservableObject {
         }else{
             //turn off
             //그냥 모조리 스케쥴 빼버리긔
-            notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
+            let semaphore = DispatchSemaphore(value: 0)
+            notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: alarm.repeatingDays, semaphore: semaphore)
+            semaphore.wait()
             //isActive = false
             alarmActiveSwitch(alarm: alarm)
             setLastingTimeOfNext()
@@ -195,6 +231,11 @@ class RecorderAlarm: ObservableObject {
     }
     
     func checkCurrentDeliverdAlarmId(){
+        print("------------------------- checkCurrentDeliverdAlarmId called -------------------------")
+        let semaphore = DispatchSemaphore(value: 0)
+        debugPendingAlarms(semaphore: semaphore)
+        semaphore.wait()
+        
         let center = UNUserNotificationCenter.current()
         var firstDeliverdAlarmId:String = ""
         var newId = ""
@@ -226,13 +267,13 @@ class RecorderAlarm: ObservableObject {
     }
     
     func removeDeliverdAlarms(){
-        print("remove all delived alarms")
+        print("------------------------- removeDeliverdAlarms called -------------------------")
+        
         let center = UNUserNotificationCenter.current()
         center.removeAllDeliveredNotifications()
     }
     
     func setLastingTimeOfNext(){
-        print("====== debug set lasting time of next ======")
         let center = UNUserNotificationCenter.current()
         
         let now = Date()
@@ -249,7 +290,7 @@ class RecorderAlarm: ObservableObject {
                     pendingAlarmsDates.append(request.content.userInfo)
                 }
             }
-            //print(pendingAlarmsDates)
+            print("IN setLastingTimeOfNext :: \(pendingAlarmsDates) and now id :: \(nowDateComponents)")
             //setTargets
             for pendingAlarmsDate in pendingAlarmsDates {
                 let targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
@@ -276,6 +317,7 @@ class RecorderAlarm: ObservableObject {
                 var nowMinute = nowDateComponents.minute!
                 let nowHour = nowDateComponents.hour!
                 
+                print("same weekday ====> pending::=> \(targetHour):\(targetMinute) VS NOW::=>\(nowHour):\(nowMinute)")
                 var i = 0
                 while(i < targetHour){
                     i += 1
@@ -317,7 +359,6 @@ class RecorderAlarm: ObservableObject {
                 for pendingAlarmsDate in pendingAlarmsDates {
                     var targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
                     //오늘과 가장 가까운 다음 날을 찾아야하는디...
-                    //그것은 바로... 7과 오늘 사이라면 차이가 제일 작은 것 1과 오늘 사이라면 차이가 제일 큰것...
                     if(targetWeekday <= nowDateComponents.weekday!){
                         targetWeekday = targetWeekday + 7
                     }
@@ -334,19 +375,31 @@ class RecorderAlarm: ObservableObject {
                     self.minute = 0
                     self.hour = 0
                 }
-                print("setLastingTimeOfNext done!")
                 return
             }
         })
     }
  
     func cancelRingingPendingAlarms(){
+        print("------------------------- cancelRingingPendingAlarms called -------------------------")
+        
         if(self.repeatingAlarmId == ""){
             //노 반복 알람의 경우 고냥 아이디를 넘긴다.
             notificationManager.cancelRingNotis(id: firingAlarmId)
         }else{
             notificationManager.cancelRingNotis(id: repeatingAlarmId)
         }
+    }
+    
+    func debugPendingAlarms(semaphore: DispatchSemaphore){
+        print("------------------------- debugPendingAlarms called -------------------------")
+        let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests(completionHandler: { requests in
+            for request in requests {
+                print("\(request.identifier)")
+            }
+            semaphore.signal()
+        })
     }
 }
 

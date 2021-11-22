@@ -20,17 +20,24 @@ class NotificationManager{
         let options: UNAuthorizationOptions = [.alert, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: options) { (success, error) in
             if let error = error {
-                print("Error \(error)")
+                print("Error in requestAuthorization \(error)")
             }else{
-                print("success")
+                print("requestAuthorization success")
             }
         }
     }
     
     func scheduleAlarm(tagName:String, fireAt: Date, audioName: String, id: String) {
+        print("=================== scheduleAlarm called ===================")
         
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .weekday, .second], from: fireAt)
+        print("===== main alarm id \(id) =====")
+        var dateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: fireAt)
         dateComponents.second = 0
+        
+        let now = Date()
+        let nowDateComponents = Calendar.current.dateComponents([.weekday], from: now)
+        
+        dateComponents.weekday = nowDateComponents.weekday!
         
         let content = UNMutableNotificationContent()
         content.title = "Motivoice is arrived"
@@ -43,7 +50,7 @@ class NotificationManager{
             "minute":"\(dateComponents.minute!)"
         ]
         
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         
         let request = UNNotificationRequest(identifier: id,
                                             content: content,
@@ -54,6 +61,10 @@ class NotificationManager{
                 print("schedule alarm error : \(error)")
             }
         }
+        
+        //debug
+        print("debug : \(id) => \(dateComponents) => scheduled successfully")
+        print("===== main alarm is scheduled =====")
         
         //let's make this alarm ringing!
         var ringingDateComponent  = dateComponents
@@ -71,7 +82,7 @@ class NotificationManager{
             ringingContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
             ringingContent.userInfo = [:]
             
-            let rigingTrigger = UNCalendarNotificationTrigger(dateMatching: ringingDateComponent, repeats: false)
+            let rigingTrigger = UNCalendarNotificationTrigger(dateMatching: ringingDateComponent, repeats: true)
             
             let ringingRequest = UNNotificationRequest(identifier: ringingId, content: ringingContent, trigger: rigingTrigger)
             
@@ -82,18 +93,21 @@ class NotificationManager{
             }
             print("\(i) : debug ringing: \(ringingId) => \(ringingDateComponent) => scheduled successfully")
         }
-        
+        print("===== main alarm's ringing pendings are scheduled =====")
     }
     
     //리피팅 알람 세팅
     func scheduleRepeatingAlarms(dates: [Date],tagName:String, id:String, audioName:String) {
+        print("=================== scheduleRepeatingAlarms called ===================")
+        print("===== main alarm id \(id) =====")
+        
         var componentsToSaveList:[DateComponents] = []
         let content = UNMutableNotificationContent()
         
         for date in dates {
             componentsToSaveList.append(Calendar.current.dateComponents([.weekday,.hour,.minute,.second, .year], from: date))
         }
-        
+        var j = 1
         for var componentsToSave in componentsToSaveList {
             let repeatingId = RepeatDays(rawValue: componentsToSave.weekday!)?.fullName
             let devider:String = "@"
@@ -120,6 +134,9 @@ class NotificationManager{
                 }
             }
             
+            print("[ \(j) ] :===== main alarm is scheduled =====")
+            j += 1
+            
             var ringingDateComponent  = componentsToSave
             var intervalSecond = 0
             
@@ -144,39 +161,37 @@ class NotificationManager{
                         print("schedule alarm error : \(error)")
                     }
                 }
-                print("\(i) : debug ringing: \(ringingId) => \(ringingDateComponent) => scheduled successfully")
+                print("\(i): ===== main alarm's ringing pendings are scheduled =====")
             }
             
         }
     }
     
-    func cancelNotification(id:String, repeatingDays:[Int]) {
-        var ids:[String] = [id]
-        if(!repeatingDays.isEmpty){
-            for repeatingDay in repeatingDays {
-                let devider = "@"
-                let repeatingId:String = id+devider+RepeatDays(rawValue: repeatingDay)!.fullName
-                ids.append(repeatingId)
-                
-                var theInterval = 0
-                for i in 0..<8{
-                    theInterval += 7
-                    let ringingId:String = "\(repeatingId)#\(theInterval)"
-                    ids.append(ringingId)
-                    print("\(i) : debug => cancel Notis with # => \(ringingId)")
+    func cancelNotification(id:String, repeatingDays:[Int], semaphore:DispatchSemaphore) {
+        print("=================== cancelNotification called ===================")
+        var ids:[String] = []
+        let center = UNUserNotificationCenter.current()
+        
+        center.getPendingNotificationRequests(completionHandler: { requests in
+            
+            for request in requests {
+                if(request.identifier.contains("\(id)")){
+                    ids.append(request.identifier)
                 }
             }
-        }
-        
-        print("for canceling : \(ids)")
-        
-        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ids)
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
-        print("alarm id \(id) is unscheduled")
+            
+            center.removeDeliveredNotifications(withIdentifiers: ids)
+            center.removePendingNotificationRequests(withIdentifiers: ids)
+            print("canceled notis : \(ids)")
+            semaphore.signal()
+            print("next line of semaphore signal")
+        })
     }
+
+
     
     func cancelRingNotis(id:String){
-        print("debug : cancel ringing pendings => \(id)")
+        //print("debug : cancel ringing pendings => \(id)")
         
         var ids:[String] = []
         
@@ -190,7 +205,7 @@ class NotificationManager{
             }
             UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ids)
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
-            print("\(ids) are canceled")
+            print("\(ids) notis for ringing are canceled")
         })
     }
     

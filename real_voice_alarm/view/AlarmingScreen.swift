@@ -30,7 +30,6 @@ struct AlarmingScreen: View {
         }){
             Text("dismiss")
         }.onAppear(perform: {
-            print("debug ringing \(recorderAlarm.firingAlarmId)")
             alarmingScreenVm.getCurrentAlarm(id: recorderAlarm.firingAlarmId)
             
             let floatVolume = Float(alarmingScreenVm.currentAlarm.volume)

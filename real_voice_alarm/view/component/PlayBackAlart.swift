@@ -25,14 +25,12 @@ struct PlayBackAlart<Presenting>: View where Presenting: View {
                     
                     if audioPlayer.isPlaying == false {
                         Button(action: {
-                            print("playing")
                             audioPlayer.startPlayback(audio: self.audioURL!)
                         }){
                             Image(systemName: "play.circle").imageScale(.medium).font(.system(size: 30.0, weight: .bold))
                         }
                     }else{
                         Button(action: {
-                            print("stop playing")
                             audioPlayer.stopPlayback()
                         }){
                             Image(systemName: "stop.fill").imageScale(.medium).font(.system(size: 30.0, weight: .bold))
