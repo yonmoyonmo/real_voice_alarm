@@ -14,7 +14,6 @@ struct AlarmSetting: View {
     @ObservedObject var audioRecorder: AudioRecorder = AudioRecorder()
     let audioPlayer: AudioPlayer = AudioPlayer.instance
     let recorderAlarm: RecorderAlarm = RecorderAlarm.instance
-    let semaphore = DispatchSemaphore(value: 0)
     //-----------------------------------------
     @State var tagName: String = "태그 없음"
     @State var fireAt: Date = Date()
@@ -27,13 +26,10 @@ struct AlarmSetting: View {
     @State var audioData: [String:Any] = [:]
     @State var fileName: String = "제목 없음"
     //----------------------------------------
-    @State var isShowingAlert: Bool = false
     @State var isPlayBack: Bool = false
     @State var isShowingTagNameEditAlert:Bool = false
     //-----------------------------------------
-    
     var isDay:Bool
-    
     var DaydateClosedRange: ClosedRange<Date> {
         
         var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
@@ -51,7 +47,6 @@ struct AlarmSetting: View {
         
         return min...max
     }
-    
     var NightdateClosedRange: ClosedRange<Date> {
         
         var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
@@ -113,8 +108,9 @@ struct AlarmSetting: View {
         }
     }
     
-    //예외처리 잔뜩 해야한다.
-    //일단 이름짓는 것들 길이제한부터
+    //예외처리 해야할 것
+    //텍스트 입력 부분 전부 길이 제한 알럿
+    //오디오 URL 없는 경우 알럿
     
     var body: some View {
         NavigationView{
@@ -218,7 +214,6 @@ struct AlarmSetting: View {
                                 .padding(.bottom, 40)
                         }.padding()
                     }
-                    Text("\(audioName)")
                     Spacer()
                 }//vStackend
             }//scroll view end
