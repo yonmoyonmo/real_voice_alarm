@@ -12,6 +12,8 @@ import AVFoundation
 
 class AudioRecorder: NSObject, ObservableObject {
     
+    static let instance = AudioRecorder()
+    
     override init() {
         super.init()
         fatchRecordings()
@@ -46,8 +48,9 @@ class AudioRecorder: NSObject, ObservableObject {
         var documentPath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
         documentPath = documentPath.appendingPathComponent("Sounds")
         
-        audioFilename = documentPath.appendingPathComponent("\(title).m4a")
-        audioName = "\(title).m4a"
+        let nowDate = Date()
+        audioFilename = documentPath.appendingPathComponent("\(title)_\(nowDate).m4a")
+        audioName = "\(title)_\(nowDate).m4a"
         
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -74,6 +77,36 @@ class AudioRecorder: NSObject, ObservableObject {
         audioData["audioName"] = self.audioName
         audioData["audioURL"] = self.audioFilename
         return audioData
+    }
+    
+    
+    func changeAudioFileName(audioName: String, audioURL: URL?){
+        do{
+            let fileManager = FileManager.default
+            var documentDirectory = fileManager.urls(for: .libraryDirectory, in: .userDomainMask)[0]
+            documentDirectory = documentDirectory.appendingPathComponent("Sounds")
+            
+            let originalFile:URL = audioURL!
+            
+            var newAudioFilename:URL
+            if(audioName.count < 4){
+                newAudioFilename = documentDirectory.appendingPathComponent("\(audioName).m4a")
+            }else{
+                let index = audioName.index(audioName.endIndex, offsetBy: -4)
+                let extensionString = audioName[index...]
+                print(extensionString)
+                if(extensionString != ".m4a"){
+                    newAudioFilename = documentDirectory.appendingPathComponent("\(audioName).m4a")
+                }else{
+                    newAudioFilename = documentDirectory.appendingPathComponent("\(audioName)")
+                }
+            }
+            print("new file name : \(newAudioFilename)")
+            try fileManager.moveItem(at: originalFile, to: newAudioFilename)
+        }catch let error{
+            print("changeAudioFileName :\(error)")
+        }
+        
     }
     
     func fatchRecordings() {

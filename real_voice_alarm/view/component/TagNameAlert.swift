@@ -1,13 +1,14 @@
 //
-//  TextFieldAlert.swift
+//  tagNameAlert.swift
 //  real_voice_alarm
 //
-//  Created by yonmo on 2021/11/08.
+//  Created by yonmo on 2021/11/23.
 //
 
+import Foundation
 import SwiftUI
 
-struct TextFieldAlert<Presenting>: View where Presenting: View {
+struct TagNameAlert<Presenting>: View where Presenting: View {
     @Binding var isShowing: Bool
     @Binding var text: String
     let presenting: Presenting
@@ -20,7 +21,7 @@ struct TextFieldAlert<Presenting>: View where Presenting: View {
                     .disabled(isShowing)
                 VStack {
                     Text(self.title)
-                    TextField("녹음 파일의 이름을 입력하시오", text: self.$text)
+                    TextField("알람의 태그를 입력하세요", text: self.$text)
                     Divider()
                     HStack {
                         if(text != "default"){
@@ -34,7 +35,7 @@ struct TextFieldAlert<Presenting>: View where Presenting: View {
                         }else{
                             Button(action: {
                             }) {
-                                Text("이름을 지어주셈")
+                                Text("태그네임을 제발 입력하세요 진짜 부탁입니다.")
                             }
                         }
                     }

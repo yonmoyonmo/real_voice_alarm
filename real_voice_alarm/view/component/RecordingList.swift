@@ -18,6 +18,9 @@ struct RecordingsList: View {
             ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
                 RecordingRow(audioURLforShow: recording.fileURL, audioURLforSave: $audioURL, audioName: $audioName)
             }.onDelete(perform: delete)
+                .onAppear(perform: {
+                    audioRecorder.fatchRecordings()
+                })
         }
     }
     

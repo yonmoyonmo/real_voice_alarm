@@ -14,7 +14,7 @@ struct AlarmEdit: View {
     @ObservedObject var audioRecorder: AudioRecorder = AudioRecorder()
     let audioPlayer: AudioPlayer = AudioPlayer()
     let recorderAlarm: RecorderAlarm = RecorderAlarm.instance
-    
+    let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
     //args------------------------------------
     var alarm: AlarmEntity
     @State var tagNameEditted: String
@@ -170,8 +170,8 @@ struct AlarmEdit: View {
                     
                 }.padding()
             }
-            .textFieldAlert(isShowing: $isShowingAlart, text: $fileName, title: "녹음 파일 이름을 입력하세오")
-            .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURLEditted)
+            .tagNameAlert(isShowing: $isShowingAlart, text: $tagNameEditted, title:"알람의 태그를 입력하세요")
+            .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURLEditted, audioName: $audioNameEditted)
             .navigationBarHidden(true)
         }
         

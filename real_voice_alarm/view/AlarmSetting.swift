@@ -14,21 +14,22 @@ struct AlarmSetting: View {
     @ObservedObject var audioRecorder: AudioRecorder = AudioRecorder()
     let audioPlayer: AudioPlayer = AudioPlayer.instance
     let recorderAlarm: RecorderAlarm = RecorderAlarm.instance
-    
+    let semaphore = DispatchSemaphore(value: 0)
     //-----------------------------------------
-    @State var tagName: String = "default"
+    @State var tagName: String = "태그 없음"
     @State var fireAt: Date = Date()
     @State var repeatDays: [RepeatDays] = []
     
-    @State var audioName: String = "default"
+    @State var audioName: String = "선택된 목소리 없음"
     @State var audioURL: URL?
     @State private var volume: Double = 10
     
     @State var audioData: [String:Any] = [:]
-    @State var fileName: String = "default"
+    @State var fileName: String = "제목 없음"
     //----------------------------------------
-    @State var isShowingAlart: Bool = false
+    @State var isShowingAlert: Bool = false
     @State var isPlayBack: Bool = false
+    @State var isShowingTagNameEditAlert:Bool = false
     //-----------------------------------------
     
     var isDay:Bool
@@ -69,8 +70,52 @@ struct AlarmSetting: View {
         return min...max
     }
     
+    func saveAlarm(){
+        if(audioURL==nil){
+            print("오디오 유알엘 없는 경우에 예외처리 하라")
+            vm.getAlarms()
+            self.presentationMode.wrappedValue.dismiss()
+            return
+        }
+        //save alarm
+        if(!repeatDays.isEmpty){
+            var weekDayFireAtSet:[Date] = []
+            let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAt)
+            for repeatDay in repeatDays {
+                weekDayFireAtSet.append(createDate(weekday: repeatDay.intName,
+                                                   hour:components.hour!,
+                                                   minute:components.minute! ,
+                                                   year: components.year!
+                                                  ))
+            }
+            recorderAlarm.saveRepeatingAlarms(tagName: tagName,
+                                              fireAtList: weekDayFireAtSet,
+                                              audioName: audioName,
+                                              audioURL: audioURL!,
+                                              volume: volume,
+                                              repeatingDays : repeatDays)
+            vm.getAlarms()
+            recorderAlarm.setLastingTimeOfNext()
+            
+            self.presentationMode.wrappedValue.dismiss()
+        }else{
+            recorderAlarm.saveAlarm(tagName: tagName,
+                                    fireAt: fireAt,
+                                    audioName: audioName,
+                                    audioURL: audioURL!,
+                                    volume: volume,
+                                    repeatingDays : repeatDays
+            )
+            vm.getAlarms()
+            recorderAlarm.setLastingTimeOfNext()
+            
+            self.presentationMode.wrappedValue.dismiss()
+        }
+    }
+    
     //예외처리 잔뜩 해야한다.
     //일단 이름짓는 것들 길이제한부터
+    
     var body: some View {
         NavigationView{
             ScrollView{
@@ -84,108 +129,79 @@ struct AlarmSetting: View {
                         Spacer()
                         //완료 버튼 : 알람 데이터 저장 + 스케쥴링
                         Button(action: {
-                            if(audioURL==nil){
-                                print("오디오 유알엘 없는 경우에 예외처리 하라")
-                                vm.getAlarms()
-                                self.presentationMode.wrappedValue.dismiss()
-                                return
-                            }
-                            //save alarm
-                            if(!repeatDays.isEmpty){
-                                var weekDayFireAtSet:[Date] = []
-                                let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAt)
-                                for repeatDay in repeatDays {
-                                    weekDayFireAtSet.append(createDate(weekday: repeatDay.intName,
-                                                                       hour:components.hour!,
-                                                                       minute:components.minute! ,
-                                                                       year: components.year!
-                                                                      ))
-                                }
-                                recorderAlarm.saveRepeatingAlarms(tagName: tagName,
-                                                                  fireAtList: weekDayFireAtSet,
-                                                                  audioName: audioName,
-                                                                  audioURL: audioURL!,
-                                                                  volume: volume,
-                                                                  repeatingDays : repeatDays)
-                                vm.getAlarms()
-                                recorderAlarm.setLastingTimeOfNext()
-                                
-                                self.presentationMode.wrappedValue.dismiss()
-                            }else{
-                                recorderAlarm.saveAlarm(tagName: tagName,
-                                                        fireAt: fireAt,
-                                                        audioName: audioName,
-                                                        audioURL: audioURL!,
-                                                        volume: volume,
-                                                        repeatingDays : repeatDays
-                                )
-                                vm.getAlarms()
-                                recorderAlarm.setLastingTimeOfNext()
-                                
-                                self.presentationMode.wrappedValue.dismiss()
-                            }
+                            saveAlarm()
                         }, label:{
                             Text("완료").padding()
                         })
                     }
                     //데이트 피커
-                    if(isDay == true){
-                        DatePicker("", selection: $fireAt, in: DaydateClosedRange, displayedComponents: .hourAndMinute)
-                            .datePickerStyle(.wheel).padding()
-                    }else{
-                        DatePicker("", selection: $fireAt, in: NightdateClosedRange, displayedComponents: .hourAndMinute)
-                            .datePickerStyle(.wheel).padding()
-                    }
-                    
+                    GroupBox{
+                        if(isDay == true){
+                            DatePicker("", selection: $fireAt, in: DaydateClosedRange, displayedComponents: .hourAndMinute)
+                                .datePickerStyle(.wheel)
+                        }else{
+                            DatePicker("", selection: $fireAt, in: NightdateClosedRange, displayedComponents: .hourAndMinute)
+                                .datePickerStyle(.wheel)
+                        }
+                    }.frame(width: (UIScreen.screenWidth)-40)
                     
                     //요일 반복
-                    RepeatDaysSettingView(repeatDays: $repeatDays).padding()
+                    GroupBox(label: Label("요일반복", systemImage: "calendar")){
+                        RepeatDaysSettingView(repeatDays: $repeatDays).padding(5)
+                    }.frame(width: (UIScreen.screenWidth)-40)
                     
-                    TextField("알람의 이름을 입력하시오", text: $tagName).padding().textFieldStyle(.roundedBorder)
+                    GroupBox{
+                        HStack{
+                            Label("태그", systemImage: "tag.fill")
+                            Spacer()
+                            Text("\(tagName)").onTapGesture {
+                                isShowingTagNameEditAlert.toggle()
+                            }
+                        }
+                    }.frame(width: (UIScreen.screenWidth)-40)
                     
-                    NavigationLink(destination: RecordingsList(audioRecorder: audioRecorder,audioName:$audioName, audioURL:$audioURL)) {
-                        Text("현재 목소리 : \(audioName)").foregroundColor(.black)
-                        Spacer()
-                        Text("목소리 고르기").bold()
-                    }.padding()
-                
+                    GroupBox{
+                        HStack{
+                            Image(systemName: "speaker.wave.3.fill")
+                            //volume slider
+                            Slider(value: $volume, in: 0...20, step: 0.1)
+                        }
+                        Divider()
+                        HStack{
+                            Text("현재 목소리 : \(audioName)").foregroundColor(.black)
+                            Spacer()
+                            NavigationLink(destination: RecordingsList(
+                                audioRecorder: audioRecorder,
+                                audioName:$audioName,
+                                audioURL:$audioURL)
+                            ){
+                                Text("목소리 고르기").bold()
+                            }
+                        }
+                        
+                    }.frame(width: (UIScreen.screenWidth)-40).padding(.horizontal)
+                    
+                    
 
                     //@@@@@@@@@<< recorder  >>@@@@@@@@@@@@@@//
-                    //volume slider
-                    Slider(value: $volume, in: 0...20, step: 0.1).padding()
-                    
                     if(audioRecorder.recording == true){
-                        Image(systemName: "waveform.path").font(.system(size: 40, weight: .bold)).foregroundColor(.red)
+                        Image("recording").frame(width: (UIScreen.screenWidth)-40)
                     }else{
-                        Image(systemName: "waveform.path.ecg").font(.system(size: 40, weight: .bold)).foregroundColor(.black)
+                        Image("notRecording").frame(width: (UIScreen.screenWidth)-40)
                     }
-                    
                     if audioRecorder.recording == false {
-                        if fileName == "default" {
-                            Button(action: {
-                                isShowingAlart.toggle()
-                            }) {
-                                Image(systemName: "pencil.circle")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 70, height: 70)
-                                    .clipped()
-                                    .foregroundColor(.red)
-                                    .padding(.bottom, 40)
-                            }.padding()
-                        }else{
-                            Button(action: {
-                                audioRecorder.startRecording(title: "\(fileName)")
-                            }) {
-                                Image(systemName: "circle.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 70, height: 70)
-                                    .clipped()
-                                    .foregroundColor(.red)
-                                    .padding(.bottom, 40)
-                            }.padding()
-                        }
+                        Button(action: {
+                            audioRecorder.startRecording(title: "\(fileName)")
+                        }) {
+                            Image(systemName: "circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 70, height: 70)
+                                .clipped()
+                                .foregroundColor(.red)
+                                .padding(.bottom, 40)
+                        }.padding()
+                        
                     }else{
                         Button(action: {
                             audioData = audioRecorder.stopRecording()
@@ -202,18 +218,38 @@ struct AlarmSetting: View {
                                 .padding(.bottom, 40)
                         }.padding()
                     }
+                    Text("\(audioName)")
                     Spacer()
-                }//vstack end
+                }//vStackend
             }//scroll view end
-            .textFieldAlert(isShowing: $isShowingAlart, text: $fileName, title: "녹음 파일 이름을 입력하세오")
-            .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURL)
+            .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName, title:"알람의 태그를 입력하세요")
+            .playBackAlert(isShowing: $isPlayBack,
+                           audioPlayer: self.audioPlayer,
+                           audioURL: $audioURL,
+                           audioName:$audioName)
             .navigationBarHidden(true)
         }//navi view end
     }
 }
 
-//struct AlarmSetting_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AlarmSetting()
+struct AlarmSetting_Previews: PreviewProvider {
+    static var previews: some View {
+        AlarmSetting(isDay: false)
+    }
+}
+
+extension UIScreen{
+   static let screenWidth = UIScreen.main.bounds.size.width
+   static let screenHeight = UIScreen.main.bounds.size.height
+   static let screenSize = UIScreen.main.bounds.size
+}
+
+//struct MyGroupBoxStyle: GroupBoxStyle {
+//    func makeBody(configuration: Configuration) -> some View {
+//        configuration.content
+//            .frame(maxWidth: .infinity)
+//            .padding()
+//            .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
+//            .overlay(configuration.label.padding(.leading, 4), alignment: .topLeading)
 //    }
 //}

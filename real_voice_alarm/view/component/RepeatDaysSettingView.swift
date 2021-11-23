@@ -67,60 +67,66 @@ struct RepeatDaysSettingView: View {
     var body: some View {
         HStack{
             //----------//
-            if selectedSun {
-                Button(action: {
-                    if let index = repeatDays.firstIndex(of: .sunday){
-                        repeatDays.remove(at: index)
-                    }
-                    selectedSun.toggle()
-                }, label: {
-                    Text("일").foregroundColor(.red)
-                })
-            }else{
-                Button(action: {
-                    repeatDays.append(.sunday)
-                    selectedSun.toggle()
-                }, label: {
-                    Text("일")
-                })
+            Group{
+                if selectedSun {
+                    Button(action: {
+                        if let index = repeatDays.firstIndex(of: .sunday){
+                            repeatDays.remove(at: index)
+                        }
+                        selectedSun.toggle()
+                    }, label: {
+                        Text("일").foregroundColor(.red)
+                    })
+                }else{
+                    Button(action: {
+                        repeatDays.append(.sunday)
+                        selectedSun.toggle()
+                    }, label: {
+                        Text("일")
+                    })
+                }
+                Spacer()
+                //----------//
+                if selectedMon {
+                    Button(action: {
+                        if let index = repeatDays.firstIndex(of: .monday){
+                            repeatDays.remove(at: index)
+                        }
+                        selectedMon.toggle()
+                    }, label: {
+                        Text("월").foregroundColor(.red)
+                    })
+                }else{
+                    Button(action: {
+                        repeatDays.append(.monday)
+                        selectedMon.toggle()
+                    }, label: {
+                        Text("월")
+                    })
+                }
+                Spacer()
+                //----------//
+                if selectedTue {
+                    Button(action: {
+                        if let index = repeatDays.firstIndex(of: .tuesday){
+                            repeatDays.remove(at: index)
+                        }
+                        selectedTue.toggle()
+                    }, label: {
+                        Text("화").foregroundColor(.red)
+                    })
+                }else{
+                    Button(action: {
+                        repeatDays.append(.tuesday)
+                        selectedTue.toggle()
+                    }, label: {
+                        Text("화")
+                    })
+                }
+                Spacer()
+                //----------//
             }
-            //----------//
-            if selectedMon {
-                Button(action: {
-                    if let index = repeatDays.firstIndex(of: .monday){
-                        repeatDays.remove(at: index)
-                    }
-                    selectedMon.toggle()
-                }, label: {
-                    Text("월").foregroundColor(.red)
-                })
-            }else{
-                Button(action: {
-                    repeatDays.append(.monday)
-                    selectedMon.toggle()
-                }, label: {
-                    Text("월")
-                })
-            }
-            //----------//
-            if selectedTue {
-                Button(action: {
-                    if let index = repeatDays.firstIndex(of: .tuesday){
-                        repeatDays.remove(at: index)
-                    }
-                    selectedTue.toggle()
-                }, label: {
-                    Text("화").foregroundColor(.red)
-                })
-            }else{
-                Button(action: {
-                    repeatDays.append(.tuesday)
-                    selectedTue.toggle()
-                }, label: {
-                    Text("화")
-                })
-            }
-            //----------//
+            
             if selectedWed {
                 Button(action: {
                     if let index = repeatDays.firstIndex(of: .wednesday){
@@ -138,6 +144,7 @@ struct RepeatDaysSettingView: View {
                     Text("수")
                 })
             }
+            Spacer()
             //----------//
             if selectedThu {
                 Button(action: {
@@ -156,6 +163,7 @@ struct RepeatDaysSettingView: View {
                     Text("목")
                 })
             }
+            Spacer()
             //----------//
             if selectedFri {
                 Button(action: {
@@ -174,6 +182,7 @@ struct RepeatDaysSettingView: View {
                     Text("금")
                 })
             }
+            Spacer()
             //----------//
             if selectedSat {
                 Button(action: {
@@ -193,7 +202,8 @@ struct RepeatDaysSettingView: View {
                 })
             }
             
-        }.onAppear(){
+        }
+        .onAppear(){
             setForEdit()
         }
     }
