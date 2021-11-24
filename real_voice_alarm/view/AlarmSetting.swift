@@ -164,14 +164,14 @@ struct AlarmSetting: View {
                         }
                         Divider()
                         HStack{
-                            Text("현재 목소리 : \(audioName)").foregroundColor(.black)
+                            Text("\(audioName)").foregroundColor(.black)
                             Spacer()
                             NavigationLink(destination: RecordingsList(
                                 audioRecorder: audioRecorder,
                                 audioName:$audioName,
                                 audioURL:$audioURL)
                             ){
-                                Text("목소리 고르기").bold()
+                                Image(systemName: "mic.fill.badge.plus").font(.system(size:20, weight: .bold))
                             }
                         }
                         
@@ -216,7 +216,7 @@ struct AlarmSetting: View {
                     }
                     Spacer()
                 }//vStackend
-            }//scroll view end
+            }.background(Color.mainGrey.edgesIgnoringSafeArea(.all))//scroll view end
             .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName, title:"알람의 태그를 입력하세요")
             .playBackAlert(isShowing: $isPlayBack,
                            audioPlayer: self.audioPlayer,

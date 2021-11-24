@@ -14,24 +14,49 @@ struct AfterAlarmScreen: View {
     var isDay:Bool
     
     var body: some View {
-        if(isDay){
-            Text("저녁에 새로 만들어 보시던가요").padding()
-            AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
-        }else{
-            AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
-            Text("낮에 새로 만들어 보시던가요").padding()
+        GeometryReader { geometry in
+            ZStack {
+                Image("Filter40A")
+                    .resizable()
+                    .aspectRatio(geometry.size, contentMode: .fill)
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack(alignment: .center, spacing: 30){
+                    Text("오늘 하루,").font(.system(size: 25, weight: .bold)).foregroundColor(Color.white)
+                    Text("너무 고생 많았어요 :)").font(.system(size: 25, weight: .bold)).foregroundColor(Color.white)
+                    if(isDay){
+                        VStack{
+                            Text("오늘 저녁의 나에게 해주고 싶은 말을 지금 녹음해봐요!")
+                                .font(.system(size: 21, weight: .bold))
+                                .padding()
+                                .frame(width: 300, height: 100, alignment: .center)
+                                .background(Rectangle().fill(Color.white).opacity(0.4).shadow(radius: 5, x:0, y:5))
+                                .cornerRadius(20)
+                                
+                            
+                            AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
+                        }
+                    }else{
+                        VStack{
+                            AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
+                            
+                            Text("내일 아침의 나에게 해주고 싶은 말을 지금 녹음해봐요!")
+                                .font(.system(size: 21, weight: .bold))
+                                .padding()
+                                .frame(width: 300, height: 100 ,alignment: .center)
+                                .background(Rectangle().fill(Color.white).opacity(0.4).shadow(radius: 5, x:0, y:5))
+                                .cornerRadius(20)
+                                
+                        }
+                    }
+                    Button(action: {
+                        recorderAlarm.isFiring = false
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image(systemName: "house.circle.fill").font(.system(size:50, weight: .bold)).foregroundColor(Color.white).padding()
+                    })
+                }
+            }
         }
-        Button(action: {
-            recorderAlarm.isFiring = false
-            self.presentationMode.wrappedValue.dismiss()
-        }, label: {
-            Text("돌아가기")
-        })
     }
 }
-
-//struct AfterAlarmScreen_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AfterAlarmScreen()
-//    }
-//}

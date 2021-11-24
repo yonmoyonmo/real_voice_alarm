@@ -109,7 +109,7 @@ struct AlarmEdit: View {
                     }.frame(width: (UIScreen.screenWidth)-40)
                     
                     //repeating days
-                    GroupBox{
+                    GroupBox(label: Label("요일반복", systemImage: "calendar")){
                         RepeatDaysSettingView(repeatDays: $repeatDaysEditted).padding(5)
                     }.frame(width: (UIScreen.screenWidth)-40)
                     
@@ -133,14 +133,14 @@ struct AlarmEdit: View {
                         }
                         Divider()
                         HStack{
-                            Text("현재 목소리 : \(audioNameEditted)").foregroundColor(.black)
+                            Text("\(audioNameEditted)").foregroundColor(.black)
                             Spacer()
                             NavigationLink(destination: RecordingsList(
                                 audioRecorder: audioRecorder,
                                 audioName:$audioNameEditted,
                                 audioURL:$audioURLEditted)
                             ){
-                                Text("목소리 고르기").bold()
+                                Image(systemName: "mic.fill.badge.plus").font(.system(size:20, weight: .bold))
                             }
                         }
                         
@@ -184,7 +184,7 @@ struct AlarmEdit: View {
                     }
                     Spacer()
                 }
-            }
+            }.background(Color.mainGrey.edgesIgnoringSafeArea(.all))
             .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagNameEditted, title:"알람의 태그를 입력하세요")
             .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURLEditted, audioName: $audioNameEditted)
             .navigationBarHidden(true)

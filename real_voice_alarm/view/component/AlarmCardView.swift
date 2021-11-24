@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+//let cardWidth = 320.0
+//let cardHeight = 213.34
+//let cardRadius = 10.0
+//let shadowX = 0.0
+//let shadowY = 4.0
+let cardWidth = CGFloat(320.0)
+let cardHeight = CGFloat(213.34)
+let cardRadius = CGFloat(10.0)
+let shadowX = CGFloat(0.0)
+let shadowY = CGFloat(4.0)
+
 struct AlarmCardView: View {
     @Binding var alarms:[AlarmEntity]
     @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
@@ -16,7 +27,7 @@ struct AlarmCardView: View {
         ScrollView(.horizontal, showsIndicators: false, content: {
             HStack(){
                 ForEach($alarms){$alarm in
-                    AlarmCard(alarm: $alarm, alarmToggle: alarm.isActive)
+                    AlarmCard(alarm: $alarm, alarmToggle: alarm.isActive, isDay:isDay)
                 }
                 addNewCardCard(isDay: self.isDay)
             }
@@ -30,8 +41,10 @@ struct AlarmCard: View {
     let recorderAlarm = RecorderAlarm.instance
     
     @State var alarmToggle:Bool
-    
     @State var showEditAlarmModal:Bool = false
+    @State var deleteAlert:Bool = false
+    
+    var isDay:Bool
     
     func intRepeatingDaysToEnumSet(repeatingDays: [Int]) ->[RepeatDays] {
         var result:[RepeatDays] = []
@@ -44,63 +57,90 @@ struct AlarmCard: View {
     
     var body: some View{
         if(alarm.tagName != nil){
-            
             VStack(alignment: .center) {
+                
                 HStack{
-                    Toggle("", isOn: $alarmToggle).onChange(of: alarmToggle){ value in
+                    Toggle("", isOn: $alarmToggle).toggleStyle(SwitchToggleStyle(tint: .white.opacity(0.8)))
+                        .onChange(of: alarmToggle){ value in
                         recorderAlarm.switchScheduledAlarms(isOn: value, alarm: alarm)
-                    }.toggleStyle(SwitchToggleStyle(tint: .black)).padding(5)
-                }
+                    }
+                }.padding(15)
+                
                 HStack{
                     VStack{
-                        Text(alarm.tagName!)
                         Text(alarm.fireAt!, style: .time)
-                            .font(.largeTitle)
+                            .font(.system(size: 40, weight: .bold)).tracking(2).foregroundColor(.white)
+                        Label{
+                            Text(alarm.tagName!).font(.system(size: 20, weight: .bold)).tracking(2).foregroundColor(.white)
+                        } icon:{
+                            Image(systemName:"tag.fill").foregroundColor(.white)
+                        }
+                        
                     }
-                    Menu{
-                        Button(action: {
+                    
+                    //delete
+                    Button(action: {
+                        deleteAlert.toggle()
+                    }, label: {
+                        Image(systemName: "trash").font(.system(size: 25, weight: .bold)).foregroundColor(.white)
+                    }).alert(isPresented: $deleteAlert) {
+                        Alert(title: Text("알람 삭제"), message: Text("진짜 삭제하나여?"),
+                              primaryButton: .default(Text("진짜 삭제"), action: {
                             recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
                             viewModel.getAlarms()
-                        }, label: {
-                            Text("알람 삭제")
-                        })
-                    } label:{
-                        Image(systemName: "pencil").font(.system(.largeTitle)).foregroundColor(.black)
+                        }), secondaryButton: .cancel(Text("아니염"))
+                        )
                     }
+
+                    //edit alarm
+                    Button(action: {
+                        self.showEditAlarmModal.toggle()
+                    }, label: {
+                        Image(systemName: "pencil").font(.system(size: 25, weight: .bold)).foregroundColor(.white)
+                    }).sheet(isPresented: self.$showEditAlarmModal) {
+                        AlarmEdit(
+                            alarm: self.alarm,
+                            tagNameEditted: self.alarm.tagName!,
+                            fireAtEditted: self.alarm.fireAt!,
+                            repeatDaysEditted: intRepeatingDaysToEnumSet(repeatingDays: self.alarm.repeatingDays),
+                            audioNameEditted: self.alarm.audioName!,
+                            audioURLEditted: self.alarm.audioURL!,
+                            volumeEditted: self.alarm.volume
+                        )
+                    }
+                    
                 }
-                //edit alarm
-                Button(action: {
-                    self.showEditAlarmModal.toggle()
-                }, label: {
-                    Text("알람 편집")
-                }).sheet(isPresented: self.$showEditAlarmModal) {
-                    AlarmEdit(
-                        alarm: self.alarm,
-                        tagNameEditted: self.alarm.tagName!,
-                        fireAtEditted: self.alarm.fireAt!,
-                        repeatDaysEditted: intRepeatingDaysToEnumSet(repeatingDays: self.alarm.repeatingDays),
-                        audioNameEditted: self.alarm.audioName!,
-                        audioURLEditted: self.alarm.audioURL!,
-                        volumeEditted: self.alarm.volume
-                    )
-                }
+                Spacer()
+                //반복
                 if (!alarm.repeatingDays.isEmpty){
-                    HStack{
+                    HStack(alignment: .center){
                         ForEach(alarm.repeatingDays, id: \.self){ repeatDay in
                             Text(RepeatDays(rawValue: repeatDay)!.shortName)
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundColor(Color.white)
                         }
-                    }
+                    }.frame(width: cardWidth, height: CGFloat(48.0)).background(Color.mainGrey.opacity(0.5))
                 }else{
-                    Text("반복 없음")
+                    HStack(alignment: .center){
+                        Text("반복 없음")
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(Color.white)
+                    }.frame(width: cardWidth, height: CGFloat(48.0)).background(Color.mainGrey.opacity(0.5))
                 }
             }
-            .frame(width: 250, height: 180, alignment: .top)
-            .cornerRadius(10)
-            .overlay(RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.black, lineWidth: 4))
+            .background(isDay == true ?
+                        Image("CardAD").resizable().scaledToFill()
+                            .frame(width: cardWidth, height: cardHeight, alignment: .top).opacity(0.8)
+                        :
+                            Image("CardAN").resizable().scaledToFill()
+                            .frame(width: cardWidth, height: cardHeight, alignment: .top).opacity(0.8)
+            )
+            .frame(width: cardWidth, height: cardHeight)
+            .cornerRadius(cardRadius)
+            .shadow(radius: cardRadius, x: shadowX, y: shadowY)
             .padding()
+            
         }
-        
     }
 }
 
@@ -116,19 +156,24 @@ struct addNewCardCard: View{
                     self.showAddAlarmModal.toggle()
                 }
             ){
-                Image(systemName: "plus.circle.fill").frame(width:250, height: 180, alignment: .center)
+                Image(systemName: "plus.circle.fill").frame(width:cardWidth, height: cardHeight, alignment: .center)
                     .foregroundColor(.black)
-                    .font(.system(size: 56.0, weight: .bold))
+                    .font(.system(size: 65.0, weight: .bold))
             }
             .sheet(isPresented: self.$showAddAlarmModal) {
                 AlarmSetting(isDay: self.isDay)
             }
         }
-        .frame(width: 250, height: 180, alignment: .top)
-        .cornerRadius(10)
-        .overlay(RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.black, lineWidth: 4))
+        .background(Color.lighterGrey.opacity(0.5))
+        .frame(width: cardWidth, height: cardHeight)
+        .cornerRadius(cardRadius)
+        .shadow(radius: cardRadius, x: shadowX, y: shadowY)
         .padding()
     }
 }
 
+extension  Color {
+    static let mainGrey = Color("mainGrey")
+    static let mainBlue = Color("mainBlue")
+    static let lighterGrey = Color("lighterGrey")
+}
