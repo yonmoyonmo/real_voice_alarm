@@ -12,7 +12,7 @@ struct PlayBackAlart<Presenting>: View where Presenting: View {
     @Binding var isShowing: Bool
     @Binding var audioURL: URL?
     @Binding var audioName:String
-
+    
     let presenting: Presenting
     
     let audioPlayer: AudioPlayer
@@ -46,7 +46,10 @@ struct PlayBackAlart<Presenting>: View where Presenting: View {
                     Divider()
                     HStack {
                         Button(action: {
-                            audioRecorder.changeAudioFileName(audioName: audioName, audioURL: audioURL)
+                            let audioData = audioRecorder.changeAudioFileName(audioName: audioName, audioURL: audioURL)
+                            audioName = audioData["audioNewName"] as! String
+                            audioURL = audioData["audioNewURL"] as? URL
+                            
                             audioRecorder.fatchRecordings()
                             withAnimation {
                                 self.isShowing.toggle()

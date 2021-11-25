@@ -34,7 +34,7 @@ func createDate(weekday: Int, hour: Int, minute: Int, year: Int)->Date{
 func isDay(fireAt: Date)->Bool{
     let calendar = Calendar.current
     let hour = calendar.component(.hour, from: fireAt)
-    if 12 < hour {
+    if 12 <= hour {
         return false
     }else {
         return true

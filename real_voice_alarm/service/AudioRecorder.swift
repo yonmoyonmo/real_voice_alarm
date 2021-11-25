@@ -80,33 +80,37 @@ class AudioRecorder: NSObject, ObservableObject {
     }
     
     
-    func changeAudioFileName(audioName: String, audioURL: URL?){
+    func changeAudioFileName(audioName: String, audioURL: URL?) -> [String:Any]{
+        var result:[String:Any] = [:]
+        
         do{
             let fileManager = FileManager.default
             var documentDirectory = fileManager.urls(for: .libraryDirectory, in: .userDomainMask)[0]
             documentDirectory = documentDirectory.appendingPathComponent("Sounds")
             
-            let originalFile:URL = audioURL!
+            let originalFileURL:URL = audioURL!
             
-            var newAudioFilename:URL
+            var newAudioFileURL:URL
+            
             if(audioName.count < 4){
-                newAudioFilename = documentDirectory.appendingPathComponent("\(audioName).m4a")
+                newAudioFileURL = documentDirectory.appendingPathComponent("\(audioName).m4a")
             }else{
                 let index = audioName.index(audioName.endIndex, offsetBy: -4)
                 let extensionString = audioName[index...]
-                print(extensionString)
                 if(extensionString != ".m4a"){
-                    newAudioFilename = documentDirectory.appendingPathComponent("\(audioName).m4a")
+                    newAudioFileURL = documentDirectory.appendingPathComponent("\(audioName).m4a")
                 }else{
-                    newAudioFilename = documentDirectory.appendingPathComponent("\(audioName)")
+                    newAudioFileURL = documentDirectory.appendingPathComponent("\(audioName)")
                 }
             }
-            print("new file name : \(newAudioFilename)")
-            try fileManager.moveItem(at: originalFile, to: newAudioFilename)
+            try fileManager.moveItem(at: originalFileURL, to: newAudioFileURL)
+            
+            result["audioNewName"] = audioName
+            result["audioNewURL"] = newAudioFileURL
         }catch let error{
             print("changeAudioFileName :\(error)")
         }
-        
+        return result
     }
     
     func fatchRecordings() {

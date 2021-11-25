@@ -1,18 +1,16 @@
 //
-//  tagNameAlert.swift
+//  AudioURLExceptionAlert.swift
 //  real_voice_alarm
 //
-//  Created by yonmo on 2021/11/23.
+//  Created by yonmo on 2021/11/25.
 //
 
 import Foundation
 import SwiftUI
 
-struct TagNameAlert<Presenting>: View where Presenting: View {
+struct AudioURLExceptionAlert<Presenting>: View where Presenting: View {
     @Binding var isShowing: Bool
-    @Binding var text: String
     let presenting: Presenting
-    let title: String
 
     var body: some View {
         GeometryReader { (deviceSize: GeometryProxy) in
@@ -20,8 +18,7 @@ struct TagNameAlert<Presenting>: View where Presenting: View {
                 self.presenting
                     .disabled(isShowing)
                 VStack {
-                    Text(self.title).font(.system(size:18, weight: .bold))
-                    TextField("알람의 태그를 입력하세요", text: self.$text).textFieldStyle(.roundedBorder)
+                    Text("목소리 없인 알람을 만들 수 없어요!")
                     Divider()
                     HStack {
                         Button(action: {
@@ -29,24 +26,15 @@ struct TagNameAlert<Presenting>: View where Presenting: View {
                                 self.isShowing.toggle()
                             }
                         }) {
-                            Text("완료")
+                            Text("넵")
                         }
-                        
-                        Spacer()
-                        Button(action: {
-                            withAnimation {
-                                self.isShowing.toggle()
-                            }
-                        }) {
-                            Text("취소")
-                        }
-                        
                     }
-                }.padding(30)
+                }
+                .padding()
                 .background(Color.white)
                 .frame(
                     width: deviceSize.size.width*0.7,
-                    height: deviceSize.size.height*0.9
+                    height: deviceSize.size.height*0.7
                 )
                 .shadow(radius: 1)
                 .opacity(self.isShowing ? 1 : 0)

@@ -84,11 +84,11 @@ struct AlarmCard: View {
                     }, label: {
                         Image(systemName: "trash").font(.system(size: 25, weight: .bold)).foregroundColor(.white)
                     }).alert(isPresented: $deleteAlert) {
-                        Alert(title: Text("알람 삭제"), message: Text("진짜 삭제하나여?"),
+                        Alert(title: Text("알람 삭제"), message: Text("진짜로 알람을 삭제합니까?"),
                               primaryButton: .default(Text("진짜 삭제"), action: {
                             recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
                             viewModel.getAlarms()
-                        }), secondaryButton: .cancel(Text("아니염"))
+                        }), secondaryButton: .cancel(Text("가짜로입니다."))
                         )
                     }
 

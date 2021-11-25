@@ -28,4 +28,8 @@ extension View {
                        presenting: self,
                        title: title)
     }
+    
+    func audioURLExceptionAlert(isShowing: Binding<Bool>) -> some View {
+        AudioURLExceptionAlert(isShowing: isShowing, presenting: self)
+    }
 }

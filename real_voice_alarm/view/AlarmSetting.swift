@@ -28,6 +28,7 @@ struct AlarmSetting: View {
     //----------------------------------------
     @State var isPlayBack: Bool = false
     @State var isShowingTagNameEditAlert:Bool = false
+    @State var audioURLException:Bool = false
     //-----------------------------------------
     var isDay:Bool
     var DaydateClosedRange: ClosedRange<Date> {
@@ -67,12 +68,24 @@ struct AlarmSetting: View {
     
     func saveAlarm(){
         if(audioURL==nil){
-            print("오디오 유알엘 없는 경우에 예외처리 하라")
-            vm.getAlarms()
-            self.presentationMode.wrappedValue.dismiss()
+            audioURLException.toggle()
             return
         }
         //save alarm
+        if(audioName.count < 4){
+            audioName = "\(audioName).m4a"
+        }else{
+            let index = audioName.index(audioName.endIndex, offsetBy: -4)
+            let extensionString = audioName[index...]
+            if(extensionString != ".m4a"){
+                audioName = "\(audioName).m4a"
+            }else{
+                print(audioName)
+            }
+        }
+        
+        print("debug audio values :\(audioName) || \(audioURL!)")
+        
         if(!repeatDays.isEmpty){
             var weekDayFireAtSet:[Date] = []
             let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAt)
@@ -108,9 +121,6 @@ struct AlarmSetting: View {
         }
     }
     
-    //예외처리 해야할 것
-    //텍스트 입력 부분 전부 길이 제한 알럿
-    //오디오 URL 없는 경우 알럿
     
     var body: some View {
         NavigationView{
@@ -178,7 +188,7 @@ struct AlarmSetting: View {
                     }.frame(width: (UIScreen.screenWidth)-40).padding(.horizontal)
                     
                     
-
+                    
                     //@@@@@@@@@<< recorder  >>@@@@@@@@@@@@@@//
                     if(audioRecorder.recording == true){
                         Image("recording").frame(width: (UIScreen.screenWidth)-40)
@@ -216,13 +226,15 @@ struct AlarmSetting: View {
                     }
                     Spacer()
                 }//vStackend
-            }.background(Color.mainGrey.edgesIgnoringSafeArea(.all))//scroll view end
-            .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName, title:"알람의 태그를 입력하세요")
-            .playBackAlert(isShowing: $isPlayBack,
-                           audioPlayer: self.audioPlayer,
-                           audioURL: $audioURL,
-                           audioName:$audioName)
-            .navigationBarHidden(true)
+            }
+            .background(Color.mainGrey.edgesIgnoringSafeArea(.all))//scroll view end
+                .audioURLExceptionAlert(isShowing: $audioURLException)
+                .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName, title:"알람의 태그를 입력하세요")
+                .playBackAlert(isShowing: $isPlayBack,
+                               audioPlayer: self.audioPlayer,
+                               audioURL: $audioURL,
+                               audioName:$audioName)
+                .navigationBarHidden(true)
         }//navi view end
     }
 }

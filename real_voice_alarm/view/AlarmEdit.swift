@@ -28,6 +28,7 @@ struct AlarmEdit: View {
     //----------------------------------------
     @State var isShowingTagNameEditAlert: Bool = false
     @State var isPlayBack: Bool = false
+    @State var audioURLException:Bool = false
     //----------------------------------------
     
     func updateAlarm(){
@@ -37,7 +38,22 @@ struct AlarmEdit: View {
             self.presentationMode.wrappedValue.dismiss()
             return
         }
+        
         //save alarm
+        if(audioNameEditted.count < 4){
+            audioNameEditted = "\(audioNameEditted).m4a"
+        }else{
+            let index = audioNameEditted.index(audioNameEditted.endIndex, offsetBy: -4)
+            let extensionString = audioNameEditted[index...]
+            if(extensionString != ".m4a"){
+                audioNameEditted = "\(audioNameEditted).m4a"
+            }else{
+                print(audioNameEditted)
+            }
+        }
+        
+        print("debug audio values :\(audioNameEditted) || \(audioURLEditted!)")
+        
         if(!repeatDaysEditted.isEmpty){
             var weekDayFireAtSet:[Date] = []
             let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAtEditted)
@@ -185,9 +201,10 @@ struct AlarmEdit: View {
                     Spacer()
                 }
             }.background(Color.mainGrey.edgesIgnoringSafeArea(.all))
-            .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagNameEditted, title:"알람의 태그를 입력하세요")
-            .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURLEditted, audioName: $audioNameEditted)
-            .navigationBarHidden(true)
+                .audioURLExceptionAlert(isShowing: $audioURLException)
+                .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagNameEditted, title:"알람의 태그를 입력하세요")
+                .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURLEditted, audioName: $audioNameEditted)
+                .navigationBarHidden(true)
         }
         
     }

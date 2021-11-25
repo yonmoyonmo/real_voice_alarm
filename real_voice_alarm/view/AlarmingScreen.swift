@@ -10,7 +10,7 @@ import AVFoundation
 
 struct AlarmingScreen: View {
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
-    @StateObject var alarmingScreenVm: AlarmingScreenViewModel = AlarmingScreenViewModel()
+    @ObservedObject var alarmingScreenVm: AlarmingScreenViewModel = AlarmingScreenViewModel()
     
     let audioPlayer = AudioPlayer.instance
     
@@ -24,10 +24,11 @@ struct AlarmingScreen: View {
         if recorderAlarm.isFiring == false {
             VoiceAlarmHome()
         }
+        
         GeometryReader { geometry in
             VStack(alignment: .center, spacing: 15){
                 Text("나와의 약속을 지킬 때예요!!").font(.system(size: 25, weight: .bold)).foregroundColor(Color.white).padding()
-                Text(alarmingScreenVm.currentAlarm.fireAt!, style: .time)
+                Text(alarmingScreenVm.currentAlarm!.fireAt!, style: .time)
                     .font(.system(size: 40, weight: .bold)).tracking(2).foregroundColor(.white)
                 Spacer()
                 HStack(alignment:.center, spacing: 30){
@@ -59,8 +60,8 @@ struct AlarmingScreen: View {
                         .foregroundColor(.black)
                     
                 }.alert(isPresented: $showSnoozeConfirmAlert){
-                    Alert(title: Text("Alarm Snoozed!"), message: Text("\(snoozeMinutes)분 뒤에 봅시다"), dismissButton: .default(Text("오케이"), action: {
-                        recorderAlarm.snoozeAlarm(alarm: alarmingScreenVm.currentAlarm, snoozeMimutes: snoozeMinutes)
+                    Alert(title: Text("\(snoozeMinutes)분 뒤에 봅시다"), dismissButton: .default(Text("OK").font(.system(size: 20)), action: {
+                        recorderAlarm.snoozeAlarm(alarm: alarmingScreenVm.currentAlarm!, snoozeMimutes: snoozeMinutes)
                         recorderAlarm.isFiring = false
                     }))
                 }.background(Color.white)
@@ -86,27 +87,28 @@ struct AlarmingScreen: View {
                 Spacer()
                 
             }.onAppear(perform: {
-                alarmingScreenVm.getCurrentAlarm(id: recorderAlarm.firingAlarmId)
+                while(alarmingScreenVm.currentAlarm == nil){
+                    alarmingScreenVm.getCurrentAlarm()
+                }
+                print(alarmingScreenVm.currentAlarm!.audioURL!)
                 
-                let floatVolume = Float(alarmingScreenVm.currentAlarm.volume)
+                let floatVolume = Float(alarmingScreenVm.currentAlarm!.volume)
                 
-                self.isDay = alarmingScreenVm.currentAlarm.isDay
+                self.isDay = alarmingScreenVm.currentAlarm!.isDay
                 
                 //------------- canceling pending ringing notis ----------------
                 recorderAlarm.cancelRingingPendingAlarms()
                 //--------------------------------------------------------------
-                
-                audioPlayer.startAlarmSound(audio: alarmingScreenVm.currentAlarm.audioURL!, volume: floatVolume)
+                if(alarmingScreenVm.currentAlarm != nil){
+                    print("sex party")
+                    audioPlayer.startAlarmSound(audio: alarmingScreenVm.currentAlarm!.audioURL!, volume: floatVolume)
+                }else{
+                    print("sex not party")
+                }
             }).sheet(isPresented: self.$showModal) {
                 AfterAlarmScreen(isDay: isDay)
             }
         }
         
-    }
-}
-
-struct AlarmingScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        AlarmingScreen()
     }
 }
