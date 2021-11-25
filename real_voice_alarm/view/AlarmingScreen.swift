@@ -90,8 +90,6 @@ struct AlarmingScreen: View {
                 while(alarmingScreenVm.currentAlarm == nil){
                     alarmingScreenVm.getCurrentAlarm()
                 }
-                print(alarmingScreenVm.currentAlarm!.audioURL!)
-                
                 let floatVolume = Float(alarmingScreenVm.currentAlarm!.volume)
                 
                 self.isDay = alarmingScreenVm.currentAlarm!.isDay
@@ -100,10 +98,8 @@ struct AlarmingScreen: View {
                 recorderAlarm.cancelRingingPendingAlarms()
                 //--------------------------------------------------------------
                 if(alarmingScreenVm.currentAlarm != nil){
-                    print("sex party")
+                    print("now playing this \(alarmingScreenVm.currentAlarm!.audioURL!) if player chrash? its not the URL's fault")
                     audioPlayer.startAlarmSound(audio: alarmingScreenVm.currentAlarm!.audioURL!, volume: floatVolume)
-                }else{
-                    print("sex not party")
                 }
             }).sheet(isPresented: self.$showModal) {
                 AfterAlarmScreen(isDay: isDay)

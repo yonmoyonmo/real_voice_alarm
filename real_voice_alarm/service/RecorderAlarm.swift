@@ -246,11 +246,9 @@ class RecorderAlarm: ObservableObject {
                 if(firstDeliverdAlarmId.contains("#")){
                     let deviderIndex:String.Index = firstDeliverdAlarmId.firstIndex(of: "#")!
                     firstDeliverdAlarmId = String(firstDeliverdAlarmId[...deviderIndex])
-                    print("\(firstDeliverdAlarmId) sex")
                     if let i = firstDeliverdAlarmId.firstIndex(of: "#"){
                         firstDeliverdAlarmId.remove(at: i)
                     }
-                    print("\(firstDeliverdAlarmId) after sex")
                 }
                 
                 if firstDeliverdAlarmId.contains("@"){
