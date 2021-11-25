@@ -13,7 +13,7 @@ struct TagNameAlert<Presenting>: View where Presenting: View {
     @Binding var text: String
     let presenting: Presenting
     let title: String
-
+    
     var body: some View {
         GeometryReader { (deviceSize: GeometryProxy) in
             ZStack {
@@ -29,27 +29,20 @@ struct TagNameAlert<Presenting>: View where Presenting: View {
                                 self.isShowing.toggle()
                             }
                         }) {
-                            Text("완료")
+                            Text("OK").foregroundColor(Color.textBlack)
                         }
                         
-                        Spacer()
-                        Button(action: {
-                            withAnimation {
-                                self.isShowing.toggle()
-                            }
-                        }) {
-                            Text("취소")
-                        }
+                        
                         
                     }
                 }.padding(30)
-                .background(Color.white)
-                .frame(
-                    width: deviceSize.size.width*0.7,
-                    height: deviceSize.size.height*0.9
-                )
-                .shadow(radius: 1)
-                .opacity(self.isShowing ? 1 : 0)
+                    .background(Color.mainGrey)
+                    .frame(
+                        width: deviceSize.size.width*0.7,
+                        height: deviceSize.size.height*0.9
+                    )
+                    .shadow(radius: 1)
+                    .opacity(self.isShowing ? 1 : 0)
             }
         }
     }

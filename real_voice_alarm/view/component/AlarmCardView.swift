@@ -12,9 +12,9 @@ import SwiftUI
 //let cardRadius = 10.0
 //let shadowX = 0.0
 //let shadowY = 4.0
-let cardWidth = CGFloat(320.0)
-let cardHeight = CGFloat(213.34)
-let cardRadius = CGFloat(10.0)
+let cardWidth = CGFloat(UIScreen.screenWidth * 0.8)
+let cardHeight = CGFloat(UIScreen.screenWidth * 0.5)
+let cardRadius = CGFloat(15.0)
 let shadowX = CGFloat(0.0)
 let shadowY = CGFloat(4.0)
 
@@ -84,11 +84,13 @@ struct AlarmCard: View {
                     }, label: {
                         Image(systemName: "trash").font(.system(size: 25, weight: .bold)).foregroundColor(.white)
                     }).alert(isPresented: $deleteAlert) {
-                        Alert(title: Text("알람 삭제"), message: Text("진짜로 알람을 삭제합니까?"),
-                              primaryButton: .default(Text("진짜 삭제"), action: {
-                            recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
-                            viewModel.getAlarms()
-                        }), secondaryButton: .cancel(Text("가짜로입니다."))
+                        Alert(
+                            title: Text("알람 삭제"),
+                            message: Text("진짜로 알람을 삭제합니까?"),
+                            primaryButton: .default(Text("진짜 삭제"), action: {
+                                recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
+                                viewModel.getAlarms()
+                            }), secondaryButton: .cancel(Text("가짜로입니다."))
                         )
                     }
 
@@ -138,7 +140,7 @@ struct AlarmCard: View {
             .frame(width: cardWidth, height: cardHeight)
             .cornerRadius(cardRadius)
             .shadow(radius: cardRadius, x: shadowX, y: shadowY)
-            .padding(.leading, 15)
+            .padding(.leading, 14)
         }
     }
 }
@@ -176,4 +178,6 @@ extension  Color {
     static let mainGrey = Color("mainGrey")
     static let mainBlue = Color("mainBlue")
     static let lighterGrey = Color("lighterGrey")
+    static let textBlack = Color("TextBlack")
+    static let myAccent = Color("MyAccent")
 }

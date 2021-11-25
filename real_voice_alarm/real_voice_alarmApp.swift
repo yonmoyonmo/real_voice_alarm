@@ -12,7 +12,8 @@
  삭제된 알람이 스케쥴에 남아있기도 하네? 시발
  */
 import SwiftUI
-
+import AVFoundation
+//screen size : width == 744.0, height == 1133.0 mini size
 @main
 struct real_voice_alarmApp: App {
     @Environment(\.scenePhase) var scenePhase
@@ -44,7 +45,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("------------------------< App Launched >------------------------")
-        
+        print("screen size : width == \(UIScreen.screenWidth), height == \(UIScreen.screenHeight)")
         //노티피케이션 델리게이트 등록
         UNUserNotificationCenter.current().delegate = self
         
@@ -74,6 +75,14 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             }
         }
         //-------------------------------//
+        
+        do{
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try AVAudioSession.sharedInstance().setActive(true)
+        }catch let error{
+            print("앱델리게이트 거시기 그거 : \(error)")
+        }
+        
         return true
     }
     

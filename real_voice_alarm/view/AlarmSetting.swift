@@ -123,111 +123,117 @@ struct AlarmSetting: View {
     
     
     var body: some View {
-        NavigationView{
-            ScrollView{
-                VStack(alignment: .center) {
-                    HStack(){
-                        Button(action: {
-                            self.presentationMode.wrappedValue.dismiss()
-                        }, label: {
-                            Text("취소").foregroundColor(.black).padding()
-                        })
-                        Spacer()
-                        //완료 버튼 : 알람 데이터 저장 + 스케쥴링
-                        Button(action: {
-                            saveAlarm()
-                        }, label:{
-                            Text("완료").padding()
-                        })
-                    }
-                    //데이트 피커
-                    GroupBox{
-                        if(isDay == true){
-                            DatePicker("", selection: $fireAt, in: DaydateClosedRange, displayedComponents: .hourAndMinute)
-                                .datePickerStyle(.wheel)
-                        }else{
-                            DatePicker("", selection: $fireAt, in: NightdateClosedRange, displayedComponents: .hourAndMinute)
-                                .datePickerStyle(.wheel)
-                        }
-                    }.frame(width: (UIScreen.screenWidth)-40)
-                    
-                    //요일 반복
-                    GroupBox(label: Label("요일반복", systemImage: "calendar")){
-                        RepeatDaysSettingView(repeatDays: $repeatDays).padding(5)
-                    }.frame(width: (UIScreen.screenWidth)-40)
-                    
-                    GroupBox{
-                        HStack{
-                            Label("태그", systemImage: "tag.fill")
-                            Spacer()
-                            Text("\(tagName)").onTapGesture {
-                                isShowingTagNameEditAlert.toggle()
+        GeometryReader { geometry in
+            NavigationView{
+                ScrollView{
+                    Group{
+                        VStack(alignment: .center) {
+                            HStack(){
+                                Button(action: {
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }, label: {
+                                    Text("취소").foregroundColor(Color.textBlack).padding()
+                                })
+                                Spacer()
+                                //완료 버튼 : 알람 데이터 저장 + 스케쥴링
+                                Button(action: {
+                                    saveAlarm()
+                                }, label:{
+                                    Text("완료").padding().foregroundColor(Color.myAccent)
+                                })
                             }
-                        }
-                    }.frame(width: (UIScreen.screenWidth)-40)
-                    
-                    GroupBox{
-                        HStack{
-                            Image(systemName: "speaker.wave.3.fill")
-                            //volume slider
-                            Slider(value: $volume, in: 0...20, step: 0.1)
-                        }
-                        Divider()
-                        HStack{
-                            Text("\(audioName)").foregroundColor(.black)
-                            Spacer()
-                            NavigationLink(destination: RecordingsList(
-                                audioRecorder: audioRecorder,
-                                audioName:$audioName,
-                                audioURL:$audioURL)
-                            ){
-                                Image(systemName: "mic.fill.badge.plus").font(.system(size:20, weight: .bold))
+                            //데이트 피커
+                            GroupBox{
+                                if(isDay == true){
+                                    DatePicker("", selection: $fireAt, in: DaydateClosedRange, displayedComponents: .hourAndMinute)
+                                        .datePickerStyle(.wheel)
+                                }else{
+                                    DatePicker("", selection: $fireAt, in: NightdateClosedRange, displayedComponents: .hourAndMinute)
+                                        .datePickerStyle(.wheel)
+                                }
                             }
+                            
+                            //요일 반복
+                            GroupBox(label: Label("요일반복", systemImage: "calendar")){
+                                RepeatDaysSettingView(repeatDays: $repeatDays).padding(.top, 10)
+                            }
+                            
+                            GroupBox{
+                                HStack{
+                                    Label("태그", systemImage: "tag.fill")
+                                    Spacer()
+                                    Text("\(tagName)").onTapGesture {
+                                        isShowingTagNameEditAlert.toggle()
+                                    }
+                                }
+                            }
+                            
+                            GroupBox{
+                                HStack{
+                                    Image(systemName: "speaker.wave.3.fill")
+                                    //volume slider
+                                    Slider(value: $volume, in: 0...20, step: 0.1)
+                                }
+                                Divider()
+                                HStack{
+                                    Text("\(audioName)")
+                                    Spacer()
+                                    NavigationLink(destination: RecordingsList(
+                                        audioRecorder: audioRecorder,
+                                        audioName:$audioName,
+                                        audioURL:$audioURL)
+                                    ){
+                                        Image(systemName: "mic.fill.badge.plus").font(.system(size:20, weight: .bold)).padding()
+                                    }
+                                }
+                                
+                            }
+                            
+                            
+                            
+                            //@@@@@@@@@<< recorder  >>@@@@@@@@@@@@@@//
+                            if(audioRecorder.recording == true){
+                                Image("recording")
+                            }else{
+                                Image("notRecording")
+                            }
+                            if audioRecorder.recording == false {
+                                Button(action: {
+                                    audioRecorder.startRecording(title: "\(fileName)")
+                                }) {
+                                    Image(systemName: "circle.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 70, height: 70)
+                                        .clipped()
+                                        .foregroundColor(.red)
+                                }
+                                
+                            }else{
+                                Button(action: {
+                                    audioData = audioRecorder.stopRecording()
+                                    audioName = audioData["audioName"] as! String
+                                    audioURL = audioData["audioURL"] as? URL
+                                    isPlayBack.toggle()
+                                }) {
+                                    Image(systemName: "stop.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 70, height: 70)
+                                        .clipped()
+                                        .foregroundColor(.red)
+                                }
+                            }
+                            Spacer()
                         }
-                        
-                    }.frame(width: (UIScreen.screenWidth)-40).padding(.horizontal)
+                    }.padding(UIScreen.screenWidth > 700 ? 200 : 10)
                     
-                    
-                    
-                    //@@@@@@@@@<< recorder  >>@@@@@@@@@@@@@@//
-                    if(audioRecorder.recording == true){
-                        Image("recording").frame(width: (UIScreen.screenWidth)-40)
-                    }else{
-                        Image("notRecording").frame(width: (UIScreen.screenWidth)-40)
-                    }
-                    if audioRecorder.recording == false {
-                        Button(action: {
-                            audioRecorder.startRecording(title: "\(fileName)")
-                        }) {
-                            Image(systemName: "circle.fill")
+                }
+                .frame(width: CGFloat(geometry.size.width), alignment: .center)
+                .background(Image("Filter40A")
                                 .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 70, height: 70)
-                                .clipped()
-                                .foregroundColor(.red)
-                                .padding(.bottom, 40)
-                        }.padding()
-                        
-                    }else{
-                        Button(action: {
-                            audioData = audioRecorder.stopRecording()
-                            audioName = audioData["audioName"] as! String
-                            audioURL = audioData["audioURL"] as? URL
-                            isPlayBack.toggle()
-                        }) {
-                            Image(systemName: "stop.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 70, height: 70)
-                                .clipped()
-                                .foregroundColor(.red)
-                                .padding(.bottom, 40)
-                        }.padding()
-                    }
-                    Spacer()
-                }//vStackend
-            }
-            .background(Color.mainGrey.edgesIgnoringSafeArea(.all))//scroll view end
+                                .aspectRatio(geometry.size.width, contentMode: .fill)
+                                .edgesIgnoringSafeArea(.all).edgesIgnoringSafeArea(.all))//scroll view end
                 .audioURLExceptionAlert(isShowing: $audioURLException)
                 .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName, title:"알람의 태그를 입력하세요")
                 .playBackAlert(isShowing: $isPlayBack,
@@ -235,6 +241,7 @@ struct AlarmSetting: View {
                                audioURL: $audioURL,
                                audioName:$audioName)
                 .navigationBarHidden(true)
+            }
         }//navi view end
     }
 }
@@ -246,9 +253,9 @@ struct AlarmSetting_Previews: PreviewProvider {
 }
 
 extension UIScreen{
-   static let screenWidth = UIScreen.main.bounds.size.width
-   static let screenHeight = UIScreen.main.bounds.size.height
-   static let screenSize = UIScreen.main.bounds.size
+    static let screenWidth = UIScreen.main.bounds.size.width
+    static let screenHeight = UIScreen.main.bounds.size.height
+    static let screenSize = UIScreen.main.bounds.size
 }
 
 //struct MyGroupBoxStyle: GroupBoxStyle {

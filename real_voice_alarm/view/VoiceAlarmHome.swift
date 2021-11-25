@@ -12,44 +12,43 @@ struct VoiceAlarmHome: View {
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
     var body: some View {
-        
-        NavigationView {
-            GeometryReader { geometry in
-                ZStack {
-                    Image("Filter40A")
-                        .resizable()
-                        .aspectRatio(geometry.size, contentMode: .fill)
-                        .edgesIgnoringSafeArea(.all)
-                    ScrollView{
-                        VStack{
-                            //conditional Screen
-                            if recorderAlarm.isFiring == true {
-                                AlarmingScreen()
-                            }else {
-                                //home
-                                Text("다음 알람까지").font(.system(size: 30, weight: .semibold)).foregroundColor(Color.white)
-                                
-                                if(recorderAlarm.day != 0){
-                                    Text("\(recorderAlarm.day)일 남았습니다.").font(.system(size: 35, weight: .bold)).foregroundColor(Color.white)
+        GeometryReader { geometry in
+            ScrollView{
+                VStack{
+                    //conditional Screen
+                    if recorderAlarm.isFiring == true {
+                        AlarmingScreen()
+                    }else {
+                        //home
+                        Group{
+                            Spacer()
+                            if(recorderAlarm.day != 0){
+                                Text("  다음 알람까지 \n \(recorderAlarm.day)일 남았습니다.").font(.system(size: 28, weight: .bold)).foregroundColor(Color.white)
+                            }else{
+                                if(recorderAlarm.hour == 0){
+                                    Text("  다음 알람까지 \n \(recorderAlarm.minute)분 남았습니다.").font(.system(size: 28, weight: .bold)).foregroundColor(Color.white)
                                 }else{
-                                    if(recorderAlarm.hour == 0){
-                                        Text("\(recorderAlarm.minute)분 남았습니다.").font(.system(size: 35, weight: .bold)).foregroundColor(Color.white)
-                                    }else{
-                                        Text("\(recorderAlarm.hour)시간 \(recorderAlarm.minute)분 남았습니다.").font(.system(size: 35, weight: .bold)).foregroundColor(Color.white)
-                                    }
-                                    
+                                    Text("  다음 알람까지 \n \(recorderAlarm.hour)시간 \(recorderAlarm.minute)분 남았습니다.").font(.system(size: 28, weight: .bold)).foregroundColor(Color.white)
                                 }
-                                
-                                AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
-                                AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
-                                    .onAppear(perform: {
-                                        vm.getAlarms()
-                                    })
                             }
-                        }
+                            Spacer()
+                        }.frame(width: CGFloat(geometry.size.width * 0.85), height: CGFloat(geometry.size.width * 0.2), alignment: .center)
+                        
+                        Group{
+                            AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
+                            AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
+                                .onAppear(perform: {
+                                    vm.getAlarms()
+                                })
+                        }.padding(.leading, 5)
                     }
                 }
-            }
+            }.background(
+                Image("Filter40A")
+                    .resizable()
+                    .aspectRatio(geometry.size.width, contentMode: .fill)
+                    .edgesIgnoringSafeArea(.all)
+            )
         }
     }
 }

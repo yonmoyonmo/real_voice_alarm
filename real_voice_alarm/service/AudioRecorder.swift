@@ -105,6 +105,10 @@ class AudioRecorder: NSObject, ObservableObject {
             }
             try fileManager.moveItem(at: originalFileURL, to: newAudioFileURL)
             
+            if(originalFileURL == newAudioFileURL){
+                result["audioNewName"] = audioName
+                result["audioNewURL"] = originalFileURL
+            }
             result["audioNewName"] = audioName
             result["audioNewURL"] = newAudioFileURL
         }catch let error{

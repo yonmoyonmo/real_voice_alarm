@@ -100,112 +100,117 @@ struct AlarmEdit: View {
     
     
     var body: some View {
-        NavigationView{
-            ScrollView{
-                VStack(alignment: .center){
-                    HStack{
-                        Button(action: {
-                            self.presentationMode.wrappedValue.dismiss()
-                        }) {
-                            Text("취소").foregroundColor(.black).padding()
-                        }
-                        Spacer()
-                        Button(action: {
-                            updateAlarm()
-                        }){
-                            Text("완료").bold().padding()
-                        }
-                    }
-                    
-                    //date picker
-                    GroupBox{
-                        DatePicker("", selection: $fireAtEditted,
-                                   displayedComponents: .hourAndMinute)
-                            .datePickerStyle(.wheel)
-                    }.frame(width: (UIScreen.screenWidth)-40)
-                    
-                    //repeating days
-                    GroupBox(label: Label("요일반복", systemImage: "calendar")){
-                        RepeatDaysSettingView(repeatDays: $repeatDaysEditted).padding(5)
-                    }.frame(width: (UIScreen.screenWidth)-40)
-                    
-                    
-                    GroupBox{
-                        HStack{
-                            Label("태그", systemImage: "tag.fill")
-                            Spacer()
-                            Text("\(tagNameEditted)").onTapGesture {
-                                isShowingTagNameEditAlert.toggle()
+        GeometryReader { geometry in
+            NavigationView{
+                ScrollView{
+                    Group{
+                        VStack(alignment: .center){
+                            HStack{
+                                Button(action: {
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }) {
+                                    Text("취소").foregroundColor(Color.textBlack).padding()
+                                }
+                                Spacer()
+                                Button(action: {
+                                    updateAlarm()
+                                }){
+                                    Text("완료").bold().padding().foregroundColor(Color.myAccent)
+                                }
                             }
-                        }
-                    }.frame(width: (UIScreen.screenWidth)-40)
-                    
-                    
-                    GroupBox{
-                        HStack{
-                            Image(systemName: "speaker.wave.3.fill")
-                            //volume slider
-                            Slider(value: $volumeEditted, in: 0...20, step: 0.1)
-                        }
-                        Divider()
-                        HStack{
-                            Text("\(audioNameEditted)").foregroundColor(.black)
-                            Spacer()
-                            NavigationLink(destination: RecordingsList(
-                                audioRecorder: audioRecorder,
-                                audioName:$audioNameEditted,
-                                audioURL:$audioURLEditted)
-                            ){
-                                Image(systemName: "mic.fill.badge.plus").font(.system(size:20, weight: .bold))
+                            
+                            //date picker
+                            GroupBox{
+                                DatePicker("", selection: $fireAtEditted,
+                                           displayedComponents: .hourAndMinute)
+                                    .datePickerStyle(.wheel)
                             }
+                            
+                            //repeating days
+                            GroupBox(label: Label("요일반복", systemImage: "calendar")){
+                                RepeatDaysSettingView(repeatDays: $repeatDaysEditted).padding(.top, 5)
+                            }
+                            
+                            
+                            GroupBox{
+                                HStack{
+                                    Label("태그", systemImage: "tag.fill")
+                                    Spacer()
+                                    Text("\(tagNameEditted)").onTapGesture {
+                                        isShowingTagNameEditAlert.toggle()
+                                    }
+                                }
+                            }
+                            
+                            
+                            GroupBox{
+                                HStack{
+                                    Image(systemName: "speaker.wave.3.fill")
+                                    //volume slider
+                                    Slider(value: $volumeEditted, in: 0...20, step: 0.1)
+                                }
+                                Divider()
+                                HStack{
+                                    Text("\(audioNameEditted)")
+                                    Spacer()
+                                    NavigationLink(destination: RecordingsList(
+                                        audioRecorder: audioRecorder,
+                                        audioName:$audioNameEditted,
+                                        audioURL:$audioURLEditted)
+                                    ){
+                                        Image(systemName: "mic.fill.badge.plus").font(.system(size:20, weight: .bold)).foregroundColor(Color.myAccent)
+                                    }
+                                }
+                                
+                            }
+                            
+                            
+                            //@@@@@@@@@<< recorder  >>@@@@@@@@@@@@@@//
+                            if(audioRecorder.recording == true){
+                                Image("recording")
+                            }else{
+                                Image("notRecording")
+                            }
+                            if audioRecorder.recording == false {
+                                Button(action: {
+                                    audioRecorder.startRecording(title: "\(fileName)")
+                                }) {
+                                    Image(systemName: "circle.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 70, height: 70)
+                                        .clipped()
+                                        .foregroundColor(.red)
+                                }
+                                
+                            }else{
+                                Button(action: {
+                                    audioData = audioRecorder.stopRecording()
+                                    audioNameEditted = audioData["audioName"] as! String
+                                    audioURLEditted = audioData["audioURL"] as? URL
+                                    isPlayBack.toggle()
+                                }) {
+                                    Image(systemName: "stop.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 70, height: 70)
+                                        .clipped()
+                                        .foregroundColor(.red)
+                                }
+                            }
+                            Spacer()
                         }
-                        
-                    }.frame(width: (UIScreen.screenWidth)-40).padding(.horizontal)
-                    
-              
-                    //@@@@@@@@@<< recorder  >>@@@@@@@@@@@@@@//
-                    if(audioRecorder.recording == true){
-                        Image("recording").frame(width: (UIScreen.screenWidth)-40)
-                    }else{
-                        Image("notRecording").frame(width: (UIScreen.screenWidth)-40)
-                    }
-                    if audioRecorder.recording == false {
-                        Button(action: {
-                            audioRecorder.startRecording(title: "\(fileName)")
-                        }) {
-                            Image(systemName: "circle.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 70, height: 70)
-                                .clipped()
-                                .foregroundColor(.red)
-                                .padding(.bottom, 40)
-                        }.padding()
-                        
-                    }else{
-                        Button(action: {
-                            audioData = audioRecorder.stopRecording()
-                            audioNameEditted = audioData["audioName"] as! String
-                            audioURLEditted = audioData["audioURL"] as? URL
-                            isPlayBack.toggle()
-                        }) {
-                            Image(systemName: "stop.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 70, height: 70)
-                                .clipped()
-                                .foregroundColor(.red)
-                                .padding(.bottom, 40)
-                        }.padding()
-                    }
-                    Spacer()
-                }
-            }.background(Color.mainGrey.edgesIgnoringSafeArea(.all))
-                .audioURLExceptionAlert(isShowing: $audioURLException)
-                .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagNameEditted, title:"알람의 태그를 입력하세요")
-                .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURLEditted, audioName: $audioNameEditted)
-                .navigationBarHidden(true)
+                    }.padding(UIScreen.screenWidth > 700 ? 200 : 10)
+                }.frame(width: CGFloat(geometry.size.width), alignment: .center)
+                    .background(Image("Filter40A")
+                                    .resizable()
+                                    .aspectRatio(geometry.size.width, contentMode: .fill)
+                                    .edgesIgnoringSafeArea(.all).edgesIgnoringSafeArea(.all))
+                    .audioURLExceptionAlert(isShowing: $audioURLException)
+                    .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagNameEditted, title:"알람의 태그를 입력하세요")
+                    .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURLEditted, audioName: $audioNameEditted)
+                    .navigationBarHidden(true)
+            }
         }
-        
     }
 }
