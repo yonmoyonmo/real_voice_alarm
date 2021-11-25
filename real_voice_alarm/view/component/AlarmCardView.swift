@@ -30,7 +30,8 @@ struct AlarmCardView: View {
                     AlarmCard(alarm: $alarm, alarmToggle: alarm.isActive, isDay:isDay)
                 }
                 addNewCardCard(isDay: self.isDay)
-            }
+            }.padding(.leading, 20)
+                .padding(.bottom, 20)
         })
     }
 }
@@ -57,8 +58,7 @@ struct AlarmCard: View {
     
     var body: some View{
         if(alarm.tagName != nil){
-            VStack(alignment: .center) {
-                
+            VStack(alignment: .center, spacing: 0) {
                 HStack{
                     Toggle("", isOn: $alarmToggle).toggleStyle(SwitchToggleStyle(tint: .white.opacity(0.8)))
                         .onChange(of: alarmToggle){ value in
@@ -138,8 +138,7 @@ struct AlarmCard: View {
             .frame(width: cardWidth, height: cardHeight)
             .cornerRadius(cardRadius)
             .shadow(radius: cardRadius, x: shadowX, y: shadowY)
-            .padding()
-            
+            .padding(.leading, 15)
         }
     }
 }
@@ -168,7 +167,8 @@ struct addNewCardCard: View{
         .frame(width: cardWidth, height: cardHeight)
         .cornerRadius(cardRadius)
         .shadow(radius: cardRadius, x: shadowX, y: shadowY)
-        .padding()
+        .padding(.leading, 10)
+        .padding(.trailing, 35)
     }
 }
 
