@@ -109,15 +109,15 @@ struct AlarmEdit: View {
                                 Button(action: {
                                     self.presentationMode.wrappedValue.dismiss()
                                 }) {
-                                    Text("취소").foregroundColor(Color.textBlack).padding()
+                                    Text("취소").foregroundColor(Color.textBlack)
                                 }
                                 Spacer()
                                 Button(action: {
                                     updateAlarm()
                                 }){
-                                    Text("완료").bold().padding().foregroundColor(Color.myAccent)
+                                    Text("완료").bold().foregroundColor(Color.myAccent)
                                 }
-                            }
+                            }.padding(10)
                             
                             //date picker
                             GroupBox{
@@ -136,7 +136,7 @@ struct AlarmEdit: View {
                                 HStack{
                                     Label("태그", systemImage: "tag.fill")
                                     Spacer()
-                                    Text("\(tagNameEditted)").onTapGesture {
+                                    Text("\(tagNameEditted)").font(.system(size:18, weight: .bold)).foregroundColor(Color.myAccent).onTapGesture {
                                         isShowingTagNameEditAlert.toggle()
                                     }
                                 }
@@ -206,8 +206,8 @@ struct AlarmEdit: View {
                                     .resizable()
                                     .aspectRatio(geometry.size.width, contentMode: .fill)
                                     .edgesIgnoringSafeArea(.all).edgesIgnoringSafeArea(.all))
-                    .audioURLExceptionAlert(isShowing: $audioURLException)
-                    .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagNameEditted, title:"알람의 태그를 입력하세요")
+                    .audioURLExceptionAlert(isShowing: $audioURLException, message: "목소리 없이는 알람을 만들 수 없습니다.")
+                    .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagNameEditted)
                     .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURLEditted, audioName: $audioNameEditted)
                     .navigationBarHidden(true)
             }

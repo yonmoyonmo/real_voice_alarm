@@ -11,6 +11,7 @@ import SwiftUI
 struct AudioURLExceptionAlert<Presenting>: View where Presenting: View {
     @Binding var isShowing: Bool
     let presenting: Presenting
+    let message:String
 
     var body: some View {
         GeometryReader { (deviceSize: GeometryProxy) in
@@ -18,7 +19,7 @@ struct AudioURLExceptionAlert<Presenting>: View where Presenting: View {
                 self.presenting
                     .disabled(isShowing)
                 VStack {
-                    Text("목소리 없인 알람을 만들 수 없어요!")
+                    Text(message).foregroundColor(Color.textBlack).font(.system(size:18, weight: .bold))
                     Divider()
                     HStack {
                         Button(action: {
@@ -26,12 +27,12 @@ struct AudioURLExceptionAlert<Presenting>: View where Presenting: View {
                                 self.isShowing.toggle()
                             }
                         }) {
-                            Text("넵")
+                            Text("넵").foregroundColor(Color.textBlack).font(.system(size:18, weight: .bold))
                         }
                     }
                 }
                 .padding()
-                .background(Color.white)
+                .background(Color.mainGrey)
                 .frame(
                     width: deviceSize.size.width*0.7,
                     height: deviceSize.size.height*0.7

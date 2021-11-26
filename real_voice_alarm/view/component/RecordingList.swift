@@ -8,26 +8,60 @@
 import SwiftUI
 
 struct RecordingsList: View {
-    
+    @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
     @ObservedObject var audioRecorder: AudioRecorder
     @Binding var audioName:String
     @Binding var audioURL:URL?
     
+    @State var showAlert:Bool = false
+    
     var body: some View {
         List {
-            ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
-                RecordingRow(audioURLforShow: recording.fileURL, audioURLforSave: $audioURL, audioName: $audioName)
-            }.onDelete(perform: delete)
-                .onAppear(perform: {
-                    audioRecorder.fatchRecordings()
-                })
+            Section(header: Text("내 목소리")){
+                ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
+                    RecordingRow(audioURLforShow: recording.fileURL, audioURLforSave: $audioURL, audioName: $audioName)
+                }.onDelete(perform: delete)
+            }
         }
+        .audioURLExceptionAlert(isShowing: $showAlert, message: "설정된 알람은 지울 수 없습니다.")
+        .onAppear(perform: {
+            audioRecorder.fatchRecordings()
+        })
     }
     
     func delete(at offsets: IndexSet){
         var urlsToDelete = [URL]()
+        
+        let dayAlarms = viewModel.dayAlarms
+        let nightAlarms = viewModel.nightAlarms
+        var audioNames:[String] = []
+        var canDelete:Bool = true
+        
+        for dayAlarm in dayAlarms {
+            audioNames.append(dayAlarm.audioName!)
+        }
+        for nightAlarm in nightAlarms {
+            audioNames.append(nightAlarm.audioName!)
+        }
+        
         for index in offsets {
             urlsToDelete.append(audioRecorder.recordings[index].fileURL)
+        }
+        let urlString = urlsToDelete[0].path
+        
+        for otherAudioName in audioNames {
+            print("url String : \(urlString) \n audioName : \(otherAudioName)")
+            if(urlString.contains(otherAudioName)){
+                canDelete = false
+            }
+            if(urlString.contains(self.audioName)){
+                canDelete = false
+            }
+        }
+        if(canDelete == false){
+            print("지울 수 없음")
+            showAlert.toggle()
+            return
         }
         audioRecorder.deleteRecording(urlsToDelete: urlsToDelete)
     }

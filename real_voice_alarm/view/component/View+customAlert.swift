@@ -21,15 +21,13 @@ extension View {
     }
     
     func tagNameAlert(isShowing: Binding<Bool>,
-                        text: Binding<String>,
-                        title: String) -> some View {
+                      text: Binding<String>) -> some View {
         TagNameAlert(isShowing: isShowing,
-                       text: text,
-                       presenting: self,
-                       title: title)
+                     text: text,
+                     presenting: self)
     }
     
-    func audioURLExceptionAlert(isShowing: Binding<Bool>) -> some View {
-        AudioURLExceptionAlert(isShowing: isShowing, presenting: self)
+    func audioURLExceptionAlert(isShowing: Binding<Bool>, message:String) -> some View {
+        AudioURLExceptionAlert(isShowing: isShowing, presenting: self, message:message)
     }
 }

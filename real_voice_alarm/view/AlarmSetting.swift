@@ -132,16 +132,16 @@ struct AlarmSetting: View {
                                 Button(action: {
                                     self.presentationMode.wrappedValue.dismiss()
                                 }, label: {
-                                    Text("취소").foregroundColor(Color.textBlack).padding()
+                                    Text("취소").foregroundColor(Color.textBlack)
                                 })
                                 Spacer()
                                 //완료 버튼 : 알람 데이터 저장 + 스케쥴링
                                 Button(action: {
                                     saveAlarm()
                                 }, label:{
-                                    Text("완료").padding().foregroundColor(Color.myAccent)
+                                    Text("완료").foregroundColor(Color.myAccent)
                                 })
-                            }
+                            }.padding(10)
                             //데이트 피커
                             GroupBox{
                                 if(isDay == true){
@@ -162,7 +162,8 @@ struct AlarmSetting: View {
                                 HStack{
                                     Label("태그", systemImage: "tag.fill")
                                     Spacer()
-                                    Text("\(tagName)").onTapGesture {
+                                    Text("\(tagName)").font(.system(size:18, weight: .bold)).foregroundColor(Color.myAccent)
+                                        .onTapGesture {
                                         isShowingTagNameEditAlert.toggle()
                                     }
                                 }
@@ -183,7 +184,7 @@ struct AlarmSetting: View {
                                         audioName:$audioName,
                                         audioURL:$audioURL)
                                     ){
-                                        Image(systemName: "mic.fill.badge.plus").font(.system(size:20, weight: .bold)).padding()
+                                        Image(systemName: "mic.fill.badge.plus").font(.system(size:20, weight: .bold)).foregroundColor(Color.myAccent)
                                     }
                                 }
                                 
@@ -234,8 +235,8 @@ struct AlarmSetting: View {
                                 .resizable()
                                 .aspectRatio(geometry.size.width, contentMode: .fill)
                                 .edgesIgnoringSafeArea(.all).edgesIgnoringSafeArea(.all))//scroll view end
-                .audioURLExceptionAlert(isShowing: $audioURLException)
-                .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName, title:"알람의 태그를 입력하세요")
+                .audioURLExceptionAlert(isShowing: $audioURLException, message: "목소리 없이는 알람을 만들 수 없습니다.")
+                .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName)
                 .playBackAlert(isShowing: $isPlayBack,
                                audioPlayer: self.audioPlayer,
                                audioURL: $audioURL,

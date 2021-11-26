@@ -91,32 +91,33 @@ struct AlarmCard: View {
                         VStack{
                             Text(alarm.fireAt!, style: .time)
                                 .font(.system(size: 40, weight: .bold)).tracking(2).foregroundColor(.white)
-                            Label{
-                                Text(alarm.tagName!).font(.system(size: 20, weight: .bold)).tracking(2).foregroundColor(.white)
-                            } icon:{
-                                Image(systemName:"tag.fill").foregroundColor(.white)
+                            HStack{
+                                Label{
+                                    Text(alarm.tagName!).font(.system(size: 20, weight: .bold)).tracking(2).foregroundColor(.white)
+                                } icon:{
+                                    Image(systemName:"tag.fill").foregroundColor(.white)
+                                }
+                                
+                                //delete
+                                Button(action: {
+                                    deleteAlert.toggle()
+                                }, label: {
+                                    Image(systemName: "trash").font(.system(size: 23, weight: .bold)).foregroundColor(.white)
+                                }).alert(isPresented: $deleteAlert) {
+                                    Alert(
+                                        title: Text("알람 삭제"),
+                                        message: Text("진짜로 알람을 삭제합니까?"),
+                                        primaryButton: .default(Text("진짜 삭제"), action: {
+                                            recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
+                                            viewModel.getAlarms()
+                                        }), secondaryButton: .cancel(Text("가짜로입니다."))
+                                    )
+                                }
                             }
-                        }
-                        //delete
-                        Button(action: {
-                            deleteAlert.toggle()
-                        }, label: {
-                            Image(systemName: "trash").font(.system(size: 25, weight: .bold)).foregroundColor(.white)
-                        }).alert(isPresented: $deleteAlert) {
-                            Alert(
-                                title: Text("알람 삭제"),
-                                message: Text("진짜로 알람을 삭제합니까?"),
-                                primaryButton: .default(Text("진짜 삭제"), action: {
-                                    recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
-                                    viewModel.getAlarms()
-                                }), secondaryButton: .cancel(Text("가짜로입니다."))
-                            )
                         }
                     }.padding(.leading).padding(.trailing)
                     
                     Spacer()
-                    
-                    
                     //반복
                     HStack(alignment: .center){
                         

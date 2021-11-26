@@ -82,13 +82,12 @@ class AudioRecorder: NSObject, ObservableObject {
     
     func changeAudioFileName(audioName: String, audioURL: URL?) -> [String:Any]{
         var result:[String:Any] = [:]
+        let originalFileURL:URL = audioURL!
         
         do{
             let fileManager = FileManager.default
             var documentDirectory = fileManager.urls(for: .libraryDirectory, in: .userDomainMask)[0]
             documentDirectory = documentDirectory.appendingPathComponent("Sounds")
-            
-            let originalFileURL:URL = audioURL!
             
             var newAudioFileURL:URL
             
@@ -103,14 +102,30 @@ class AudioRecorder: NSObject, ObservableObject {
                     newAudioFileURL = documentDirectory.appendingPathComponent("\(audioName)")
                 }
             }
-            try fileManager.moveItem(at: originalFileURL, to: newAudioFileURL)
             
-            if(originalFileURL == newAudioFileURL){
+            let path = newAudioFileURL.path
+            
+            //파일 이름 중복 예외처리
+            if(fileManager.fileExists(atPath: path)){
+                print("<< 녹음 파일 이름 중복된다 >>")
+                let newAudioName = "\(audioName)+\(Date())"
+                newAudioFileURL = documentDirectory.appendingPathComponent("\(newAudioName).m4a")
+                
+                try fileManager.moveItem(at: originalFileURL, to: newAudioFileURL)
+                
+                result["audioNewName"] = newAudioName
+                result["audioNewURL"] = newAudioFileURL
+            }else{
+                try fileManager.moveItem(at: originalFileURL, to: newAudioFileURL)
+                
+                if(originalFileURL == newAudioFileURL){
+                    result["audioNewName"] = audioName
+                    result["audioNewURL"] = originalFileURL
+                }
+                
                 result["audioNewName"] = audioName
-                result["audioNewURL"] = originalFileURL
+                result["audioNewURL"] = newAudioFileURL
             }
-            result["audioNewName"] = audioName
-            result["audioNewURL"] = newAudioFileURL
         }catch let error{
             print("changeAudioFileName :\(error)")
         }
