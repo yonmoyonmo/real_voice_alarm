@@ -45,6 +45,8 @@ struct AlarmCard: View {
     @State var showEditAlarmModal:Bool = false
     @State var deleteAlert:Bool = false
     
+    let repeatingDays = [1,2,3,4,5,6,7]
+    
     var isDay:Bool
     
     func intRepeatingDaysToEnumSet(repeatingDays: [Int]) ->[RepeatDays] {
@@ -95,7 +97,6 @@ struct AlarmCard: View {
                                 Image(systemName:"tag.fill").foregroundColor(.white)
                             }
                         }
-                        
                         //delete
                         Button(action: {
                             deleteAlert.toggle()
@@ -111,24 +112,24 @@ struct AlarmCard: View {
                                 }), secondaryButton: .cancel(Text("가짜로입니다."))
                             )
                         }
-                    }
+                    }.padding(.leading).padding(.trailing)
+                    
                     Spacer()
+                    
+                    
                     //반복
-                    if (!alarm.repeatingDays.isEmpty){
-                        HStack(alignment: .center){
-                            ForEach(alarm.repeatingDays, id: \.self){ repeatDay in
-                                Text(RepeatDays(rawValue: repeatDay)!.shortName)
-                                    .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(Color.white)
-                            }
-                        }.frame(width: cardWidth, height: CGFloat(48.0)).background(Color.mainGrey.opacity(0.5))
-                    }else{
-                        HStack(alignment: .center){
-                            Text("반복 없음")
-                                .font(.system(size: 15, weight: .bold))
-                                .foregroundColor(Color.white)
-                        }.frame(width: cardWidth, height: CGFloat(48.0)).background(Color.mainGrey.opacity(0.5))
-                    }
+                    HStack(alignment: .center){
+                        
+                        ForEach(repeatingDays, id:\.self){ repeatDay in
+                            Text(RepeatDays(rawValue: repeatDay)!.shortName)
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(alarm.repeatingDays.contains(repeatDay) ? Color.mainBlue : Color.textBlack)
+                        }
+                        
+                    }.frame(width: cardWidth, height: CGFloat(48.0)).background(Color.mainGrey.opacity(0.5))
+                    
+                    
+                    
                 }
                 .background(isDay == true ?
                             Image("CardAD").resizable().scaledToFill()
@@ -143,6 +144,7 @@ struct AlarmCard: View {
                 .cornerRadius(cardRadius)
                 .shadow(radius: cardRadius, x: shadowX, y: shadowY)
                 .opacity(alarmToggle == true ? 1 : 0.4)
+                .padding(.trailing, 5)
                 
             }.frame(width: cardWidth, height: cardHeight).onTapGesture {
                 self.showEditAlarmModal.toggle()
@@ -175,7 +177,6 @@ struct addNewCardCard: View{
         .frame(width: cardWidth, height: cardHeight)
         .cornerRadius(cardRadius)
         .shadow(radius: cardRadius, x: shadowX, y: shadowY)
-        .padding(.leading, 10)
         .padding(.trailing, 24)
     }
 }
