@@ -12,8 +12,8 @@ import SwiftUI
 //let cardRadius = 10.0
 //let shadowX = 0.0
 //let shadowY = 4.0
-let cardWidth = CGFloat(UIScreen.screenWidth * 0.8)
-let cardHeight = CGFloat(UIScreen.screenWidth * 0.5)
+let cardWidth = CGFloat(UIScreen.screenWidth * 0.85)
+let cardHeight = CGFloat(UIScreen.screenWidth * 0.55)
 let cardRadius = CGFloat(15.0)
 let shadowX = CGFloat(0.0)
 let shadowY = CGFloat(4.0)
@@ -30,7 +30,7 @@ struct AlarmCardView: View {
                     AlarmCard(alarm: $alarm, alarmToggle: alarm.isActive, isDay:isDay)
                 }
                 addNewCardCard(isDay: self.isDay)
-            }.padding(.leading, 20)
+            }.padding(.leading, 24)
                 .padding(.bottom, 20)
         })
     }
@@ -140,7 +140,6 @@ struct AlarmCard: View {
             .frame(width: cardWidth, height: cardHeight)
             .cornerRadius(cardRadius)
             .shadow(radius: cardRadius, x: shadowX, y: shadowY)
-            .padding(.leading, 14)
         }
     }
 }
@@ -170,7 +169,7 @@ struct addNewCardCard: View{
         .cornerRadius(cardRadius)
         .shadow(radius: cardRadius, x: shadowX, y: shadowY)
         .padding(.leading, 10)
-        .padding(.trailing, 35)
+        .padding(.trailing, 24)
     }
 }
 
