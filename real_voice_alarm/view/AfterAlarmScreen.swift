@@ -18,6 +18,7 @@ struct AfterAlarmScreen: View {
             Group{
                 VStack(alignment: .center){
                     Text("오늘 하루, \n 너무 고생 많았어요 :)").font(.system(size: 25, weight: .bold)).foregroundColor(Color.white)
+                        .frame(width: CGFloat(geometry.size.width * 0.85), height: CGFloat(geometry.size.height * 0.2), alignment: .center).padding()
                     if(isDay){
                         VStack{
                             Text("오늘 저녁의 나에게 해주고 싶은 말을 지금 녹음해봐요!")
@@ -29,6 +30,7 @@ struct AfterAlarmScreen: View {
                             AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
                             
                         }
+                        
                     }else{
                         VStack{
                             AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
@@ -41,12 +43,13 @@ struct AfterAlarmScreen: View {
                             
                         }
                     }
+                    
                     Button(action: {
                         recorderAlarm.isFiring = false
                         self.presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Image(systemName: "house.circle.fill").font(.system(size:50, weight: .bold)).foregroundColor(Color.white).padding()
-                    })
+                    }).frame(width: CGFloat(geometry.size.width * 0.8), height: CGFloat(geometry.size.height * 0.2), alignment: .center)
                 }
             }
             .frame(width: CGFloat(geometry.size.width),height:CGFloat(geometry.size.height), alignment: .center)
