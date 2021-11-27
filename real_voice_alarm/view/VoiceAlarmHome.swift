@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct VoiceAlarmHome: View {
+    @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var vm: VoiceAlarmHomeViewModel
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
+    let audioPlayer = AudioPlayer.instance
     let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     
@@ -55,6 +57,20 @@ struct VoiceAlarmHome: View {
                     .edgesIgnoringSafeArea(.all)
             )
         }
+        .onChange(of: scenePhase, perform:{ phase in
+            switch phase{
+            case .active:
+                DispatchQueue.main.async {
+                    recorderAlarm.checkCurrentDeliverdAlarmId()
+                }
+            case .background:
+                print("app goes to background")
+            case .inactive:
+                print("app is now inactive")
+                audioPlayer.checkIfSilence()
+            @unknown default: print("ScenePhase: unexpected state")
+            }
+        })
     }
 }
 

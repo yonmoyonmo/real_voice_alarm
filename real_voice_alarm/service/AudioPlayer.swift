@@ -34,6 +34,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
             audioPlayer?.delegate = self
             audioPlayer?.volume = volume
             audioPlayer?.numberOfLoops = 30
+            audioPlayer?.prepareToPlay()
             audioPlayer?.play()
             isPlaying = true
             
@@ -54,6 +55,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
         do{
             audioPlayer = try AVAudioPlayer(contentsOf: audio)
             audioPlayer?.delegate = self
+            audioPlayer?.prepareToPlay()
             audioPlayer?.play()
             isPlaying = true
             //print("playing playback")
@@ -73,26 +75,26 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
         }
     }
     
+    //무음모드인지 아닌지를 알아내야 하는디.....
+    func checkIfSilence(){
+        guard let audioData = NSDataAsset(name: "silenceCheck")?.data else {
+            fatalError("Unable to find asset silenceCheck")
+        }
+        do {
+            audioPlayer = try AVAudioPlayer(data: audioData)
+            audioPlayer?.play()
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         if flag{
             isPlaying = false
         }
     }
     
-    static func checkIfSilence(){
-        guard let audioData = NSDataAsset(name: "silenceCheck")?.data else {
-            fatalError("Unable to find asset silenceCheck")
-        }
-        
-        var audioPlayer: AVAudioPlayer!
-        do {
-            audioPlayer = try AVAudioPlayer(data: audioData)
-            audioPlayer.play()
-            print("끼요잉")
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
+    
     
 }
 

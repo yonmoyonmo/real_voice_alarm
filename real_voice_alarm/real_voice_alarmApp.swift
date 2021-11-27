@@ -18,26 +18,12 @@ import AVFoundation
 
 @main
 struct real_voice_alarmApp: App {
-    @Environment(\.scenePhase) var scenePhase
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     
     var body: some Scene {
         WindowGroup {
             VoiceAlarmHome().environmentObject(VoiceAlarmHomeViewModel())
-        }.onChange(of: scenePhase, perform:{ phase in
-            switch phase{
-            case .active:
-                DispatchQueue.main.async {
-                    appDelegate.recorderAlarm.checkCurrentDeliverdAlarmId()
-                }
-            case .background:
-                print("app goes to background")
-            case .inactive:
-                print("app is now inactive")
-                AudioPlayer.checkIfSilence()
-            @unknown default: print("ScenePhase: unexpected state")
-            }
-        })
+        }
     }
 }
 
@@ -54,6 +40,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
         //노티피케이션 권한 요청
         notificationManager.requestAuthorization()
+        
+        
         
         //-------목소리 저장할 directory 맨들기-------//
         let fileManager = FileManager.default
