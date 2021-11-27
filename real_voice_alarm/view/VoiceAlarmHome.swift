@@ -11,6 +11,9 @@ struct VoiceAlarmHome: View {
     @EnvironmentObject var vm: VoiceAlarmHomeViewModel
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
+    let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+
+    
     var body: some View {
         GeometryReader { geometry in
             ScrollView{
@@ -39,7 +42,9 @@ struct VoiceAlarmHome: View {
                             AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
                                 .onAppear(perform: {
                                     vm.getAlarms()
-                                })
+                                }).onReceive(timer){ time in
+                                    recorderAlarm.setLastingTimeOfNext()
+                                }
                         }.padding(.leading, 5)
                     }
                 }

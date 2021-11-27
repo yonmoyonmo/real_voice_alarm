@@ -79,6 +79,21 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
         }
     }
     
+    static func checkIfSilence(){
+        guard let audioData = NSDataAsset(name: "silenceCheck")?.data else {
+            fatalError("Unable to find asset silenceCheck")
+        }
+        
+        var audioPlayer: AVAudioPlayer!
+        do {
+            audioPlayer = try AVAudioPlayer(data: audioData)
+            audioPlayer.play()
+            print("끼요잉")
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
 }
 
 

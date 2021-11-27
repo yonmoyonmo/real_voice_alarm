@@ -13,7 +13,9 @@
  */
 import SwiftUI
 import AVFoundation
+
 //screen size : width == 744.0, height == 1133.0 mini size
+
 @main
 struct real_voice_alarmApp: App {
     @Environment(\.scenePhase) var scenePhase
@@ -32,6 +34,7 @@ struct real_voice_alarmApp: App {
                 print("app goes to background")
             case .inactive:
                 print("app is now inactive")
+                AudioPlayer.checkIfSilence()
             @unknown default: print("ScenePhase: unexpected state")
             }
         })
