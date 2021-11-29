@@ -35,6 +35,16 @@ class AudioRecorder: NSObject, ObservableObject {
     
     var recordings = [Recording]()
     
+    func requestMicrophonePermission(){
+            AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
+                if granted {
+                    print("Mic: 권한 허용")
+                } else {
+                    print("Mic: 권한 거부")
+                }
+            })
+        }
+    
     func startRecording(title: String) {
         let recordingSession = AVAudioSession.sharedInstance()
         do {

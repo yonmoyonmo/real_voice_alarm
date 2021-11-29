@@ -43,7 +43,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         //노티피케이션 권한 요청
         notificationManager.requestAuthorization()
         
-        
         //-------목소리 저장할 directory 맨들기-------//
         let fileManager = FileManager.default
         var documentDirectory = fileManager.urls(for: .libraryDirectory, in: .userDomainMask)[0]

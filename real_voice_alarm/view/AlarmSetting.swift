@@ -242,6 +242,10 @@ struct AlarmSetting: View {
                                audioURL: $audioURL,
                                audioName:$audioName)
                 .navigationBarHidden(true)
+                .onAppear(){
+                    //마이크 권한 요청
+                    audioRecorder.requestMicrophonePermission()
+                }
             }
         }//navi view end
     }
