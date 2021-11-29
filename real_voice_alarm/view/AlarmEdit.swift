@@ -128,7 +128,7 @@ struct AlarmEdit: View {
                             
                             //repeating days
                             GroupBox(label: Label("요일반복", systemImage: "calendar")){
-                                RepeatDaysSettingView(repeatDays: $repeatDaysEditted).padding(.top, 5)
+                                RepeatDaysSettingView(repeatDays: $repeatDaysEditted).padding(.top, 2)
                             }
                             
                             

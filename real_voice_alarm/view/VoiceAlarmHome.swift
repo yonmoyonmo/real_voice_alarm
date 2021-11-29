@@ -13,8 +13,6 @@ struct VoiceAlarmHome: View {
     @EnvironmentObject var vm: VoiceAlarmHomeViewModel
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
-    let audioPlayer = AudioPlayer.instance
-    
     let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     
@@ -58,11 +56,7 @@ struct VoiceAlarmHome: View {
                     .aspectRatio(geometry.size.width, contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
             )
-        }.onAppear{
-            //audioPlayer.checkIfSilence()
-            print("home rendered")
-        }
-        .onChange(of: scenePhase, perform:{ phase in
+        }.onChange(of: scenePhase, perform:{ phase in
             switch phase{
             case .active:
                 DispatchQueue.main.async {

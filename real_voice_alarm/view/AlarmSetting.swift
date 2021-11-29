@@ -144,18 +144,29 @@ struct AlarmSetting: View {
                             }.padding(10)
                             //데이트 피커
                             GroupBox{
-                                if(isDay == true){
-                                    DatePicker("", selection: $fireAt, in: DaydateClosedRange, displayedComponents: .hourAndMinute)
-                                        .datePickerStyle(.wheel)
-                                }else{
-                                    DatePicker("", selection: $fireAt, in: NightdateClosedRange, displayedComponents: .hourAndMinute)
-                                        .datePickerStyle(.wheel)
+                                Group{
+                                    if(isDay == true){
+                                        HStack{
+                                            Image(systemName: "sun.max").font(.system(size:20, weight: .bold)).foregroundColor(Color.textBlack)
+                                            Text("낮 시간대의 알람 만들기")
+                                        }
+                                        DatePicker("", selection: $fireAt, in: DaydateClosedRange, displayedComponents: .hourAndMinute)
+                                            .datePickerStyle(.wheel)
+                                    }else{
+                                        HStack{
+                                            Image(systemName: "moon.stars.fill").font(.system(size:20, weight: .bold)).foregroundColor(Color.textBlack)
+                                            Text("밤 시간대의 알람 만들기")
+                                        }
+                                        DatePicker("", selection: $fireAt, in: NightdateClosedRange, displayedComponents: .hourAndMinute)
+                                            .datePickerStyle(.wheel)
+                                    }
                                 }
+                                
                             }
                             
                             //요일 반복
                             GroupBox(label: Label("요일반복", systemImage: "calendar")){
-                                RepeatDaysSettingView(repeatDays: $repeatDays).padding(.top, 10)
+                                RepeatDaysSettingView(repeatDays: $repeatDays).padding(.top, 2)
                             }
                             
                             GroupBox{
@@ -231,10 +242,11 @@ struct AlarmSetting: View {
                     
                 }
                 .frame(width: CGFloat(geometry.size.width), alignment: .center)
-                .background(Image("Filter40A")
-                                .resizable()
-                                .aspectRatio(geometry.size.width, contentMode: .fill)
-                                .edgesIgnoringSafeArea(.all).edgesIgnoringSafeArea(.all))//scroll view end
+                .background(
+                    isDay ? Image("Filter40A").resizable().aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all)
+                            :
+                        Image("Filter40A2").resizable().aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all)
+                )
                 .audioURLExceptionAlert(isShowing: $audioURLException, message: "목소리 없이는 알람을 만들 수 없습니다.")
                 .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName)
                 .playBackAlert(isShowing: $isPlayBack,
