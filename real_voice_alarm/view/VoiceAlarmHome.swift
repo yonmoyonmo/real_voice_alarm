@@ -9,10 +9,12 @@ import SwiftUI
 
 struct VoiceAlarmHome: View {
     @Environment(\.scenePhase) var scenePhase
+    
     @EnvironmentObject var vm: VoiceAlarmHomeViewModel
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
     let audioPlayer = AudioPlayer.instance
+    
     let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     
@@ -56,6 +58,9 @@ struct VoiceAlarmHome: View {
                     .aspectRatio(geometry.size.width, contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
             )
+        }.onAppear{
+            //audioPlayer.checkIfSilence()
+            print("home rendered")
         }
         .onChange(of: scenePhase, perform:{ phase in
             switch phase{
@@ -67,7 +72,6 @@ struct VoiceAlarmHome: View {
                 print("app goes to background")
             case .inactive:
                 print("app is now inactive")
-                audioPlayer.checkIfSilence()
             @unknown default: print("ScenePhase: unexpected state")
             }
         })

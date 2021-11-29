@@ -17,11 +17,10 @@ struct RecordingsList: View {
     
     var body: some View {
         List {
-            Section(header: Text("내 목소리")){
-                ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
-                    RecordingRow(audioURLforShow: recording.fileURL, audioURLforSave: $audioURL, audioName: $audioName)
-                }.onDelete(perform: delete)
-            }
+            
+            ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
+                RecordingRow(audioURLforShow: recording.fileURL, audioURLforSave: $audioURL, audioName: $audioName)
+            }.onDelete(perform: delete)
         }
         .audioURLExceptionAlert(isShowing: $showAlert, message: "설정된 알람은 지울 수 없습니다.")
         .onAppear(perform: {
