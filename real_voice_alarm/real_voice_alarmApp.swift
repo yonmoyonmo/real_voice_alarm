@@ -66,6 +66,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             }
         }
         //-------------------------------//
+        //처음방문과 안방문도 구분해야겠군?
+        UserDefaults.standard.set(true,forKey: "doUserWantOnboardingView")
+        //------------------------------//
         return true
     }
     

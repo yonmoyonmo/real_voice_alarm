@@ -14,7 +14,7 @@ struct VoiceAlarmHome: View {
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
     let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
-
+    @State var showingOnboardingView:Bool = UserDefaults.standard.bool(forKey: "doUserWantOnboardingView")
     
     var body: some View {
         GeometryReader { geometry in
@@ -50,12 +50,15 @@ struct VoiceAlarmHome: View {
                         }.padding(.leading, 5)
                     }
                 }
-            }.background(
+            }
+            .background(
                 Image("Filter40A")
                     .resizable()
                     .aspectRatio(geometry.size.width, contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
-            )
+            ).fullScreenCover(isPresented: $showingOnboardingView){
+                OnboardingView(showOnboarding: $showingOnboardingView)
+            }
         }.onChange(of: scenePhase, perform:{ phase in
             switch phase{
             case .active:
@@ -69,6 +72,63 @@ struct VoiceAlarmHome: View {
             @unknown default: print("ScenePhase: unexpected state")
             }
         })
+    }
+}
+
+struct OnboardingView: View {
+    @Binding var showOnboarding:Bool
+    
+    var body: some View{
+        TabView{
+            OnboardingPageView(
+                showOnboard: $showOnboarding,
+                imageName: "speaker.slash.fill",
+                description: "무음모드 하면 안댑니다",
+                showBotton: false
+            )
+            OnboardingPageView(
+                showOnboard: $showOnboarding,
+                imageName: "face.smiling",
+                description: "이래저래 잘 쓰십쇼",
+                showBotton: false
+            )
+            OnboardingPageView(
+                showOnboard: $showOnboarding,
+                imageName: "hand.raised",
+                description: "그럼 이만...",
+                showBotton: true
+            )
+        }.tabViewStyle(PageTabViewStyle())
+    }
+}
+
+
+struct OnboardingPageView:View {
+    @Binding var showOnboard:Bool
+    let imageName:String
+    let description:String
+    let showBotton:Bool
+    
+    var body: some View{
+        VStack{
+            Group{
+                Image(systemName: imageName)
+                    .font(.system(size: 50))
+                Text(description)
+            }.frame(width: UIScreen.screenWidth, alignment: .center)
+            if(showBotton){
+                Button{
+                    showOnboard.toggle()
+                    UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
+                }label: {
+                    Text("알겠습니다")
+                        .bold()
+                        .foregroundColor(Color.textBlack)
+                        .frame(width: CGFloat(200), height: CGFloat(50))
+                        .background(Color.mainGrey)
+                }
+            }
+        }
     }
 }
 

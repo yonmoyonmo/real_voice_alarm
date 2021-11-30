@@ -89,7 +89,6 @@ struct PlayBackAlart<Presenting>: View where Presenting: View {
                     width: geometry.size.width*0.9,
                     height: geometry.size.height*0.9
                 )
-                .shadow(radius: 1)
                 .opacity(self.isShowing ? 1 : 0)
                 
             }

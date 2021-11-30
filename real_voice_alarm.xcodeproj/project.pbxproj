@@ -165,6 +165,17 @@
 			path = model;
 			sourceTree = "<group>";
 		};
+		0BB88A5A2755F50500569C39 /* alerts */ = {
+			isa = PBXGroup;
+			children = (
+				0BCD14EA273930A800E0031F /* PlayBackAlart.swift */,
+				0BCD14EE27393C1600E0031F /* View+customAlert.swift */,
+				0B05BAE6274D185D006E6CAB /* TagNameAlert.swift */,
+				0BA52682274F28BD0083758D /* AudioURLExceptionAlert.swift */,
+			);
+			path = alerts;
+			sourceTree = "<group>";
+		};
 		0BDDA643272A8C010005F810 /* util */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,13 +189,10 @@
 		0BDDA652272AD4A50005F810 /* component */ = {
 			isa = PBXGroup;
 			children = (
+				0BB88A5A2755F50500569C39 /* alerts */,
 				0BDDA650272AD49C0005F810 /* RecordingList.swift */,
 				0BE1C7962731B3DF0021501B /* AlarmCardView.swift */,
 				0BE8F1B52736BB84009B97FE /* RepeatDaysSettingView.swift */,
-				0BCD14EA273930A800E0031F /* PlayBackAlart.swift */,
-				0BCD14EE27393C1600E0031F /* View+customAlert.swift */,
-				0B05BAE6274D185D006E6CAB /* TagNameAlert.swift */,
-				0BA52682274F28BD0083758D /* AudioURLExceptionAlert.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";

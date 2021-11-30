@@ -70,21 +70,21 @@ struct AlarmCard: View {
                             }, label: {
                                 Toggle("", isOn: $alarmToggle).toggleStyle(SwitchToggleStyle(tint: .white.opacity(0.8)))
                                     .onChange(of: alarmToggle){ value in
-                                    recorderAlarm.switchScheduledAlarms(isOn: value, alarm: alarm)
+                                        recorderAlarm.switchScheduledAlarms(isOn: value, alarm: alarm)
                                     }
                             }
                         ).frame(width: 60, height: 30, alignment: .center)
-                        .sheet(isPresented: self.$showEditAlarmModal) {
-                            AlarmEdit(
-                                alarm: self.alarm,
-                                tagNameEditted: self.alarm.tagName!,
-                                fireAtEditted: self.alarm.fireAt!,
-                                repeatDaysEditted: intRepeatingDaysToEnumSet(repeatingDays: self.alarm.repeatingDays),
-                                audioNameEditted: self.alarm.audioName!,
-                                audioURLEditted: self.alarm.audioURL!,
-                                volumeEditted: self.alarm.volume
-                            )
-                        }
+                            .sheet(isPresented: self.$showEditAlarmModal) {
+                                AlarmEdit(
+                                    alarm: self.alarm,
+                                    tagNameEditted: self.alarm.tagName!,
+                                    fireAtEditted: self.alarm.fireAt!,
+                                    repeatDaysEditted: intRepeatingDaysToEnumSet(repeatingDays: self.alarm.repeatingDays),
+                                    audioNameEditted: self.alarm.audioName!,
+                                    audioURLEditted: self.alarm.audioURL!,
+                                    volumeEditted: self.alarm.volume
+                                )
+                            }
                     }.padding(15)
                     
                     HStack{
@@ -107,10 +107,10 @@ struct AlarmCard: View {
                                     Alert(
                                         title: Text("알람 삭제"),
                                         message: Text("진짜로 알람을 삭제합니까?"),
-                                        primaryButton: .default(Text("진짜 삭제"), action: {
+                                        primaryButton: .destructive(Text("삭제"), action: {
                                             recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
                                             viewModel.getAlarms()
-                                        }), secondaryButton: .cancel(Text("가짜로입니다."))
+                                        }), secondaryButton: .cancel(Text("아니오"))
                                     )
                                 }
                             }
@@ -135,7 +135,7 @@ struct AlarmCard: View {
                 .background(isDay == true ?
                             Image("CardAD").resizable().scaledToFill()
                                 .frame(width: cardWidth, height: cardHeight, alignment: .top).opacity(0.8)
-                                
+                            
                             :
                                 Image("CardAN").resizable().scaledToFill()
                                 .frame(width: cardWidth, height: cardHeight, alignment: .top).opacity(0.8)
@@ -158,7 +158,7 @@ struct addNewCardCard: View{
     @State private var showAddAlarmModal = false
     @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
     var isDay:Bool
-
+    
     var body: some View{
         VStack(alignment: .center) {
             Button(

@@ -56,7 +56,6 @@ struct TagNameAlert<Presenting>: View where Presenting: View {
                     .frame(
                         width: geometry.size.width*0.9
                     )
-                    .shadow(radius: 1)
                     .opacity(self.isShowing ? 1 : 0)
             }
         }

@@ -27,17 +27,16 @@ struct AudioURLExceptionAlert<Presenting>: View where Presenting: View {
                                 self.isShowing.toggle()
                             }
                         }) {
-                            Text("넵").foregroundColor(Color.textBlack).font(.system(size:18, weight: .bold))
+                            Text("OK").foregroundColor(Color.textBlack).font(.system(size:18, weight: .bold))
                         }
                     }
                 }
                 .padding()
                 .background(Color.mainGrey)
                 .frame(
-                    width: deviceSize.size.width*0.7,
-                    height: deviceSize.size.height*0.7
+                    width: deviceSize.size.width*0.8,
+                    height: deviceSize.size.height*0.9
                 )
-                .shadow(radius: 1)
                 .opacity(self.isShowing ? 1 : 0)
             }
         }
