@@ -81,6 +81,11 @@ struct VoiceAlarmHome: View {
 struct OnboardingView: View {
     @Binding var showOnboarding:Bool
     
+    func setupAppearance() {
+        UIPageControl.appearance().currentPageIndicatorTintColor = .black
+        UIPageControl.appearance().pageIndicatorTintColor = UIColor.black.withAlphaComponent(0.2)
+      }
+    
     var body: some View{
         TabView{
             OnboardingPageView(
@@ -101,7 +106,9 @@ struct OnboardingView: View {
                 description: "그럼 이만...",
                 showBotton: true
             )
-        }.tabViewStyle(PageTabViewStyle())
+        }.tabViewStyle(PageTabViewStyle()).onAppear {
+            setupAppearance()
+          }
     }
 }
 
