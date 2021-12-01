@@ -35,7 +35,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("------------------------< App Launched >------------------------")
         
-        //print("screen size : width == \(UIScreen.screenWidth), height == \(UIScreen.screenHeight)")
+        print("screen size : width == \(UIScreen.screenWidth), height == \(UIScreen.screenHeight)")
         
         //노티피케이션 델리게이트 등록
         UNUserNotificationCenter.current().delegate = self
@@ -66,8 +66,12 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             }
         }
         //-------------------------------//
-        //처음방문과 안방문도 구분해야겠군?
-        UserDefaults.standard.set(true,forKey: "doUserWantOnboardingView")
+        //onboarding view
+        let userDefaults = UserDefaults.standard
+        if(userDefaults.object(forKey: "doUserWantOnboardingView") == nil){
+            print("debug userDefaults")
+            userDefaults.set(true, forKey: "doUserWantOnboardingView")
+        }
         //------------------------------//
         return true
     }

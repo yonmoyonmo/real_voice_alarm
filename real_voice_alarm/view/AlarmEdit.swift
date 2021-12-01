@@ -200,7 +200,9 @@ struct AlarmEdit: View {
                             }
                             Spacer()
                         }
-                    }.padding(UIScreen.screenWidth > 700 ? 200 : 10)
+                    }
+                    .padding(.horizontal, UIScreen.screenWidth > 700.0 ? 200 : 10)
+                    .padding(.top, UIScreen.screenWidth > 700.0 ? 200 : 10)
                 }.frame(width: CGFloat(geometry.size.width), alignment: .center)
                     .background(Image("Filter40A")
                                     .resizable()

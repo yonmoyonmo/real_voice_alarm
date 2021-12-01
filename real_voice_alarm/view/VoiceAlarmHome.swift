@@ -37,7 +37,10 @@ struct VoiceAlarmHome: View {
                                 }
                             }
                             Spacer()
-                        }.frame(width: CGFloat(geometry.size.width * 0.85), height: CGFloat(geometry.size.width * 0.2), alignment: .center)
+                        }.frame(width: CGFloat(geometry.size.width * 0.85),
+                                height: UIScreen.screenHeight > 1100.0 ?
+                                CGFloat(geometry.size.width * 0.1) : CGFloat(geometry.size.width * 0.2),
+                                alignment: .center)
                         
                         Group{
                             AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
@@ -121,7 +124,18 @@ struct OnboardingPageView:View {
                     showOnboard.toggle()
                     UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
                 }label: {
-                    Text("알겠습니다")
+                    Text("다시 보지 않겠습니다.")
+                        .bold()
+                        .foregroundColor(Color.textBlack)
+                        .frame(width: CGFloat(200), height: CGFloat(50))
+                        .background(Color.mainGrey)
+                }
+                
+                Button{
+                    showOnboard.toggle()
+                    //UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
+                }label: {
+                    Text("나중에 다시 보겠습니다.")
                         .bold()
                         .foregroundColor(Color.textBlack)
                         .frame(width: CGFloat(200), height: CGFloat(50))
