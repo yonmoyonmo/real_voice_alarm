@@ -91,22 +91,24 @@ struct OnboardingView: View {
             OnboardingPageView(
                 showOnboard: $showOnboarding,
                 imageName: "speaker.slash.fill",
-                description: "무음모드 하면 안댑니다",
+                description: "무음모드에선 모티보이스 알람 소리가 나지 않아요",
                 showBotton: false
             )
             OnboardingPageView(
                 showOnboard: $showOnboarding,
-                imageName: "face.smiling",
-                description: "이래저래 잘 쓰십쇼",
+                imageName: "mic.fill",
+                description: "알람을 위한 알림 권한과 녹음을 위한 마이크 권한이 필요해요",
                 showBotton: false
             )
             OnboardingPageView(
                 showOnboard: $showOnboarding,
                 imageName: "hand.raised",
-                description: "그럼 이만...",
+                description: "(아무 말)",
                 showBotton: true
             )
-        }.tabViewStyle(PageTabViewStyle()).onAppear {
+        }.tabViewStyle(PageTabViewStyle())
+            .background(Image("Filter40A").resizable().scaledToFill())
+            .onAppear {
             setupAppearance()
           }
     }
@@ -121,34 +123,45 @@ struct OnboardingPageView:View {
     
     var body: some View{
         VStack{
-            Group{
+            GroupBox{
                 Image(systemName: imageName)
-                    .font(.system(size: 50))
-                Text(description)
-            }.frame(width: UIScreen.screenWidth, alignment: .center)
-            if(showBotton){
-                Button{
-                    showOnboard.toggle()
-                    UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
-                }label: {
-                    Text("다시 보지 않겠습니다.")
-                        .bold()
-                        .foregroundColor(Color.textBlack)
-                        .frame(width: CGFloat(200), height: CGFloat(50))
-                        .background(Color.mainGrey)
-                }
+                    .font(.system(size: 60))
+                    .padding()
                 
-                Button{
-                    showOnboard.toggle()
-                    //UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
-                }label: {
-                    Text("나중에 다시 보겠습니다.")
-                        .bold()
-                        .foregroundColor(Color.textBlack)
-                        .frame(width: CGFloat(200), height: CGFloat(50))
-                        .background(Color.mainGrey)
+                Text(description).font(.system(size:20,weight: .bold)).padding()
+                
+                if(showBotton){
+                    Button{
+                        showOnboard.toggle()
+                        UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
+                    }label: {
+                        Text("다시 보지 않겠습니다.")
+                            .font(.system(size: 18))
+                            .frame(maxWidth: 270)
+                            .foregroundColor(.black)
+                            .padding()
+                    }.background(Color.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        .opacity(0.8)
+                        .shadow(radius: 5, x: 0, y: 5)
+                        .padding()
+                    
+                    Button{
+                        showOnboard.toggle()
+                        //UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
+                    }label: {
+                        Text("나중에 다시 보겠습니다.")
+                            .font(.system(size: 18))
+                            .frame(maxWidth: 270)
+                            .foregroundColor(.black)
+                            .padding()
+                    }.background(Color.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        .opacity(0.8)
+                        .shadow(radius: 5, x: 0, y: 5)
+                        .padding()
                 }
-            }
+            }.frame(width: UIScreen.screenWidth, alignment: .center)
         }
     }
 }

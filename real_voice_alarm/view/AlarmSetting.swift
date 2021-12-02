@@ -274,13 +274,3 @@ extension UIScreen{
     static let screenHeight = UIScreen.main.bounds.size.height
     static let screenSize = UIScreen.main.bounds.size
 }
-
-//struct MyGroupBoxStyle: GroupBoxStyle {
-//    func makeBody(configuration: Configuration) -> some View {
-//        configuration.content
-//            .frame(maxWidth: .infinity)
-//            .padding()
-//            .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
-//            .overlay(configuration.label.padding(.leading, 4), alignment: .topLeading)
-//    }
-//}
