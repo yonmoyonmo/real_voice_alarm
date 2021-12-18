@@ -124,7 +124,10 @@ struct AlarmCard: View {
                         ForEach(repeatingDays, id:\.self){ repeatDay in
                             Text(RepeatDays(rawValue: repeatDay)!.shortName)
                                 .font(.system(size: 20, weight: .bold))
-                                .foregroundColor(alarm.repeatingDays.contains(repeatDay) ? Color.mainBlue : Color.textBlack)
+                                .foregroundColor(alarm.repeatingDays.contains(repeatDay)
+                                                 ? Color.textBlack :
+                                                    Color.textBlack.opacity(0.2)
+                                )
                         }
                         
                     }.frame(width: cardWidth, height: CGFloat(48.0)).background(Color.mainGrey.opacity(0.5))

@@ -121,9 +121,15 @@ struct AlarmEdit: View {
                             
                             //date picker
                             GroupBox{
-                                DatePicker("", selection: $fireAtEditted,
-                                           displayedComponents: .hourAndMinute)
-                                    .datePickerStyle(.wheel)
+                                
+                                DatePicker(selection: $fireAtEditted,
+                                           displayedComponents: .hourAndMinute,
+                                           label: {EmptyView()})
+                                    .datePickerStyle(.wheel).labelsHidden()
+                                    .frame(width: UIScreen.screenWidth > 700.0 ?
+                                           400 :
+                                            UIScreen.screenWidth * 0.87,
+                                           alignment: .center)
                             }
                             
                             //repeating days
@@ -158,10 +164,9 @@ struct AlarmEdit: View {
                                         audioName:$audioNameEditted,
                                         audioURL:$audioURLEditted)
                                     ){
-                                        Image(systemName: "mic.fill.badge.plus").font(.system(size:20, weight: .bold)).foregroundColor(Color.myAccent)
+                                        Image(systemName: "waveform").font(.system(size:20, weight: .bold)).foregroundColor(Color.myAccent)
                                     }
                                 }
-                                
                             }
                             
                             

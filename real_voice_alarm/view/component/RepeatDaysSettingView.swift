@@ -75,14 +75,14 @@ struct RepeatDaysSettingView: View {
                         }
                         selectedSun.toggle()
                     }, label: {
-                        Text("일").font(.system(size:20, weight: .bold)).foregroundColor(.red)
+                        Text("일").font(.system(size:20, weight: .bold)).foregroundColor(.textBlack)
                     })
                 }else{
                     Button(action: {
                         repeatDays.append(.sunday)
                         selectedSun.toggle()
                     }, label: {
-                        Text("일").font(.system(size:20, weight: .bold))
+                        Text("일").font(.system(size:20, weight: .bold)).opacity(0.2)
                     })
                 }
                 Spacer()
@@ -94,14 +94,14 @@ struct RepeatDaysSettingView: View {
                         }
                         selectedMon.toggle()
                     }, label: {
-                        Text("월").foregroundColor(.red).font(.system(size:20, weight: .bold))
+                        Text("월").foregroundColor(.textBlack).font(.system(size:20, weight: .bold))
                     })
                 }else{
                     Button(action: {
                         repeatDays.append(.monday)
                         selectedMon.toggle()
                     }, label: {
-                        Text("월").font(.system(size:20, weight: .bold))
+                        Text("월").font(.system(size:20, weight: .bold)).opacity(0.2)
                     })
                 }
                 Spacer()
@@ -113,14 +113,14 @@ struct RepeatDaysSettingView: View {
                         }
                         selectedTue.toggle()
                     }, label: {
-                        Text("화").foregroundColor(.red).font(.system(size:20, weight: .bold))
+                        Text("화").foregroundColor(.textBlack).font(.system(size:20, weight: .bold))
                     })
                 }else{
                     Button(action: {
                         repeatDays.append(.tuesday)
                         selectedTue.toggle()
                     }, label: {
-                        Text("화").font(.system(size:20, weight: .bold))
+                        Text("화").font(.system(size:20, weight: .bold)).opacity(0.2)
                     })
                 }
                 Spacer()
@@ -134,14 +134,14 @@ struct RepeatDaysSettingView: View {
                     }
                     selectedWed.toggle()
                 }, label: {
-                    Text("수").foregroundColor(.red).font(.system(size:20, weight: .bold))
+                    Text("수").foregroundColor(.textBlack).font(.system(size:20, weight: .bold))
                 })
             }else{
                 Button(action: {
                     repeatDays.append(.wednesday)
                     selectedWed.toggle()
                 }, label: {
-                    Text("수").font(.system(size:20, weight: .bold))
+                    Text("수").font(.system(size:20, weight: .bold)).opacity(0.2)
                 })
             }
             Spacer()
@@ -153,14 +153,14 @@ struct RepeatDaysSettingView: View {
                     }
                     selectedThu.toggle()
                 }, label: {
-                    Text("목").foregroundColor(.red).font(.system(size:20, weight: .bold))
+                    Text("목").foregroundColor(.textBlack).font(.system(size:20, weight: .bold))
                 })
             }else{
                 Button(action: {
                     repeatDays.append(.thursday)
                     selectedThu.toggle()
                 }, label: {
-                    Text("목").font(.system(size:20, weight: .bold))
+                    Text("목").font(.system(size:20, weight: .bold)).opacity(0.2)
                 })
             }
             Spacer()
@@ -172,14 +172,14 @@ struct RepeatDaysSettingView: View {
                     }
                     selectedFri.toggle()
                 }, label: {
-                    Text("금").foregroundColor(.red).font(.system(size:20, weight: .bold))
+                    Text("금").foregroundColor(.textBlack).font(.system(size:20, weight: .bold))
                 })
             }else{
                 Button(action: {
                     repeatDays.append(.friday)
                     selectedFri.toggle()
                 }, label: {
-                    Text("금").font(.system(size:20, weight: .bold))
+                    Text("금").font(.system(size:20, weight: .bold)).opacity(0.2)
                 })
             }
             Spacer()
@@ -191,14 +191,14 @@ struct RepeatDaysSettingView: View {
                     }
                     selectedSat.toggle()
                 }, label: {
-                    Text("토").foregroundColor(.red).font(.system(size:20, weight: .bold))
+                    Text("토").foregroundColor(.textBlack).font(.system(size:20, weight: .bold))
                 })
             }else{
                 Button(action: {
                     repeatDays.append(.saturday)
                     selectedSat.toggle()
                 }, label: {
-                    Text("토").font(.system(size:20, weight: .bold))
+                    Text("토").font(.system(size:20, weight: .bold)).opacity(0.2)
                 })
             }
             

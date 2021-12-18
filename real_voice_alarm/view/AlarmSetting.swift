@@ -34,11 +34,11 @@ struct AlarmSetting: View {
     var DaydateClosedRange: ClosedRange<Date> {
         
         var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-        minComps.hour = 0
+        minComps.hour = 4
         minComps.minute = 0
         
         var maxComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-        maxComps.hour = 11
+        maxComps.hour = 16
         maxComps.minute = 59
         
         let myCalendar = Calendar(identifier: .gregorian)
@@ -51,7 +51,7 @@ struct AlarmSetting: View {
     var NightdateClosedRange: ClosedRange<Date> {
         
         var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-        minComps.hour = 12
+        minComps.hour = 0
         minComps.minute = 0
         
         var maxComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
@@ -150,15 +150,29 @@ struct AlarmSetting: View {
                                             Image(systemName: "sun.max").font(.system(size:20, weight: .bold)).foregroundColor(Color.textBlack)
                                             Text("낮 시간대의 알람 만들기")
                                         }
-                                        DatePicker("", selection: $fireAt, in: DaydateClosedRange, displayedComponents: .hourAndMinute)
-                                            .datePickerStyle(.wheel)
+                                        VStack{
+                                            DatePicker(selection: $fireAt, in: DaydateClosedRange, displayedComponents: .hourAndMinute,
+                                                       label:{ EmptyView()
+                                            }).datePickerStyle(.wheel).labelsHidden()
+                                                .frame(width: UIScreen.screenWidth > 700.0 ?
+                                                       400 :
+                                                        UIScreen.screenWidth * 0.87,
+                                                       alignment: .center)
+                                        }
                                     }else{
                                         HStack{
                                             Image(systemName: "moon.stars.fill").font(.system(size:20, weight: .bold)).foregroundColor(Color.textBlack)
                                             Text("밤 시간대의 알람 만들기")
                                         }
-                                        DatePicker("", selection: $fireAt, in: NightdateClosedRange, displayedComponents: .hourAndMinute)
-                                            .datePickerStyle(.wheel)
+                                        VStack{
+                                            DatePicker(selection: $fireAt, in: NightdateClosedRange, displayedComponents: .hourAndMinute,
+                                                       label:{ EmptyView()
+                                            }).datePickerStyle(.wheel).labelsHidden()
+                                                .frame(width: UIScreen.screenWidth > 700.0 ?
+                                                       400 :
+                                                        UIScreen.screenWidth * 0.87,
+                                                       alignment: .center)
+                                        }
                                     }
                                 }
                             }
@@ -194,7 +208,7 @@ struct AlarmSetting: View {
                                         audioName:$audioName,
                                         audioURL:$audioURL)
                                     ){
-                                        Image(systemName: "mic.fill.badge.plus").font(.system(size:20, weight: .bold)).foregroundColor(Color.myAccent)
+                                        Image(systemName: "waveform").font(.system(size:20, weight: .bold)).foregroundColor(Color.myAccent)
                                     }
                                 }
                                 

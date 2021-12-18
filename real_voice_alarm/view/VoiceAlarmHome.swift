@@ -38,7 +38,7 @@ struct VoiceAlarmHome: View {
                             }
                             Spacer()
                         }.frame(width: CGFloat(geometry.size.width * 0.85),
-                                height: UIScreen.screenHeight > 1100.0 ?
+                                height: UIScreen.screenHeight > 1000.0 ?
                                 CGFloat(geometry.size.width * 0.1) : CGFloat(geometry.size.width * 0.2),
                                 alignment: .center)
                         

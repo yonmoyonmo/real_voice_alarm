@@ -29,14 +29,13 @@ func createDate(weekday: Int, hour: Int, minute: Int, year: Int)->Date{
     return calendar.date(from: components)!
 }
 
-//00시 - 12시(am) == day
-//12시 1분 ~ 23시 59분(pm) == night
+//낮밤 감별사
 func isDay(fireAt: Date)->Bool{
     let calendar = Calendar.current
     let hour = calendar.component(.hour, from: fireAt)
-    if 12 <= hour {
+    if (hour >= 17 || hour < 4){
         return false
-    }else {
+    }else{
         return true
     }
 }
