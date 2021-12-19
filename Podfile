@@ -6,5 +6,6 @@ target 'real_voice_alarm' do
   use_frameworks!
 
   # Pods for real_voice_alarm
+  pod 'Google-Mobile-Ads-SDK'
 
 end

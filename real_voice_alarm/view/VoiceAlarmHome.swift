@@ -24,51 +24,56 @@ struct VoiceAlarmHome: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView{
-                VStack{
-                    //conditional Screen
-                    if recorderAlarm.isFiring == true {
-                        AlarmingScreen()
-                    }else {
-                        //home
-                        HStack{
-                            Spacer()
-                            Button(action:{
-                                showMenu.toggle()
-                            }) {
-                                Image(systemName:"gearshape.fill")
-                                    .font(.system(size: 25))
-                                    .foregroundColor(.white)
-                            }.sheet(isPresented: self.$showMenu) {
-                                HomeMenu(themeType: $themeType, cardType:$cardType)
-                            }
-                        }.padding()
-                        Group{
-                            if(recorderAlarm.day != 0){
-                                Text("  다음 알람까지 \n \(recorderAlarm.day)일 남았습니다.").font(.system(size: 28, weight: .bold)).foregroundColor(Color.white)
-                            }else{
-                                if(recorderAlarm.hour == 0){
-                                    Text("  다음 알람까지 \n \(recorderAlarm.minute)분 남았습니다.").font(.system(size: 28, weight: .bold)).foregroundColor(Color.white)
+                ZStack{
+                    SwiftUIBannerAd(adPosition: .top, adUnitId: "ca-app-pub-3940256099942544/2934735716")
+                    VStack{
+                        //conditional Screen
+                        if recorderAlarm.isFiring == true {
+                            AlarmingScreen()
+                        }else {
+                            //home
+                            Group{
+                                Spacer()
+                                HStack{
+                                    Spacer()
+                                    Button(action:{
+                                        showMenu.toggle()
+                                    }) {
+                                        Image(systemName:"gearshape.fill")
+                                            .font(.system(size: 25))
+                                            .foregroundColor(.white)
+                                    }.sheet(isPresented: self.$showMenu) {
+                                        HomeMenu(themeType: $themeType, cardType:$cardType)
+                                    }
+                                }
+                                if(recorderAlarm.day != 0){
+                                    Text("  다음 알람까지 \n \(recorderAlarm.day)일 남았습니다.").font(.system(size: 23, weight: .bold)).foregroundColor(Color.white)
                                 }else{
-                                    Text("  다음 알람까지 \n \(recorderAlarm.hour)시간 \(recorderAlarm.minute)분 남았습니다.").font(.system(size: 28, weight: .bold)).foregroundColor(Color.white)
+                                    if(recorderAlarm.hour == 0){
+                                        Text("  다음 알람까지 \n \(recorderAlarm.minute)분 남았습니다.").font(.system(size: 23, weight: .bold)).foregroundColor(Color.white)
+                                    }else{
+                                        Text("  다음 알람까지 \n \(recorderAlarm.hour)시간 \(recorderAlarm.minute)분 남았습니다.").font(.system(size: 23, weight: .bold)).foregroundColor(Color.white)
+                                    }
                                 }
-                            }
-                            Spacer()
-                        }.frame(width: CGFloat(geometry.size.width * 0.85),
-                                height: UIScreen.screenHeight > 1000.0 ?
-                                CGFloat(geometry.size.width * 0.1) : CGFloat(geometry.size.width * 0.2),
-                                alignment: .center)
-                        
-                        Group{
-                            AlarmCardView(alarms: $vm.dayAlarms, isDay: true, cardType: self.cardType, themeType: self.themeType)
-                            AlarmCardView(alarms: $vm.nightAlarms, isDay: false, cardType: self.cardType, themeType: self.themeType)
-                                .onAppear(perform: {
-                                    vm.getAlarms()
-                                }).onReceive(timer){ time in
-                                    recorderAlarm.setLastingTimeOfNext()
-                                }
-                        }.padding(.leading, 5)
+                                Spacer()
+                            }.frame(width: CGFloat(geometry.size.width * 0.85),
+                                    height: UIScreen.screenHeight > 1000.0 ?
+                                    CGFloat(geometry.size.width * 0.1) : CGFloat(geometry.size.width * 0.15),
+                                    alignment: .center)
+                            
+                            Group{
+                                AlarmCardView(alarms: $vm.dayAlarms, isDay: true, cardType: self.cardType, themeType: self.themeType)
+                                AlarmCardView(alarms: $vm.nightAlarms, isDay: false, cardType: self.cardType, themeType: self.themeType)
+                                    .onAppear(perform: {
+                                        vm.getAlarms()
+                                    }).onReceive(timer){ time in
+                                        recorderAlarm.setLastingTimeOfNext()
+                                    }
+                            }.padding(.leading, 5)
+                        }
                     }
                 }
+                
             }
             .background(
                 Image(themeType)
@@ -179,11 +184,5 @@ struct OnboardingPageView:View {
                 }
             }.frame(width: UIScreen.screenWidth, alignment: .center)
         }
-    }
-}
-
-struct VoiceAlarmHome_Previews: PreviewProvider {
-    static var previews: some View {
-        VoiceAlarmHome().environmentObject(RecorderAlarm())
     }
 }

@@ -4,21 +4,28 @@
 //
 //  Created by yonmo on 2021/10/25.
 //
-/**
- 메모장
- 
- 그리고 겟알람쓰가 너무 많이 호출 되는 부분도 고치자
- 
- 삭제된 알람이 스케쥴에 남아있기도 하네? 시발
- */
 import SwiftUI
 import AVFoundation
-
-//screen size : width == 744.0, height == 1133.0 mini size
+import AppTrackingTransparency
+import GoogleMobileAds
 
 @main
 struct real_voice_alarmApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    
+    init() {
+            if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
+                //User has not indicated their choice for app tracking
+                //You may want to show a pop-up explaining why you are collecting their data
+                //Toggle any variables to do this here
+            } else {
+                ATTrackingManager.requestTrackingAuthorization { status in
+                    //Whether or not user has opted in initialize GADMobileAds here it will handle the rest
+                                                                
+                    GADMobileAds.sharedInstance().start(completionHandler: nil)
+                }
+            }
+        }
     
     var body: some Scene {
         WindowGroup {
