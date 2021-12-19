@@ -22,14 +22,16 @@ struct AlarmCardView: View {
     @Binding var alarms:[AlarmEntity]
     @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
     var isDay:Bool
+    var cardType:String
+    var themeType:String
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false, content: {
             HStack(){
                 ForEach($alarms){$alarm in
-                    AlarmCard(alarm: $alarm, alarmToggle: alarm.isActive, isDay:isDay)
+                    AlarmCard(alarm: $alarm, alarmToggle: alarm.isActive, isDay:isDay, cardType:self.cardType, themeType: self.themeType)
                 }
-                addNewCardCard(isDay: self.isDay)
+                addNewCardCard(isDay: self.isDay, themeType:self.themeType)
             }.padding(.leading, 24)
                 .padding(.bottom, 20)
         })
@@ -48,6 +50,8 @@ struct AlarmCard: View {
     let repeatingDays = [1,2,3,4,5,6,7]
     
     var isDay:Bool
+    var cardType:String
+    var themeType:String
     
     func intRepeatingDaysToEnumSet(repeatingDays: [Int]) ->[RepeatDays] {
         var result:[RepeatDays] = []
@@ -82,7 +86,8 @@ struct AlarmCard: View {
                                     repeatDaysEditted: intRepeatingDaysToEnumSet(repeatingDays: self.alarm.repeatingDays),
                                     audioNameEditted: self.alarm.audioName!,
                                     audioURLEditted: self.alarm.audioURL!,
-                                    volumeEditted: self.alarm.volume
+                                    volumeEditted: self.alarm.volume,
+                                    themeType:self.themeType
                                 )
                             }
                     }.padding(15)
@@ -136,11 +141,11 @@ struct AlarmCard: View {
                     
                 }
                 .background(isDay == true ?
-                            Image("CardAD").resizable().scaledToFill()
+                            Image("\(cardType)D").resizable().scaledToFill()
                                 .frame(width: cardWidth, height: cardHeight, alignment: .top).opacity(0.8)
                             
                             :
-                                Image("CardAN").resizable().scaledToFill()
+                                Image("\(cardType)N").resizable().scaledToFill()
                                 .frame(width: cardWidth, height: cardHeight, alignment: .top).opacity(0.8)
                             
                 )
@@ -161,6 +166,7 @@ struct addNewCardCard: View{
     @State private var showAddAlarmModal = false
     @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
     var isDay:Bool
+    var themeType:String
     
     var body: some View{
         VStack(alignment: .center) {
@@ -174,7 +180,7 @@ struct addNewCardCard: View{
                     .font(.system(size: 65.0, weight: .bold))
             }
             .sheet(isPresented: self.$showAddAlarmModal) {
-                AlarmSetting(isDay: self.isDay)
+                AlarmSetting(isDay: self.isDay, themeType:self.themeType)
             }
         }
         .background(Color.lighterGrey.opacity(0.5))

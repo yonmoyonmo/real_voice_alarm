@@ -66,10 +66,18 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             }
         }
         //-------------------------------//
-        //onboarding view
+        //onboarding view and theme
         let userDefaults = UserDefaults.standard
         if(userDefaults.object(forKey: "doUserWantOnboardingView") == nil){
             userDefaults.set(true, forKey: "doUserWantOnboardingView")
+        }
+        
+        if(userDefaults.object(forKey: "themeType") == nil){
+            userDefaults.set("Filter40A", forKey: "themeType")
+        }
+        
+        if(userDefaults.object(forKey: "cardType") == nil){
+            userDefaults.set("CardA", forKey: "cardType")
         }
         //------------------------------//
         return true

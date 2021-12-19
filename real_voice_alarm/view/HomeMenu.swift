@@ -31,7 +31,7 @@ struct HomeMenu: View {
                             GroupBox{
                                 HStack{
                                     NavigationLink(destination: QandAMenu(), label:{
-                                        Text("자주 묻는 질문")
+                                        Text("자주 묻는 질문 보기")
                                     })
                                     Spacer()
                                 }.frame(height: 50, alignment: .center)
@@ -40,6 +40,13 @@ struct HomeMenu: View {
                                         .onChange(of: isUserWantsToSeeGuideAtLaunch){ value in
                                             UserDefaults.standard.set(isUserWantsToSeeGuideAtLaunch, forKey: "doUserWantOnboardingView")
                                         }
+                                }.frame(height: 50, alignment: .center)
+                                
+                                HStack{
+                                    NavigationLink(destination: ThemeSelection(), label:{
+                                        Text("앱 테마 바꾸기")
+                                    })
+                                    Spacer()
                                 }.frame(height: 50, alignment: .center)
                             }
                             Spacer()

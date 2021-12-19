@@ -18,6 +18,9 @@ struct VoiceAlarmHome: View {
     @State var showingOnboardingView:Bool = UserDefaults.standard.bool(forKey: "doUserWantOnboardingView")
     @State var showMenu:Bool = false
     
+    let themeType:String = UserDefaults.standard.string(forKey: "themeType")!
+    let cardType:String = UserDefaults.standard.string(forKey: "cardType")!
+    
     var body: some View {
         GeometryReader { geometry in
             ScrollView{
@@ -56,8 +59,8 @@ struct VoiceAlarmHome: View {
                                 alignment: .center)
                         
                         Group{
-                            AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
-                            AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
+                            AlarmCardView(alarms: $vm.dayAlarms, isDay: true, cardType: self.cardType, themeType: self.themeType)
+                            AlarmCardView(alarms: $vm.nightAlarms, isDay: false, cardType: self.cardType, themeType: self.themeType)
                                 .onAppear(perform: {
                                     vm.getAlarms()
                                 }).onReceive(timer){ time in
@@ -68,7 +71,7 @@ struct VoiceAlarmHome: View {
                 }
             }
             .background(
-                Image("Filter40A")
+                Image(themeType)
                     .resizable()
                     .aspectRatio(geometry.size.width, contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)

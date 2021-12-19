@@ -31,6 +31,8 @@ struct AlarmSetting: View {
     @State var audioURLException:Bool = false
     //-----------------------------------------
     var isDay:Bool
+    var themeType:String
+    
     var DaydateClosedRange: ClosedRange<Date> {
         
         var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
@@ -257,9 +259,9 @@ struct AlarmSetting: View {
                 }
                 .frame(width: CGFloat(geometry.size.width), alignment: .center)
                 .background(
-                    isDay ? Image("Filter40A").resizable().aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all)
+                    isDay ? Image(themeType).resizable().aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all)
                             :
-                        Image("Filter40A2").resizable().aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all)
+                        Image("\(themeType)2").resizable().aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all)
                 )
                 .audioURLExceptionAlert(isShowing: $audioURLException, message: "목소리 없이는 알람을 만들 수 없습니다.")
                 .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName)
@@ -274,12 +276,6 @@ struct AlarmSetting: View {
                 }
             }
         }//navi view end
-    }
-}
-
-struct AlarmSetting_Previews: PreviewProvider {
-    static var previews: some View {
-        AlarmSetting(isDay: false)
     }
 }
 

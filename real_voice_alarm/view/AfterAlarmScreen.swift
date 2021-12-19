@@ -12,6 +12,8 @@ struct AfterAlarmScreen: View {
     let recorderAlarm = RecorderAlarm.instance
     @EnvironmentObject var vm: VoiceAlarmHomeViewModel
     var isDay:Bool
+    var cardType:String = UserDefaults.standard.string(forKey: "cardType")!
+    var themeType:String = UserDefaults.standard.string(forKey: "themeType")!
     
     var body: some View {
         GeometryReader { geometry in
@@ -27,13 +29,13 @@ struct AfterAlarmScreen: View {
                                 .background(Rectangle().fill(Color.white).opacity(0.4).shadow(radius: 5, x:0, y:5))
                                 .cornerRadius(20)
                             
-                            AlarmCardView(alarms: $vm.nightAlarms, isDay: false)
+                            AlarmCardView(alarms: $vm.nightAlarms, isDay: false, cardType: cardType, themeType:self.themeType)
                             
                         }
                         
                     }else{
                         VStack{
-                            AlarmCardView(alarms: $vm.dayAlarms, isDay: true)
+                            AlarmCardView(alarms: $vm.dayAlarms, isDay: true, cardType: cardType, themeType:self.themeType)
                             
                             Text("내일 아침의 나에게 해주고 싶은 말을 지금 녹음해봐요!")
                                 .font(.system(size: 21, weight: .bold)).padding()
@@ -53,7 +55,7 @@ struct AfterAlarmScreen: View {
                 }
             }
             .frame(width: CGFloat(geometry.size.width),height:CGFloat(geometry.size.height), alignment: .center)
-            .background(Image("Filter40A")
+            .background(Image(themeType)
                             .resizable()
                             .aspectRatio(geometry.size, contentMode: .fill)
                             .edgesIgnoringSafeArea(.all))

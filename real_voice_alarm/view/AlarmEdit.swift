@@ -30,6 +30,7 @@ struct AlarmEdit: View {
     @State var isPlayBack: Bool = false
     @State var audioURLException:Bool = false
     //----------------------------------------
+    var themeType:String
     
     func updateAlarm(){
         if(audioURLEditted==nil){
@@ -209,7 +210,7 @@ struct AlarmEdit: View {
                     .padding(.horizontal, UIScreen.screenWidth > 700.0 ? 200 : 10)
                     .padding(.top, UIScreen.screenWidth > 700.0 ? 150 : 10)
                 }.frame(width: CGFloat(geometry.size.width), alignment: .center)
-                    .background(Image("Filter40A")
+                    .background(Image(themeType)
                                     .resizable()
                                     .aspectRatio(geometry.size.width, contentMode: .fill)
                                     .edgesIgnoringSafeArea(.all).edgesIgnoringSafeArea(.all))
