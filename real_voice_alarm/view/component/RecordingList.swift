@@ -17,7 +17,6 @@ struct RecordingsList: View {
     
     var body: some View {
         List {
-            
             ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
                 RecordingRow(audioURLforShow: recording.fileURL, audioURLforSave: $audioURL, audioName: $audioName)
             }.onDelete(perform: delete)

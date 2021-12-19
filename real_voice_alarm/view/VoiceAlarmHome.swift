@@ -14,7 +14,9 @@ struct VoiceAlarmHome: View {
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
     let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+    
     @State var showingOnboardingView:Bool = UserDefaults.standard.bool(forKey: "doUserWantOnboardingView")
+    @State var showMenu:Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,8 +27,19 @@ struct VoiceAlarmHome: View {
                         AlarmingScreen()
                     }else {
                         //home
-                        Group{
+                        HStack{
                             Spacer()
+                            Button(action:{
+                                showMenu.toggle()
+                            }) {
+                                Image(systemName:"gearshape.fill")
+                                    .font(.system(size: 25))
+                                    .foregroundColor(.white)
+                            }.sheet(isPresented: self.$showMenu) {
+                                HomeMenu(isUserWantsToSeeGuideAtLaunch: showingOnboardingView)
+                            }
+                        }.padding()
+                        Group{
                             if(recorderAlarm.day != 0){
                                 Text("  다음 알람까지 \n \(recorderAlarm.day)일 남았습니다.").font(.system(size: 28, weight: .bold)).foregroundColor(Color.white)
                             }else{

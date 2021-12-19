@@ -69,7 +69,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         //onboarding view
         let userDefaults = UserDefaults.standard
         if(userDefaults.object(forKey: "doUserWantOnboardingView") == nil){
-            print("debug userDefaults")
             userDefaults.set(true, forKey: "doUserWantOnboardingView")
         }
         //------------------------------//
