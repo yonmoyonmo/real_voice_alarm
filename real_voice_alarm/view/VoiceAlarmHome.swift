@@ -18,8 +18,8 @@ struct VoiceAlarmHome: View {
     @State var showingOnboardingView:Bool = UserDefaults.standard.bool(forKey: "doUserWantOnboardingView")
     @State var showMenu:Bool = false
     
-    let themeType:String = UserDefaults.standard.string(forKey: "themeType")!
-    let cardType:String = UserDefaults.standard.string(forKey: "cardType")!
+    @State var themeType:String = UserDefaults.standard.string(forKey: "themeType")!
+    @State var cardType:String = UserDefaults.standard.string(forKey: "cardType")!
     
     var body: some View {
         GeometryReader { geometry in
@@ -39,7 +39,7 @@ struct VoiceAlarmHome: View {
                                     .font(.system(size: 25))
                                     .foregroundColor(.white)
                             }.sheet(isPresented: self.$showMenu) {
-                                HomeMenu(isUserWantsToSeeGuideAtLaunch: showingOnboardingView)
+                                HomeMenu(themeType: $themeType, cardType:$cardType)
                             }
                         }.padding()
                         Group{

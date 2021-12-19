@@ -10,7 +10,10 @@ import SwiftUI
 struct HomeMenu: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    @State var isUserWantsToSeeGuideAtLaunch:Bool
+    @State var showingOnboardingView:Bool = UserDefaults.standard.bool(forKey: "doUserWantOnboardingView")
+    
+    @Binding var themeType:String
+    @Binding var cardType:String
     
     var body: some View {
         GeometryReader { geometry in
@@ -31,20 +34,20 @@ struct HomeMenu: View {
                             GroupBox{
                                 HStack{
                                     NavigationLink(destination: QandAMenu(), label:{
-                                        Text("자주 묻는 질문 보기")
+                                        Text("자주 묻는 질문 보기").foregroundColor(Color.textBlack)
                                     })
                                     Spacer()
                                 }.frame(height: 50, alignment: .center)
                                 HStack{
-                                    Toggle("앱 실행시 가이드 스크린 보기", isOn: $isUserWantsToSeeGuideAtLaunch)
-                                        .onChange(of: isUserWantsToSeeGuideAtLaunch){ value in
-                                            UserDefaults.standard.set(isUserWantsToSeeGuideAtLaunch, forKey: "doUserWantOnboardingView")
+                                    Toggle("앱 실행시 가이드 스크린 보기", isOn: $showingOnboardingView)
+                                        .onChange(of: showingOnboardingView){ value in
+                                            UserDefaults.standard.set(showingOnboardingView, forKey: "doUserWantOnboardingView")
                                         }
                                 }.frame(height: 50, alignment: .center)
                                 
                                 HStack{
-                                    NavigationLink(destination: ThemeSelection(), label:{
-                                        Text("앱 테마 바꾸기")
+                                    NavigationLink(destination: ThemeSelection(themeType: $themeType, cardType: $cardType), label:{
+                                        Text("앱 테마 바꾸기").foregroundColor(Color.textBlack)
                                     })
                                     Spacer()
                                 }.frame(height: 50, alignment: .center)
@@ -57,7 +60,7 @@ struct HomeMenu: View {
                 }
                 .frame(width: CGFloat(geometry.size.width), alignment: .center)
                 .background(
-                    Image("Filter40A").resizable().aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all)
+                    Image(themeType).resizable().aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all)
                 )
                 .navigationBarHidden(true)
             }

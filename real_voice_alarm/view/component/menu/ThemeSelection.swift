@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ThemeSelection: View {
+    @Binding var themeType:String
+    @Binding var cardType:String
+    
     let themeA:String = "Filter40A"
     let themeB:String = "Filter40B"
     let themeC:String = "Filter40C"
@@ -19,48 +22,46 @@ struct ThemeSelection: View {
     let themeKey:String = "themeType"
     let cardKey:String = "cardType"
     
+    
     var body: some View {
-        VStack{
-            HStack{
+        ScrollView{
+            VStack{
                 Button(action:{
                     UserDefaults.standard.set(themeA, forKey: themeKey)
                     UserDefaults.standard.set(cardA, forKey: cardKey)
+                    themeType = themeA
+                    cardType = cardA
                 }) {
                     Image("FrameA").resizable()
                         .frame(width: 100, height: 200)
                 }
-                Spacer()
-                Text("고르기")
-            }
-            HStack{
                 Button(action:{
                     UserDefaults.standard.set(themeB, forKey: themeKey)
                     UserDefaults.standard.set(cardB, forKey: cardKey)
+                    themeType = themeB
+                    cardType = cardB
                 }) {
                     Image("FrameB").resizable()
                         .frame(width: 100, height: 200)
                 }
-                Spacer()
-                Text("고르기")
-            }
-            HStack{
                 Button(action:{
                     UserDefaults.standard.set(themeC, forKey: themeKey)
                     UserDefaults.standard.set(cardC, forKey: cardKey)
+                    themeType = themeC
+                    cardType = cardC
                 }) {
                     Image("FrameC").resizable()
                         .frame(width: 100, height: 200)
                 }
-                Spacer()
-                Text("고르기")
+                
             }
-        }.padding()
-            .navigationBarHidden(true)
+        }
+        .frame(width: CGFloat(UIScreen.screenWidth), alignment: .center)
+            .background(
+                Image(themeType).resizable().aspectRatio(UIScreen.screenWidth, contentMode: .fill).edgesIgnoringSafeArea(.all)
+            )
+        
     }
 }
 
-struct ThemeSelection_Previews: PreviewProvider {
-    static var previews: some View {
-        ThemeSelection()
-    }
-}
+
