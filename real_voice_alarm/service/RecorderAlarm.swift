@@ -324,6 +324,9 @@ class RecorderAlarm: ObservableObject {
                 
                 var nowMinute = nowDateComponents.minute!
                 let nowHour = nowDateComponents.hour!
+//                if(nowHour == 0){
+//                    nowHour = 24
+//                }
                 
                 print("same weekday ====> pending::=> \(targetHour):\(targetMinute) VS NOW::=>\(nowHour):\(nowMinute)")
                 var i = 0
@@ -384,8 +387,16 @@ class RecorderAlarm: ObservableObject {
                     let diff = Int(targetWeekday) - nowDateComponents.weekday!
                     //hour minute 비교해서 지금과 가장 가까운 hour minute 찾는다
                     //타겟 + 24 - 지금 이 가장 작은 것
-                    let hourDiff = targetHours + 24 - nowDateComponents.hour!
-                    
+                    var hourDiff = 0
+                    var nowDateCompsHour = nowDateComponents.hour!
+                    if(nowDateCompsHour == 0){
+                        nowDateCompsHour = 24
+                    }
+                    if(nowDateCompsHour <= targetHours){
+                        hourDiff = targetHours - nowDateCompsHour
+                    }else{
+                        hourDiff = (targetHours + 24) - nowDateCompsHour
+                    }
                     if(diff < min){
                         min = diff
                     }
@@ -393,12 +404,12 @@ class RecorderAlarm: ObservableObject {
                         hourDiffmin = hourDiff
                         minTargetHours = targetHours
                         minTargetMinutes = targetMinutes
-                        //print("2021 12 20 debugging minimum target 01 : \(targetHours) \(targetMinutes) || hourdiffmin : \(hourDiffmin)")
+                        print("2021 12 20 debugging minimum target 01 : \(targetHours) \(targetMinutes) || hourdiffmin : \(hourDiffmin)")
                     }else if(hourDiff == hourDiffmin && targetMinutes > nowDateComponents.minute!){
                         hourDiffmin = hourDiff
                         minTargetHours = targetHours
                         minTargetMinutes = targetMinutes
-                        //print("2021 12 20 debugging minimum target 01 : \(targetHours) \(targetMinutes) || hourdiffmin : \(hourDiffmin)")
+                        print("2021 12 20 debugging minimum target 01 : \(targetHours) \(targetMinutes) || hourdiffmin : \(hourDiffmin)")
                     }
                 }
                 if(min == 8){
@@ -408,9 +419,13 @@ class RecorderAlarm: ObservableObject {
                     //24시간 이내로 차이나는 하루이틀 사이는 시간으로 표시하기 위한 계산
                     print("1 day diffenrence")
                     var nowMinute = nowDateComponents.minute!
-                    let nowHour = nowDateComponents.hour!
+                    var nowHour = nowDateComponents.hour!
+                    if(nowHour == 0){
+                        nowHour = 24
+                    }
                     //하루 차이 나는 것을 편히 계산 하기 전에 24시간 서비스로 추가해드렸습니다.
                     minTargetHours += 24
+                  
                     //print("20211220 debug 04: hours : \(minTargetHours) || mimutes : \(minTargetMinutes)")
                     print("tomorrow's ====> pending::=> \(minTargetHours):\(minTargetMinutes) VS NOW::=>\(nowHour):\(nowMinute)")
                     

@@ -159,7 +159,7 @@ struct AlarmSetting: View {
                                     if(isDay == true){
                                         HStack{
                                             Image(systemName: "sun.max").font(.system(size:20, weight: .bold)).foregroundColor(Color.textBlack)
-                                            Text("낮 시간대의 알람 만들기")
+                                            Text("아침과 낮의 모티보이스 : 04시 ~ 16시")
                                         }
                                         VStack{
                                             DatePicker(selection: $fireAt, displayedComponents: .hourAndMinute,
@@ -173,7 +173,7 @@ struct AlarmSetting: View {
                                     }else{
                                         HStack{
                                             Image(systemName: "moon.stars.fill").font(.system(size:20, weight: .bold)).foregroundColor(Color.textBlack)
-                                            Text("밤 시간대의 알람 만들기")
+                                            Text("저녁과 밤의 모티보이스 : 17시 ~ 03시")
                                         }
                                         VStack{
                                             DatePicker(selection: $fireAt, displayedComponents: .hourAndMinute,

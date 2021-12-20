@@ -40,11 +40,17 @@ class NotificationManager{
         print("#############################################")
         print("20211220 debug 01 input : \(dateComponents)")
         print("20211220 debug 02 now : \(nowDateComponents)")
-        
-        if(dateComponents.hour! <= nowDateComponents.hour! && dateComponents.minute! <= nowDateComponents.minute!){
+        var nowDateCompsHour = nowDateComponents.hour!
+        //00시의 경우 24시로 비교한다.
+        if(nowDateCompsHour == 0){
+            nowDateCompsHour = 24
+        }
+        //지금보다 이전시간에 설정한다면 내일로 넘긴다
+        if(dateComponents.hour! <= nowDateCompsHour  && dateComponents.minute! <= nowDateComponents.minute!){
             if(nowDateComponents.day! != 7){
                 dateComponents.weekday = nowDateComponents.weekday! + 1
             }else{
+                //토요일이면 일요일로 넘겨야하기 때문에 1로 돌려보린다.
                 dateComponents.weekday = 1
             }
         }
