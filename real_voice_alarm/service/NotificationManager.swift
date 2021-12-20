@@ -35,10 +35,21 @@ class NotificationManager{
         dateComponents.second = 0
         
         let now = Date()
-        let nowDateComponents = Calendar.current.dateComponents([.weekday], from: now)
+        let nowDateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: now)
         
-        dateComponents.weekday = nowDateComponents.weekday!
+        print("#############################################")
+        print("20211220 debug 01 input : \(dateComponents)")
+        print("20211220 debug 02 now : \(nowDateComponents)")
         
+        if(dateComponents.hour! <= nowDateComponents.hour! && dateComponents.minute! <= nowDateComponents.minute!){
+            if(nowDateComponents.day! != 7){
+                dateComponents.weekday = nowDateComponents.weekday! + 1
+            }else{
+                dateComponents.weekday = 1
+            }
+        }
+        print("20211220 debug 2.5: now : \(nowDateComponents) || after edit input \(dateComponents)")
+        print("#############################################")
         let content = UNMutableNotificationContent()
         content.title = "Motivoice is arrived"
         content.subtitle = "\(tagName)"

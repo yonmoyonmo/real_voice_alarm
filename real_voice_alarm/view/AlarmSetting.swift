@@ -33,40 +33,49 @@ struct AlarmSetting: View {
     var isDay:Bool
     var themeType:String
     
-    var DaydateClosedRange: ClosedRange<Date> {
-        
-        var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-        minComps.hour = 4
-        minComps.minute = 0
-        
-        var maxComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-        maxComps.hour = 16
-        maxComps.minute = 59
-        
-        let myCalendar = Calendar(identifier: .gregorian)
-        
-        let min = myCalendar.date(from: minComps)!
-        let max = myCalendar.date(from: maxComps)!
-        
-        return min...max
-    }
-    var NightdateClosedRange: ClosedRange<Date> {
-        
-        var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-        minComps.hour = 0
-        minComps.minute = 0
-        
-        var maxComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-        maxComps.hour = 23
-        maxComps.minute = 59
-        
-        let myCalendar = Calendar(identifier: .gregorian)
-        
-        let min = myCalendar.date(from: minComps)!
-        let max = myCalendar.date(from: maxComps)!
-        
-        return min...max
-    }
+//    var DaydateClosedRange: ClosedRange<Date> {
+//        var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
+//        minComps.hour = 4
+//        minComps.minute = 0
+//
+//        var maxComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
+//        maxComps.hour = 16
+//        maxComps.minute = 59
+//
+//        let myCalendar = Calendar(identifier: .gregorian)
+//
+//        let min = myCalendar.date(from: minComps)!
+//        let max = myCalendar.date(from: maxComps)!
+//
+//        return min...max
+//    }
+//
+//    var NightdateClosedRange: ClosedRange<Date> {
+//
+//        var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
+//        minComps.hour = 17
+//        minComps.minute = 0
+//
+//        var maxComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
+//        maxComps.day = maxComps.day! + 1
+//        maxComps.hour = 3
+//        maxComps.minute = 59
+//
+//        let myCalendar = Calendar(identifier: .gregorian)
+//
+//        let min = myCalendar.date(from: minComps)!
+//        let max = myCalendar.date(from: maxComps)!
+//
+//        return min...max
+//    }
+    
+//    var TwoDaysClosedRange: ClosedRange<Date>{
+//        let calendar = Calendar(identifier: .gregorian)
+//        //var todayComps = calendar.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
+//        let todayDate = Date()
+//        let tomorrowDate = calendar.date(byAdding: .day, value: 1, to: todayDate)!
+//        return todayDate...tomorrowDate
+//    }
     
     func saveAlarm(){
         if(audioURL==nil){
@@ -153,7 +162,7 @@ struct AlarmSetting: View {
                                             Text("낮 시간대의 알람 만들기")
                                         }
                                         VStack{
-                                            DatePicker(selection: $fireAt, in: DaydateClosedRange, displayedComponents: .hourAndMinute,
+                                            DatePicker(selection: $fireAt, displayedComponents: .hourAndMinute,
                                                        label:{ EmptyView()
                                             }).datePickerStyle(.wheel).labelsHidden()
                                                 .frame(width: UIScreen.screenWidth > 700.0 ?
@@ -167,7 +176,7 @@ struct AlarmSetting: View {
                                             Text("밤 시간대의 알람 만들기")
                                         }
                                         VStack{
-                                            DatePicker(selection: $fireAt, in: NightdateClosedRange, displayedComponents: .hourAndMinute,
+                                            DatePicker(selection: $fireAt, displayedComponents: .hourAndMinute,
                                                        label:{ EmptyView()
                                             }).datePickerStyle(.wheel).labelsHidden()
                                                 .frame(width: UIScreen.screenWidth > 700.0 ?

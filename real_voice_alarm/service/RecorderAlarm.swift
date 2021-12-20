@@ -31,6 +31,10 @@ class RecorderAlarm: ObservableObject {
     func saveAlarm(tagName:String, fireAt: Date, audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]) {
         let id:UUID = UUID()
         
+        print("20211220 debug 06 fire at check before make entity: \(fireAt)")
+        let debugComps = Calendar.current.dateComponents([.year ,.month, .day, .hour, .minute, .weekday], from: fireAt)
+        print("20211220 debug 06 fireComps at check before make entity: \(debugComps)")
+        
         let newAlarm = AlarmEntity(context: coreDataManager.context)
         newAlarm.uuid = id.uuidString
         
@@ -360,26 +364,97 @@ class RecorderAlarm: ObservableObject {
                 //there's no today's alarm
                 //let's find closest nextDay shit
                 var min = 8
+                var hourDiffmin = 48
+                
+                var minTargetHours = 0
+                var minTargetMinutes = 0
+                
                 for pendingAlarmsDate in pendingAlarmsDates {
                     var targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
+                    let targetHours = Int((pendingAlarmsDate["hour" as String] as? NSString)!.intValue)
+                    let targetMinutes = Int((pendingAlarmsDate["minute" as String] as? NSString)!.intValue)
+                    
+                    //print("20211220 debug minTargetHour check 01 : hours : \(targetHours) || mimutes : \(targetMinutes)")
+                    
                     //오늘과 가장 가까운 다음 날을 찾아야하는디...
                     if(targetWeekday <= nowDateComponents.weekday!){
                         targetWeekday = targetWeekday + 7
                     }
+                    //weekday를 비교해서 오늘과 가장 가까운 weekday 찾는다.
                     let diff = Int(targetWeekday) - nowDateComponents.weekday!
+                    //hour minute 비교해서 지금과 가장 가까운 hour minute 찾는다
+                    //타겟 + 24 - 지금 이 가장 작은 것
+                    let hourDiff = targetHours + 24 - nowDateComponents.hour!
+                    
                     if(diff < min){
                         min = diff
+                    }
+                    if(hourDiff < hourDiffmin){
+                        hourDiffmin = hourDiff
+                        minTargetHours = targetHours
+                        minTargetMinutes = targetMinutes
+                        //print("2021 12 20 debugging minimum target 01 : \(targetHours) \(targetMinutes) || hourdiffmin : \(hourDiffmin)")
+                    }else if(hourDiff == hourDiffmin && targetMinutes > nowDateComponents.minute!){
+                        hourDiffmin = hourDiff
+                        minTargetHours = targetHours
+                        minTargetMinutes = targetMinutes
+                        //print("2021 12 20 debugging minimum target 01 : \(targetHours) \(targetMinutes) || hourdiffmin : \(hourDiffmin)")
                     }
                 }
                 if(min == 8){
                     min = 0
                 }
-                DispatchQueue.main.async {
-                    self.day = min
-                    self.minute = 0
-                    self.hour = 0
+                if(min == 1){
+                    //24시간 이내로 차이나는 하루이틀 사이는 시간으로 표시하기 위한 계산
+                    print("1 day diffenrence")
+                    var nowMinute = nowDateComponents.minute!
+                    let nowHour = nowDateComponents.hour!
+                    //하루 차이 나는 것을 편히 계산 하기 전에 24시간 서비스로 추가해드렸습니다.
+                    minTargetHours += 24
+                    //print("20211220 debug 04: hours : \(minTargetHours) || mimutes : \(minTargetMinutes)")
+                    print("tomorrow's ====> pending::=> \(minTargetHours):\(minTargetMinutes) VS NOW::=>\(nowHour):\(nowMinute)")
+                    
+                    var i = 0
+                    while(i < minTargetHours){
+                        i += 1
+                        minTargetMinutes += 60
+                    }
+                    
+                    var j = 0
+                    while(j < nowHour){
+                        j += 1
+                        nowMinute += 60
+                    }
+                    
+                    var realMinute = Int(minTargetMinutes) - nowMinute
+                    
+                    var realHour = 0
+                    if(realMinute >= 60){
+                        realHour = realMinute / 60
+                        
+                        var i = 0
+                        while(i<realHour){
+                            i+=1
+                            realMinute = realMinute - 60
+                            
+                        }
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.hour = realHour
+                        self.minute = realMinute
+                        self.day = 0
+                    }
+                    print("setLastingTimeOfNext done!")
+                    return
+                }else{
+                    DispatchQueue.main.async {
+                        self.day = min
+                        self.minute = 0
+                        self.hour = 0
+                    }
+                    return
                 }
-                return
             }
         })
     }
