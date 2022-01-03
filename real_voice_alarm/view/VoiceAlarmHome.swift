@@ -50,7 +50,11 @@ struct VoiceAlarmHome: View {
                                     Text("  다음 알람까지 \n \(recorderAlarm.day)일 남았습니다.").font(.system(size: 23, weight: .bold)).foregroundColor(Color.white)
                                 }else{
                                     if(recorderAlarm.hour == 0){
-                                        Text("  다음 알람까지 \n \(recorderAlarm.minute)분 남았습니다.").font(.system(size: 23, weight: .bold)).foregroundColor(Color.white)
+                                        if(recorderAlarm.minute < 0){
+                                            Text("  다음 알람까지 \n 0분 남았습니다.").font(.system(size: 23, weight: .bold)).foregroundColor(Color.white)
+                                        }else{
+                                            Text("  다음 알람까지 \n \(recorderAlarm.minute)분 남았습니다.").font(.system(size: 23, weight: .bold)).foregroundColor(Color.white)
+                                        }
                                     }else{
                                         Text("  다음 알람까지 \n \(recorderAlarm.hour)시간 \(recorderAlarm.minute)분 남았습니다.").font(.system(size: 23, weight: .bold)).foregroundColor(Color.white)
                                     }
