@@ -22,6 +22,7 @@ class VoiceAlarmHomeViewModel: ObservableObject {
     }
     
     func getAlarms(){
+        //fetch
         let dayRequest:NSFetchRequest<AlarmEntity>
         dayRequest = AlarmEntity.fetchRequest()
         dayRequest.predicate = NSPredicate(
@@ -40,6 +41,10 @@ class VoiceAlarmHomeViewModel: ObservableObject {
         }catch let error {
             print("alarm fetching error : \(error.localizedDescription)")
         }
+        //sort by isActive true
+        dayAlarms.sort{ $0.isActive && !$1.isActive }
+        nightAlarms.sort{ $0.isActive && !$1.isActive }
+        
         recorderAlarm.setLastingTimeOfNext()
     }
 }

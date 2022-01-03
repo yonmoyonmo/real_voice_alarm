@@ -75,6 +75,7 @@ struct AlarmCard: View {
                                 Toggle("", isOn: $alarmToggle).toggleStyle(SwitchToggleStyle(tint: .white.opacity(0.8)))
                                     .onChange(of: alarmToggle){ value in
                                         recorderAlarm.switchScheduledAlarms(isOn: value, alarm: alarm)
+                                        viewModel.getAlarms()
                                     }
                             }
                         ).frame(width: 60, height: 30, alignment: .center)
