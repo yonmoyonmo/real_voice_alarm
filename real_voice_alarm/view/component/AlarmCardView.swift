@@ -115,6 +115,7 @@ struct AlarmCard: View {
                                         primaryButton: .destructive(Text("삭제"), action: {
                                             recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
                                             viewModel.getAlarms()
+                                            recorderAlarm.setLastingTimeOfNext()
                                         }), secondaryButton: .cancel(Text("아니오"))
                                     )
                                 }

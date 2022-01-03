@@ -103,10 +103,6 @@ class RecorderAlarm: ObservableObject {
             let semaphore = DispatchSemaphore(value: 0)
             notificationManager.cancelNotification(id: alarm.uuid!, repeatingDays: intRepeatingDays, semaphore: semaphore)
             semaphore.wait()
-            
-//            debugPendingAlarms(semaphore:semaphore)
-//            semaphore.wait()
-            
             print("next line of semaphore wait")
             notificationManager.scheduleAlarm(
                 tagName: tagName,
@@ -114,9 +110,6 @@ class RecorderAlarm: ObservableObject {
                 audioName: audioName,
                 id: alarm.uuid!
             )
-            
-//            debugPendingAlarms(semaphore:semaphore)
-//            semaphore.wait()
             print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxß")
         }
         print("------------------------- alarm updated and re-scheduled -------------------------")
@@ -307,11 +300,9 @@ class RecorderAlarm: ObservableObject {
                 let targetMinute = (pendingAlarmsDate["minute" as String] as? NSString)!.intValue
                 
                 if(targetWeekday == nowDateComponents.weekday!){
-                    print("debug today's alarms : \(targetHour)")
-                    if(targetHour > nowDateComponents.hour!){
+                    if(targetHour >= nowDateComponents.hour!){
                         if(minTargetHour > targetHour){
                             minTargetHour = Int(targetHour)
-                            print("debug minTargetHour : \(minTargetHour)")
                             target = pendingAlarmsDate
                         }else if(minTargetHour == targetHour){
                             if(minTargetMinute > targetMinute){
@@ -323,6 +314,7 @@ class RecorderAlarm: ObservableObject {
                     }
                 }
             }
+            
             //there's today's alarm
             if(!target.isEmpty){
                 print("debug today's target : \(target)")
@@ -366,12 +358,12 @@ class RecorderAlarm: ObservableObject {
                 }
                 print("setLastingTimeOfNext done!")
                 return
+                
             }else{
                 //there's no today's alarm
                 //let's find closest nextDay shit
                 var min = 8
                 var hourDiffmin = 48
-                
                 var minTargetHours = 0
                 var minTargetMinutes = 0
                 
@@ -380,29 +372,35 @@ class RecorderAlarm: ObservableObject {
                     let targetHours = Int((pendingAlarmsDate["hour" as String] as? NSString)!.intValue)
                     let targetMinutes = Int((pendingAlarmsDate["minute" as String] as? NSString)!.intValue)
                     
-                    //print("20211220 debug minTargetHour check 01 : hours : \(targetHours) || mimutes : \(targetMinutes)")
+                    print("not today pending : \(pendingAlarmsDate)")
                     
                     //오늘과 가장 가까운 다음 날을 찾아야하는디...
                     if(targetWeekday <= nowDateComponents.weekday!){
                         targetWeekday = targetWeekday + 7
                     }
+                    
                     //weekday를 비교해서 오늘과 가장 가까운 weekday 찾는다.
                     let diff = Int(targetWeekday) - nowDateComponents.weekday!
-                    //hour minute 비교해서 지금과 가장 가까운 hour minute 찾는다
-                    //타겟 + 24 - 지금 이 가장 작은 것
+                    
+                    if(diff < min){
+                        min = diff
+                    }
+                    
+                    //지금 시각과 가장 가까운 시각찾기
                     var hourDiff = 0
                     var nowDateCompsHour = nowDateComponents.hour!
                     if(nowDateCompsHour == 0){
                         nowDateCompsHour = 24
                     }
-                    if(nowDateCompsHour <= targetHours){
+                    
+                    if(nowDateCompsHour < targetHours){
                         hourDiff = targetHours - nowDateCompsHour
-                    }else{
+                    }else if(nowDateCompsHour >= targetHours){
                         hourDiff = (targetHours + 24) - nowDateCompsHour
                     }
-                    if(diff < min){
-                        min = diff
-                    }
+                    
+                    print("hourDiff: \(hourDiff)")
+                    
                     if(hourDiff < hourDiffmin){
                         hourDiffmin = hourDiff
                         minTargetHours = targetHours
@@ -412,9 +410,11 @@ class RecorderAlarm: ObservableObject {
                         hourDiffmin = hourDiff
                         minTargetHours = targetHours
                         minTargetMinutes = targetMinutes
-                        print("2021 12 20 debugging minimum target 01 : \(targetHours) \(targetMinutes) || hourdiffmin : \(hourDiffmin)")
+                        print("2021 12 20 debugging minimum target 02 : \(targetHours) \(targetMinutes) || hourdiffmin : \(hourDiffmin)")
                     }
-                }
+                }//target setting done
+                
+                //calculating difference
                 if(min == 8){
                     min = 0
                 }

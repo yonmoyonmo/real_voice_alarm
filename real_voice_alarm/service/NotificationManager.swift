@@ -87,8 +87,8 @@ class NotificationManager{
         var ringingDateComponent  = dateComponents
         var intervalSecond = 0
         
-        for i in 0..<8{
-            intervalSecond += 12
+        for i in 0..<5{
+            intervalSecond += 11
             
             ringingDateComponent.second! = intervalSecond
             let ringingId = "\(id)#\(intervalSecond)"
