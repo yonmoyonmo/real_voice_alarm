@@ -77,7 +77,7 @@ struct RecordingRow: View{
     
     var body: some View{
         HStack{
-            Text("\(audioURLforShow.lastPathComponent)")
+            Text("\(audioURLforShow.lastPathComponent)").foregroundColor(.textBlack)
                 .onTapGesture {
                     audioURLforSave = audioURLforShow
                     audioName = audioURLforShow.lastPathComponent
@@ -89,13 +89,13 @@ struct RecordingRow: View{
                 Button(action: {
                     audioPlayer.startPlayback(audio: self.audioURLforShow)
                 }){
-                    Image(systemName: "play.circle").imageScale(.large)
+                    Image(systemName: "play.circle").imageScale(.large).foregroundColor(.textBlack)
                 }
             }else{
                 Button(action: {
                     audioPlayer.stopPlayback()
                 }){
-                    Image(systemName: "stop.fill").imageScale(.large)
+                    Image(systemName: "stop.fill").imageScale(.large).foregroundColor(.textBlack)
                 }
             }
         }

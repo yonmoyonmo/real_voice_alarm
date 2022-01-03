@@ -298,35 +298,38 @@ class RecorderAlarm: ObservableObject {
                     pendingAlarmsDates.append(request.content.userInfo)
                 }
             }
-            //print("IN setLastingTimeOfNext :: \(pendingAlarmsDates) and now id :: \(nowDateComponents)")
-            //setTargets
+            //find today's fastest alarm
+            var minTargetHour = 25
+            var minTargetMinute = 61
             for pendingAlarmsDate in pendingAlarmsDates {
                 let targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
                 let targetHour = (pendingAlarmsDate["hour" as String] as? NSString)!.intValue
                 let targetMinute = (pendingAlarmsDate["minute" as String] as? NSString)!.intValue
                 
-                //find today's next
                 if(targetWeekday == nowDateComponents.weekday!){
+                    print("debug today's alarms : \(targetHour)")
                     if(targetHour > nowDateComponents.hour!){
-                        target = pendingAlarmsDate
-                    }else if(targetHour == nowDateComponents.hour!){
-                        if(targetMinute > nowDateComponents.minute!){
+                        if(minTargetHour > targetHour){
+                            minTargetHour = Int(targetHour)
+                            print("debug minTargetHour : \(minTargetHour)")
                             target = pendingAlarmsDate
+                        }else if(minTargetHour == targetHour){
+                            if(minTargetMinute > targetMinute){
+                                minTargetHour = Int(targetHour)
+                                minTargetMinute = Int(targetMinute)
+                                target = pendingAlarmsDate
+                            }
                         }
                     }
                 }
             }
+            //there's today's alarm
             if(!target.isEmpty){
-                print("today's next found!")
-                //print(target)
+                print("debug today's target : \(target)")
                 let targetHour = (target["hour" as String] as? NSString)!.intValue
                 var targetMinute = (target["minute" as String] as? NSString)!.intValue
-                
                 var nowMinute = nowDateComponents.minute!
                 let nowHour = nowDateComponents.hour!
-//                if(nowHour == 0){
-//                    nowHour = 24
-//                }
                 
                 print("same weekday ====> pending::=> \(targetHour):\(targetMinute) VS NOW::=>\(nowHour):\(nowMinute)")
                 var i = 0

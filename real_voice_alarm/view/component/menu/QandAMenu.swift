@@ -9,7 +9,7 @@ import SwiftUI
 
 struct QandAMenu: View {
     var body: some View {
-        Text("자지무는질문")
+        Text("자주묻는질문")
     }
 }
 

@@ -82,7 +82,7 @@ struct RepeatDaysSettingView: View {
                         repeatDays.append(.sunday)
                         selectedSun.toggle()
                     }, label: {
-                        Text("일").font(.system(size:20, weight: .bold)).opacity(0.2)
+                        Text("일").foregroundColor(.textBlack).font(.system(size:20, weight: .bold)).opacity(0.2)
                     })
                 }
                 Spacer()
@@ -101,7 +101,7 @@ struct RepeatDaysSettingView: View {
                         repeatDays.append(.monday)
                         selectedMon.toggle()
                     }, label: {
-                        Text("월").font(.system(size:20, weight: .bold)).opacity(0.2)
+                        Text("월").foregroundColor(.textBlack).font(.system(size:20, weight: .bold)).opacity(0.2)
                     })
                 }
                 Spacer()
@@ -120,7 +120,7 @@ struct RepeatDaysSettingView: View {
                         repeatDays.append(.tuesday)
                         selectedTue.toggle()
                     }, label: {
-                        Text("화").font(.system(size:20, weight: .bold)).opacity(0.2)
+                        Text("화").foregroundColor(.textBlack).font(.system(size:20, weight: .bold)).opacity(0.2)
                     })
                 }
                 Spacer()
@@ -141,7 +141,7 @@ struct RepeatDaysSettingView: View {
                     repeatDays.append(.wednesday)
                     selectedWed.toggle()
                 }, label: {
-                    Text("수").font(.system(size:20, weight: .bold)).opacity(0.2)
+                    Text("수").foregroundColor(.textBlack).font(.system(size:20, weight: .bold)).opacity(0.2)
                 })
             }
             Spacer()
@@ -160,7 +160,7 @@ struct RepeatDaysSettingView: View {
                     repeatDays.append(.thursday)
                     selectedThu.toggle()
                 }, label: {
-                    Text("목").font(.system(size:20, weight: .bold)).opacity(0.2)
+                    Text("목").foregroundColor(.textBlack).font(.system(size:20, weight: .bold)).opacity(0.2)
                 })
             }
             Spacer()
@@ -179,7 +179,7 @@ struct RepeatDaysSettingView: View {
                     repeatDays.append(.friday)
                     selectedFri.toggle()
                 }, label: {
-                    Text("금").font(.system(size:20, weight: .bold)).opacity(0.2)
+                    Text("금").foregroundColor(.textBlack).font(.system(size:20, weight: .bold)).opacity(0.2)
                 })
             }
             Spacer()
@@ -198,7 +198,7 @@ struct RepeatDaysSettingView: View {
                     repeatDays.append(.saturday)
                     selectedSat.toggle()
                 }, label: {
-                    Text("토").font(.system(size:20, weight: .bold)).opacity(0.2)
+                    Text("토").foregroundColor(.textBlack).font(.system(size:20, weight: .bold)).opacity(0.2)
                 })
             }
             

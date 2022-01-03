@@ -13,7 +13,7 @@ struct VoiceAlarmHome: View {
     @EnvironmentObject var vm: VoiceAlarmHomeViewModel
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
     
     @State var showingOnboardingView:Bool = UserDefaults.standard.bool(forKey: "doUserWantOnboardingView")
     @State var showMenu:Bool = false
