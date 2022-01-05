@@ -311,7 +311,7 @@ class RecorderAlarm: ObservableObject {
                 var isRepeating = false
                 if((Int(targetHour) - nowDateComponents.hour!) < 0){
                     isRepeating = true
-                }else if((Int(targetHour) - nowDateComponents.hour!) == 0 && (Int(targetMinute) - nowDateComponents.minute!) < 0){
+                }else if((Int(targetHour) - nowDateComponents.hour!) == 0 && (Int(targetMinute) - nowDateComponents.minute!) <= 0){
                     isRepeating = true
                 }
                 
@@ -484,7 +484,7 @@ class RecorderAlarm: ObservableObject {
                     }
                     print("2022 01 05 lasting time debug today, tomorrow debug : \(realHour):\(realMinute) after")
                     var hourOverflow = 0
-                    if(realHour >= 24){
+                    if(realHour > 24){
                         realHour = realHour - 24
                         hourOverflow = 1
                     }

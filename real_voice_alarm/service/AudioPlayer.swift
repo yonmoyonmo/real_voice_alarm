@@ -22,8 +22,18 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
         
         do{
             try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
-        }catch let Error{
-            print("Playing over the device's speakers failed :\(Error.localizedDescription)")
+        }catch let error{
+            do{
+                try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
+            }catch let error2{
+                do{
+                    try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
+                }catch let error3{
+                    print("Playing over the device's speakers failed :\(error3.localizedDescription) 3try")
+                }
+                print("Playing over the device's speakers failed :\(error2.localizedDescription) 2try")
+            }
+            print("Playing over the device's speakers failed :\(error.localizedDescription) 1try")
         }
         
         do{
@@ -34,7 +44,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
         }
         
         do{
-            //print("let's play alarm sound at \(audio)")
+            print("let's play alarm sound at \(audio)")
             audioPlayer = try AVAudioPlayer.init(contentsOf: audio)
             audioPlayer?.delegate = self
             audioPlayer?.volume = volume
