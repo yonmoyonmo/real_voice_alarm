@@ -173,7 +173,7 @@ class RecorderAlarm: ObservableObject {
         print("\(id) is deleted")
     }
     
-    func alarmActiveSwitch(alarm:AlarmEntity){
+    private func alarmActiveSwitch(alarm:AlarmEntity){
         print("------------------------- alarmActiveSwitch called -------------------------")
         if(alarm.isActive){
             //turn it false
@@ -308,7 +308,14 @@ class RecorderAlarm: ObservableObject {
                 let targetHour = (pendingAlarmsDate["hour" as String] as? NSString)!.intValue
                 let targetMinute = (pendingAlarmsDate["minute" as String] as? NSString)!.intValue
                 
-                if(targetWeekday == nowDateComponents.weekday!){
+                var isRepeating = false
+                if((Int(targetHour) - nowDateComponents.hour!) < 0){
+                    isRepeating = true
+                }else if((Int(targetHour) - nowDateComponents.hour!) == 0 && (Int(targetMinute) - nowDateComponents.minute!) < 0){
+                    isRepeating = true
+                }
+                
+                if(targetWeekday == nowDateComponents.weekday! && !isRepeating){
                     if(targetHour >= nowDateComponents.hour!){
                         if(minTargetHour > targetHour){
                             minTargetHour = Int(targetHour)

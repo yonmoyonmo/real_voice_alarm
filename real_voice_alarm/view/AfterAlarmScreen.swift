@@ -48,6 +48,7 @@ struct AfterAlarmScreen: View {
                     
                     Button(action: {
                         recorderAlarm.isFiring = false
+                        recorderAlarm.setLastingTimeOfNext()
                         self.presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Image(systemName: "house.circle.fill").font(.system(size:50, weight: .bold)).foregroundColor(Color.white).padding()

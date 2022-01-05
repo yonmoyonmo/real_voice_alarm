@@ -84,9 +84,11 @@ struct AlarmingScreen: View {
                         Button{
                             audioPlayer.stopPlayback()
                             recorderAlarm.removeDeliverdAlarms()
+                            if(alarmingScreenVm.currentAlarm!.isRepeating == false){
+                                recorderAlarm.switchScheduledAlarms(isOn: false, alarm: alarmingScreenVm.currentAlarm!)
+                            }
                             showModal.toggle()
                         } label: {
-                            
                             Text("해제")
                                 .font(.system(size: 28, weight: .bold))
                                 .frame(maxWidth: 270)
