@@ -218,7 +218,7 @@ struct AlarmEdit: View {
                     .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagNameEditted)
                     .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURLEditted, audioName: $audioNameEditted)
                     .navigationBarHidden(true)
-            }
+            }.accentColor(.textBlack)
         }
     }
 }

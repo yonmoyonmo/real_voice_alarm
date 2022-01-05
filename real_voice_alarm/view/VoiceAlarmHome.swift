@@ -116,19 +116,31 @@ struct OnboardingView: View {
             OnboardingPageView(
                 showOnboard: $showOnboarding,
                 imageName: "speaker.slash.fill",
-                description: "무음모드에선 모티보이스 알람 소리가 나지 않아요",
+                description: "1",
                 showBotton: false
             )
             OnboardingPageView(
                 showOnboard: $showOnboarding,
                 imageName: "mic.fill",
-                description: "알람을 위한 알림 권한과 녹음을 위한 마이크 권한이 필요해요",
+                description: "2",
+                showBotton: false
+            )
+            OnboardingPageView(
+                showOnboard: $showOnboarding,
+                imageName: "mic.fill",
+                description: "3",
+                showBotton: false
+            )
+            OnboardingPageView(
+                showOnboard: $showOnboarding,
+                imageName: "mic.fill",
+                description: "4",
                 showBotton: false
             )
             OnboardingPageView(
                 showOnboard: $showOnboarding,
                 imageName: "hand.raised",
-                description: "(아무 말)",
+                description: "5",
                 showBotton: true
             )
         }.tabViewStyle(PageTabViewStyle())

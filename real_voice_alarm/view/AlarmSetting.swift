@@ -284,7 +284,7 @@ struct AlarmSetting: View {
                     audioRecorder.requestMicrophonePermission()
                 }
             }
-        }//navi view end
+        }.accentColor(.textBlack)//navi view end
     }
 }
 

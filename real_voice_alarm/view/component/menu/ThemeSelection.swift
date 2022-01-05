@@ -26,35 +26,37 @@ struct ThemeSelection: View {
     var body: some View {
         ScrollView{
             VStack{
-                Button(action:{
-                    UserDefaults.standard.set(themeA, forKey: themeKey)
-                    UserDefaults.standard.set(cardA, forKey: cardKey)
-                    themeType = themeA
-                    cardType = cardA
-                }) {
-                    Image("FrameA").resizable()
-                        .frame(width: 100, height: 200)
+                Text("테마를 터치하여 선택할 수 있습니다.")
+                GroupBox{
+                    HStack{
+                        Button(action:{
+                            UserDefaults.standard.set(themeA, forKey: themeKey)
+                            UserDefaults.standard.set(cardA, forKey: cardKey)
+                            themeType = themeA
+                            cardType = cardA
+                        }) {
+                            Image("FrameA").resizable().scaledToFit().frame(width: 100,height: 150)
+                        }
+                        Button(action:{
+                            UserDefaults.standard.set(themeB, forKey: themeKey)
+                            UserDefaults.standard.set(cardB, forKey: cardKey)
+                            themeType = themeB
+                            cardType = cardB
+                        }) {
+                            Image("FrameB").resizable().scaledToFit().frame(width: 100,height: 150)
+                        }
+                        Button(action:{
+                            UserDefaults.standard.set(themeC, forKey: themeKey)
+                            UserDefaults.standard.set(cardC, forKey: cardKey)
+                            themeType = themeC
+                            cardType = cardC
+                        }) {
+                            Image("FrameC").resizable().scaledToFit().frame(width: 100,height: 150)
+                        }
+                    }
                 }
-                Button(action:{
-                    UserDefaults.standard.set(themeB, forKey: themeKey)
-                    UserDefaults.standard.set(cardB, forKey: cardKey)
-                    themeType = themeB
-                    cardType = cardB
-                }) {
-                    Image("FrameB").resizable()
-                        .frame(width: 100, height: 200)
-                }
-                Button(action:{
-                    UserDefaults.standard.set(themeC, forKey: themeKey)
-                    UserDefaults.standard.set(cardC, forKey: cardKey)
-                    themeType = themeC
-                    cardType = cardC
-                }) {
-                    Image("FrameC").resizable()
-                        .frame(width: 100, height: 200)
-                }
-                
             }
+            .navigationTitle(Text("테마 변경"))
         }
         .frame(width: CGFloat(UIScreen.screenWidth), alignment: .center)
             .background(
