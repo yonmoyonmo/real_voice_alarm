@@ -34,7 +34,7 @@ struct AlarmEdit: View {
     
     func updateAlarm(){
         if(audioURLEditted==nil){
-            print("오디오 유알엘 없는 경우에 예외처리 하라")
+            print("알람 수정에서 오디오 유알엘 없는 경우라니?")
             vm.getAlarms()
             self.presentationMode.wrappedValue.dismiss()
             return
@@ -56,9 +56,9 @@ struct AlarmEdit: View {
         print("debug audio values :\(audioNameEditted) || \(audioURLEditted!)")
         
         if(!repeatDaysEditted.isEmpty){
+            //반복알람으로 수정
             var weekDayFireAtSet:[Date] = []
             let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAtEditted)
-            
             for repeatDay in repeatDaysEditted {
                 weekDayFireAtSet.append(createDate(
                     weekday: repeatDay.intName,
@@ -83,6 +83,8 @@ struct AlarmEdit: View {
             self.presentationMode.wrappedValue.dismiss()
         }else{
             //반복알람 아닌 경우의 업데이트
+            let debugcomps = Calendar.current.dateComponents([.hour, .minute, .year, .weekday], from: fireAtEditted)
+            print("2022 01 05 debug alarmEdit input date : \(debugcomps)")
             recorderAlarm.updateAlarm(
                 alarm: alarm,
                 tagName: tagNameEditted,

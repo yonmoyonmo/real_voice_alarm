@@ -243,7 +243,7 @@ struct AlarmSetting: View {
                                         .frame(width: 70, height: 70)
                                         .clipped()
                                         .foregroundColor(.red)
-                                }
+                                }.padding()
                                 
                             }else{
                                 Button(action: {
@@ -258,7 +258,7 @@ struct AlarmSetting: View {
                                         .frame(width: 70, height: 70)
                                         .clipped()
                                         .foregroundColor(.red)
-                                }
+                                }.padding()
                             }
                             Spacer()
                         }

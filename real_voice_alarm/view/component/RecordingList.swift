@@ -21,7 +21,7 @@ struct RecordingsList: View {
                 RecordingRow(audioURLforShow: recording.fileURL, audioURLforSave: $audioURL, audioName: $audioName)
             }.onDelete(perform: delete)
         }
-        .audioURLExceptionAlert(isShowing: $showAlert, message: "설정된 알람은 지울 수 없습니다.")
+        .audioURLExceptionAlert(isShowing: $showAlert, message: "알람으로 설정된 소리는 지울 수 없습니다.")
         .onAppear(perform: {
             audioRecorder.fatchRecordings()
         })

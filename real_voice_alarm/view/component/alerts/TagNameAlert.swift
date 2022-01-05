@@ -21,10 +21,9 @@ struct TagNameAlert<Presenting>: View where Presenting: View {
                     .disabled(isShowing)
                 VStack {
                     Group{
-                        Text("알람의 태그를 입력하세요").font(.system(size:18, weight: .bold)).padding()
-                        TextField("알람의 태그를 입력하세요", text: self.$input).textFieldStyle(.roundedBorder)
+                        Text("알람 태그 만들기").font(.system(size:18, weight: .bold)).padding()
+                        TextField("알람의 태그를 입력하세요", text: self.$input).textFieldStyle(.roundedBorder).foregroundColor(.textBlack)
                     }
-                    Divider()
                     HStack {
                         Button(action: {
                             text = input
@@ -54,8 +53,8 @@ struct TagNameAlert<Presenting>: View where Presenting: View {
                 }.padding(30)
                     .background(Color.mainGrey)
                     .frame(
-                        width: geometry.size.width*0.9
-                    )
+                        width: geometry.size.width*0.8
+                    ).cornerRadius(CGFloat(40))
                     .opacity(self.isShowing ? 1 : 0)
             }
         }

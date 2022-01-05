@@ -51,7 +51,7 @@ class RecorderAlarm: ObservableObject {
         let intRepeatingDays:[Int] = []
         newAlarm.repeatingDays = intRepeatingDays
         
-        notificationManager.scheduleAlarm(tagName: tagName, fireAt: fireAt, audioName: audioName, id: id.uuidString)
+        notificationManager.scheduleAlarm(tagName: tagName, fireAt: fireAt, audioName: audioName, id: id.uuidString, isNonRepeatingUpdate: false)
         coreDataManager.save(savedAlarmName: tagName)
         print("------------------------- alarm saved and sheduled -------------------------")
     }
@@ -84,7 +84,8 @@ class RecorderAlarm: ObservableObject {
     }
     
     func updateAlarm(alarm: AlarmEntity, tagName:String, fireAt: Date, audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]){
-        //한개만 업데이트
+        print("------------------------- \(tagName) is now updating... -------------------------")
+        //한개만 업데이트 == 항상 오늘내일 == weekday를 오늘기준으로 세팅해줄 필요가 있음
         alarm.tagName = tagName
         alarm.fireAt = fireAt
         alarm.audioName = audioName
@@ -95,7 +96,10 @@ class RecorderAlarm: ObservableObject {
         alarm.isDay = isDay(fireAt: fireAt)
         alarm.isRepeating = false
         
-        print("------------------------- \(tagName) is now updating... -------------------------")
+        print("********* 2022 01 05 debug : fireAt check before make entity: \(fireAt)")
+        let debugComps = Calendar.current.dateComponents([.year ,.month, .day, .hour, .minute, .weekday], from: fireAt)
+        print("********* 2022 01 05 debug : fireComps at check before make entity: \(debugComps)")
+        
         coreDataManager.save(savedAlarmName: tagName)
         
         if(alarm.isActive){
@@ -108,7 +112,8 @@ class RecorderAlarm: ObservableObject {
                 tagName: tagName,
                 fireAt: fireAt,
                 audioName: audioName,
-                id: alarm.uuid!
+                id: alarm.uuid!,
+                isNonRepeatingUpdate: true
             )
             print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxß")
         }
@@ -207,7 +212,8 @@ class RecorderAlarm: ObservableObject {
                 notificationManager.scheduleAlarm(tagName: alarm.tagName!,
                                                   fireAt: alarm.fireAt!,
                                                   audioName: alarm.audioName!,
-                                                  id: alarm.uuid!)
+                                                  id: alarm.uuid!,
+                                                  isNonRepeatingUpdate: true)
                 //isActive = true
                 alarmActiveSwitch(alarm: alarm)
                 setLastingTimeOfNext()
@@ -295,6 +301,9 @@ class RecorderAlarm: ObservableObject {
             var minTargetHour = 25
             var minTargetMinute = 61
             for pendingAlarmsDate in pendingAlarmsDates {
+                
+                print("@@ debug : \(pendingAlarmsDate)")
+                
                 let targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
                 let targetHour = (pendingAlarmsDate["hour" as String] as? NSString)!.intValue
                 let targetMinute = (pendingAlarmsDate["minute" as String] as? NSString)!.intValue
@@ -350,7 +359,7 @@ class RecorderAlarm: ObservableObject {
                         
                     }
                 }
-                
+                print("2022 01 05 lasting time debug real today debug : \(realHour):\(realMinute) after")
                 DispatchQueue.main.async {
                     self.hour = realHour
                     self.minute = realMinute
@@ -367,12 +376,13 @@ class RecorderAlarm: ObservableObject {
                 var minTargetHours = 0
                 var minTargetMinutes = 0
                 
+                print("not today pending : \(pendingAlarmsDates)")
+                
                 for pendingAlarmsDate in pendingAlarmsDates {
                     var targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
                     let targetHours = Int((pendingAlarmsDate["hour" as String] as? NSString)!.intValue)
                     let targetMinutes = Int((pendingAlarmsDate["minute" as String] as? NSString)!.intValue)
                     
-                    print("not today pending : \(pendingAlarmsDate)")
                     
                     //오늘과 가장 가까운 다음 날을 찾아야하는디...
                     if(targetWeekday <= nowDateComponents.weekday!){
@@ -389,32 +399,40 @@ class RecorderAlarm: ObservableObject {
                     //지금 시각과 가장 가까운 시각찾기
                     var hourDiff = 0
                     var nowDateCompsHour = nowDateComponents.hour!
+                    //24시의 경우 24로 계산해야함
                     if(nowDateCompsHour == 0){
                         nowDateCompsHour = 24
                     }
-                    
-                    if(nowDateCompsHour < targetHours){
-                        hourDiff = targetHours - nowDateCompsHour
-                    }else if(nowDateCompsHour >= targetHours){
-                        hourDiff = (targetHours + 24) - nowDateCompsHour
-                    }
+                    print("nowDateCompsHour : \(nowDateCompsHour) || targetHours : \(targetHours)")
+                    print("the diff : \(diff)")
+                    print("the targetHours : \(targetHours) and nowDateCompsHour \(nowDateCompsHour)")
+                    //1일 차이 나는 것들 간의 비교이므로 아래와 같이 해야함
+                    //hourDiff = 24 - 지금시간 + 타겟 시간
+                    hourDiff = 24 - nowDateCompsHour + targetHours
+//                    if(nowDateCompsHour < targetHours){
+//                        hourDiff = targetHours - nowDateCompsHour
+//                    }else if(nowDateCompsHour >= targetHours){
+//                        hourDiff = (targetHours + 24) - nowDateCompsHour
+//                    }
                     
                     print("hourDiff: \(hourDiff)")
-                    
-                    if(hourDiff < hourDiffmin){
-                        hourDiffmin = hourDiff
-                        minTargetHours = targetHours
-                        minTargetMinutes = targetMinutes
-                        print("2021 12 20 debugging minimum target 01 : \(targetHours) \(targetMinutes) || hourdiffmin : \(hourDiffmin)")
-                    }else if(hourDiff == hourDiffmin && targetMinutes > nowDateComponents.minute!){
-                        hourDiffmin = hourDiff
-                        minTargetHours = targetHours
-                        minTargetMinutes = targetMinutes
-                        print("2021 12 20 debugging minimum target 02 : \(targetHours) \(targetMinutes) || hourdiffmin : \(hourDiffmin)")
+                    //set the tomorrow's next's hours and minutes
+                    if(diff == 1){
+                        if(hourDiff < hourDiffmin){
+                            hourDiffmin = hourDiff
+                            minTargetHours = targetHours
+                            minTargetMinutes = targetMinutes
+                        }else if(hourDiff == hourDiffmin && targetMinutes > nowDateComponents.minute!){
+                            hourDiffmin = hourDiff
+                            minTargetHours = targetHours
+                            minTargetMinutes = targetMinutes
+                        }
                     }
+                    
                 }//target setting done
                 
                 //calculating difference
+                print("debug min(after \(min) day(s) later the alarm fires")
                 if(min == 8){
                     min = 0
                 }
@@ -427,9 +445,9 @@ class RecorderAlarm: ObservableObject {
                         nowHour = 24
                     }
                     //하루 차이 나는 것을 편히 계산 하기 전에 24시간 서비스로 추가해드렸습니다.
+                    print("debug mintargethours : \(minTargetHours)")
                     minTargetHours += 24
-                  
-                    //print("20211220 debug 04: hours : \(minTargetHours) || mimutes : \(minTargetMinutes)")
+                    
                     print("tomorrow's ====> pending::=> \(minTargetHours):\(minTargetMinutes) VS NOW::=>\(nowHour):\(nowMinute)")
                     
                     var i = 0
@@ -457,20 +475,27 @@ class RecorderAlarm: ObservableObject {
                             
                         }
                     }
-                    
+                    print("2022 01 05 lasting time debug today, tomorrow debug : \(realHour):\(realMinute) after")
+                    var hourOverflow = 0
+                    if(realHour >= 24){
+                        realHour = realHour - 24
+                        hourOverflow = 1
+                    }
                     DispatchQueue.main.async {
                         self.hour = realHour
                         self.minute = realMinute
-                        self.day = 0
+                        self.day = hourOverflow
                     }
                     print("setLastingTimeOfNext done!")
                     return
                 }else{
+                    print("2022 01 05 lasting time debug not tomorrow debug : \(min)day(s) after")
                     DispatchQueue.main.async {
                         self.day = min
                         self.minute = 0
                         self.hour = 0
                     }
+                    print("setLastingTimeOfNext done!")
                     return
                 }
             }
@@ -505,7 +530,7 @@ class RecorderAlarm: ObservableObject {
         let tagName = alarm.tagName!
         let audioName = alarm.audioName!
         let fireAt = Calendar.current.date(byAdding: .minute, value: snoozeMimutes, to: todayNow)!
-        notificationManager.scheduleAlarm(tagName: tagName, fireAt: fireAt, audioName:audioName , id: id)
+        notificationManager.scheduleAlarm(tagName: tagName, fireAt: fireAt, audioName:audioName , id: id, isNonRepeatingUpdate: false)
     }
 }
 

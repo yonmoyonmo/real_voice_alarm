@@ -26,7 +26,7 @@ struct AlarmCardView: View {
     var themeType:String
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false, content: {
+        ScrollView(.horizontal, showsIndicators: false){
             HStack(){
                 ForEach($alarms){$alarm in
                     AlarmCard(alarm: $alarm, alarmToggle: alarm.isActive, isDay:isDay, cardType:self.cardType, themeType: self.themeType)
@@ -34,7 +34,7 @@ struct AlarmCardView: View {
                 addNewCardCard(isDay: self.isDay, themeType:self.themeType)
             }.padding(.leading, 24)
                 .padding(.bottom, 20)
-        })
+        }
     }
 }
 
@@ -66,7 +66,6 @@ struct AlarmCard: View {
         if(alarm.tagName != nil){
             ZStack{
                 VStack(alignment: .center, spacing: 0) {
-                    
                     HStack{
                         Spacer()
                         Button(
@@ -112,12 +111,15 @@ struct AlarmCard: View {
                                 }).alert(isPresented: $deleteAlert) {
                                     Alert(
                                         title: Text("알람 삭제"),
-                                        message: Text("진짜로 알람을 삭제합니까?"),
-                                        primaryButton: .destructive(Text("삭제"), action: {
+                                        message: Text("진짜 알람을 삭제합니까?"),
+                                        primaryButton: .default(Text("아니오"), action: {
+                                            deleteAlert.toggle()
+                                        }),
+                                        secondaryButton:.destructive(Text("삭제"), action: {
                                             recorderAlarm.deleteAlarm(id: alarm.uuid!, repeatingDays: alarm.repeatingDays)
                                             viewModel.getAlarms()
                                             recorderAlarm.setLastingTimeOfNext()
-                                        }), secondaryButton: .cancel(Text("아니오"))
+                                        })
                                     )
                                 }
                             }

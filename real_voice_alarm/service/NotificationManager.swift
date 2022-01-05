@@ -27,30 +27,39 @@ class NotificationManager{
         }
     }
     
-    func scheduleAlarm(tagName:String, fireAt: Date, audioName: String, id: String) {
+    func scheduleAlarm(tagName:String, fireAt: Date, audioName: String, id: String, isNonRepeatingUpdate:Bool) {
         print("=================== scheduleAlarm called ===================")
         
         print("===== main alarm id \(id) =====")
-        var dateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: fireAt)
-        dateComponents.second = 0
-        
+        print("2022 05 15 debug is it a non-repeat update ? : \(isNonRepeatingUpdate) ")
         let now = Date()
         let nowDateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: now)
+        
+        var dateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: fireAt)
+        dateComponents.second = 0
+        if(isNonRepeatingUpdate){
+            dateComponents.weekday = nowDateComponents.weekday!
+        }
         
         print("#############################################")
         print("20211220 debug 01 input : \(dateComponents)")
         print("20211220 debug 02 now : \(nowDateComponents)")
         var nowDateCompsHour = nowDateComponents.hour!
+        
         //00시의 경우 24시로 비교한다.
         if(nowDateCompsHour == 0){
             nowDateCompsHour = 24
         }
+        
         //지금보다 이전시간에 설정한다면 내일로 넘긴다
         if(dateComponents.hour! <= nowDateCompsHour  && dateComponents.minute! <= nowDateComponents.minute!){
-            if(nowDateComponents.day! != 7){
+            print("지금보다 과거라면 내일로...")
+            if(nowDateComponents.weekday! < 7){ // 일 월 화 수 목 금 1..6
+                print("일 월 화 수 목 금...의 경우")
                 dateComponents.weekday = nowDateComponents.weekday! + 1
-            }else{
+            }else if(nowDateComponents.weekday! == 7){
                 //토요일이면 일요일로 넘겨야하기 때문에 1로 돌려보린다.
+                print("토...의 경우")
                 dateComponents.weekday = 1
             }
         }
@@ -157,8 +166,8 @@ class NotificationManager{
             var ringingDateComponent  = componentsToSave
             var intervalSecond = 0
             
-            for i in 0..<8{
-                intervalSecond += 7
+            for i in 0..<5{
+                intervalSecond += 11
                 
                 ringingDateComponent.second! = intervalSecond
                 let ringingId = "\(newId)#\(intervalSecond)"

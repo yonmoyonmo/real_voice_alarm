@@ -25,30 +25,24 @@ struct PlayBackAlart<Presenting>: View where Presenting: View {
             ZStack {
                 self.presenting.disabled(isShowing)
                 VStack {
-                    TextField("녹음 파일의 이름을 입력하시오", text: self.$input).textFieldStyle(.roundedBorder).font(.system(size:20))
-                    
-                    Divider()
-                    Text("방금 녹음한거 들어보기").foregroundColor(Color.textBlack).font(.system(size:18, weight: .bold))
-                    
-                    HStack{
+                    TextField("녹음 파일의 이름을 입력하세요", text: self.$input).textFieldStyle(.roundedBorder).font(.system(size:20)).foregroundColor(.textBlack).padding()
+                    Text("방금 녹음 들어보기").foregroundColor(Color.textBlack).font(.system(size:18, weight: .bold)).padding()
+                    HStack(spacing: 20){
                         Button(action: {
                             if(audioPlayer.isPlaying == false){
                                 audioPlayer.startPlayback(audio: self.audioURL!)
                             }
                         }){
-                            Image(systemName: "play.circle").foregroundColor(Color.textBlack).font(.system(size:60, weight: .bold))
-                        }.padding()
-                        Spacer()
+                            Image(systemName: "play.circle").foregroundColor(Color.textBlack).font(.system(size:30, weight: .bold))
+                        }
                         Button(action: {
                             if(audioPlayer.isPlaying == true){
                                 audioPlayer.stopPlayback()
                             }
                         }){
-                            Image(systemName: "stop.fill").foregroundColor(Color.textBlack).font(.system(size:60, weight: .bold))
-                        }.padding()
+                            Image(systemName: "stop.fill").foregroundColor(Color.textBlack).font(.system(size:30, weight: .bold))
+                        }
                     }
-                    
-                    Divider()
                     HStack {
                         Button(action: {
                             audioName = input
@@ -86,11 +80,9 @@ struct PlayBackAlart<Presenting>: View where Presenting: View {
                 .padding()
                 .background(Color.mainGrey)
                 .frame(
-                    width: geometry.size.width*0.9,
-                    height: geometry.size.height*0.9
-                )
+                    width: geometry.size.width*0.8
+                ).cornerRadius(CGFloat(40))
                 .opacity(self.isShowing ? 1 : 0)
-                
             }
         }
     }

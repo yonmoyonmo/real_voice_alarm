@@ -34,9 +34,8 @@ struct AudioURLExceptionAlert<Presenting>: View where Presenting: View {
                 .padding()
                 .background(Color.mainGrey)
                 .frame(
-                    width: deviceSize.size.width*0.8,
-                    height: deviceSize.size.height*0.9
-                )
+                    width: deviceSize.size.width*0.8
+                ).cornerRadius(CGFloat(40))
                 .opacity(self.isShowing ? 1 : 0)
             }
         }
