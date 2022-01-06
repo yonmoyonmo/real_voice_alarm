@@ -39,7 +39,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     let recorderAlarm = RecorderAlarm.instance
     let notificationManager = NotificationManager.instance
     let audioPlayer = AudioPlayer.instance
-    let audioRecorder = AudioRecorder.instance
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("------------------------< App Launched >------------------------")
