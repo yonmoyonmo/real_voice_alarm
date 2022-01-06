@@ -11,3 +11,8 @@ struct Recording {
     let fileURL: URL
     let createdAt: Date
 }
+
+struct Sample{
+    let sampleURL: String
+    let sampleName: String
+}

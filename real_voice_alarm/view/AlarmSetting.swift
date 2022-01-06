@@ -83,19 +83,21 @@ struct AlarmSetting: View {
             return
         }
         //save alarm
-        if(audioName.count < 4){
-            audioName = "\(audioName).m4a"
-        }else{
-            let index = audioName.index(audioName.endIndex, offsetBy: -4)
-            let extensionString = audioName[index...]
-            if(extensionString != ".m4a"){
+        if(!audioName.contains(".wav")){
+            if(audioName.count < 4){
                 audioName = "\(audioName).m4a"
             }else{
-                print(audioName)
+                let index = audioName.index(audioName.endIndex, offsetBy: -4)
+                let extensionString = audioName[index...]
+                if(extensionString != ".m4a"){
+                    audioName = "\(audioName).m4a"
+                }else{
+                    print(audioName)
+                }
             }
         }
         
-        print("debug audio values :\(audioName) || \(audioURL!)")
+        //print("debug audio values :\(audioName) || \(audioURL!)")
         
         if(!repeatDays.isEmpty){
             var weekDayFireAtSet:[Date] = []

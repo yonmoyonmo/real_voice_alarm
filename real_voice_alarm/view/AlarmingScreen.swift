@@ -12,7 +12,7 @@ struct AlarmingScreen: View {
     @ObservedObject var recorderAlarm: RecorderAlarm = RecorderAlarm.instance
     @ObservedObject var alarmingScreenVm: AlarmingScreenViewModel = AlarmingScreenViewModel()
     
-    let audioPlayer = AudioPlayer.instance
+    let audioPlayer:AudioPlayer = AudioPlayer.instance
     
     @State var showModal:Bool = false
     @State var isDay:Bool = false

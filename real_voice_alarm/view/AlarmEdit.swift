@@ -34,22 +34,22 @@ struct AlarmEdit: View {
     
     func updateAlarm(){
         if(audioURLEditted==nil){
-            print("알람 수정에서 오디오 유알엘 없는 경우라니?")
-            vm.getAlarms()
-            self.presentationMode.wrappedValue.dismiss()
+            audioURLException.toggle()
             return
         }
         
         //save alarm
-        if(audioNameEditted.count < 4){
-            audioNameEditted = "\(audioNameEditted).m4a"
-        }else{
-            let index = audioNameEditted.index(audioNameEditted.endIndex, offsetBy: -4)
-            let extensionString = audioNameEditted[index...]
-            if(extensionString != ".m4a"){
+        if(!audioNameEditted.contains(".wav")){
+            if(audioNameEditted.count < 4){
                 audioNameEditted = "\(audioNameEditted).m4a"
             }else{
-                print(audioNameEditted)
+                let index = audioNameEditted.index(audioNameEditted.endIndex, offsetBy: -4)
+                let extensionString = audioNameEditted[index...]
+                if(extensionString != ".m4a"){
+                    audioNameEditted = "\(audioNameEditted).m4a"
+                }else{
+                    print(audioNameEditted)
+                }
             }
         }
         

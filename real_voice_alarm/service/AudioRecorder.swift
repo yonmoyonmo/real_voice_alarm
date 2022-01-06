@@ -17,6 +17,7 @@ class AudioRecorder: NSObject, ObservableObject {
     override init() {
         super.init()
         fatchRecordings()
+        fetchSamples()
         print("audio recorder initialized")
     }
     
@@ -34,6 +35,10 @@ class AudioRecorder: NSObject, ObservableObject {
     var audioName: String = ""
     
     var recordings = [Recording]()
+    var samples = [Sample]()
+    
+    let sampleNames = "sample"
+    
     
     func requestMicrophonePermission(){
             AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
@@ -71,7 +76,7 @@ class AudioRecorder: NSObject, ObservableObject {
         
         do{
             audioRecorder = try AVAudioRecorder(url: audioFilename!, settings: settings)
-            audioRecorder.record()//forDuration: 29 듀레이션을 줄 지 말지 고민 중, 어차피 노티 사운드는 5초임
+            audioRecorder.record()//forDuration: 29 듀레이션을 줄 지 말지 고민 중 : 듀레이션은 녹음 시간 제한하는 것임
             recording = true
         }catch let error{
             print("Could not start recording : \(error.localizedDescription)")
@@ -153,10 +158,25 @@ class AudioRecorder: NSObject, ObservableObject {
         
         for audio in directoryContents {
             let recording = Recording(fileURL: audio, createdAt: getCreationDate(for: audio))
+            //print("debug sound directory : \(audio)")
             recordings.append(recording)
         }
         
         recordings.sort(by: {$0.createdAt.compare($1.createdAt) == .orderedAscending})
+        
+        objectWillChange.send(self)
+    }
+    
+    func fetchSamples(){
+        samples.removeAll()
+        
+        for i in 1...16 {
+            //this relative path is playable anyway... and it's string...
+            let sampleURL = Bundle.main.path(forResource: "sample\(i)", ofType: "wav")!
+            print("debug sample URL : \(sampleURL))")
+            let sample = Sample(sampleURL: sampleURL, sampleName: "sample\(i).wav")
+            samples.append(sample)
+        }
         
         objectWillChange.send(self)
     }

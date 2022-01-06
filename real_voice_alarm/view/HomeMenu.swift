@@ -28,9 +28,7 @@ struct HomeMenu: View {
                         }, label: {
                             Text("완료").foregroundColor(Color.textBlack)
                         })
-                    }.padding(20)
-                    
-                    
+                    }.padding()
                     List{
                         NavigationLink(destination: QandAMenu(),label:{
                             Text("자주 묻는 질문 리스트").foregroundColor(Color.textBlack)

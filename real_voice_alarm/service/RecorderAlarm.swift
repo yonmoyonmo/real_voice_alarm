@@ -31,9 +31,9 @@ class RecorderAlarm: ObservableObject {
     func saveAlarm(tagName:String, fireAt: Date, audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]) {
         let id:UUID = UUID()
         
-        print("20211220 debug 06 fire at check before make entity: \(fireAt)")
-        let debugComps = Calendar.current.dateComponents([.year ,.month, .day, .hour, .minute, .weekday], from: fireAt)
-        print("20211220 debug 06 fireComps at check before make entity: \(debugComps)")
+        //print("20211220 debug 06 fire at check before make entity: \(fireAt)")
+        //let debugComps = Calendar.current.dateComponents([.year ,.month, .day, .hour, .minute, .weekday], from: fireAt)
+        //print("20211220 debug 06 fireComps at check before make entity: \(debugComps)")
         
         let newAlarm = AlarmEntity(context: coreDataManager.context)
         newAlarm.uuid = id.uuidString

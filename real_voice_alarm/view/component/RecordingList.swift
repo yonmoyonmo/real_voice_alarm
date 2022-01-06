@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RecordingsList: View {
+    @Environment(\.presentationMode) var presentationMode
+    
     @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
     @ObservedObject var audioRecorder: AudioRecorder
     @Binding var audioName:String
@@ -16,15 +18,37 @@ struct RecordingsList: View {
     @State var showAlert:Bool = false
     
     var body: some View {
-        List {
-            ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
-                RecordingRow(audioURLforShow: recording.fileURL, audioURLforSave: $audioURL, audioName: $audioName)
-            }.onDelete(perform: delete)
+        VStack {
+            HStack(){
+                Text("Motivoice").foregroundColor(Color.myAccent)
+                Spacer()
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Text("완료").foregroundColor(Color.textBlack)
+                })
+            }.padding()
+            List {
+                Section(header: Text("나의 모티보이스")){
+                    ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
+                        RecordingRow(audioURLforShow: recording.fileURL, audioURLforSave: $audioURL, audioName: $audioName)
+                    }.onDelete(perform: delete)
+                }
+                Section(header: Text("기본 모티보이스")){
+                    ForEach(audioRecorder.samples, id: \.sampleName){ sample in
+                        let sampleURL = URL(string: sample.sampleURL)!
+                        SampleRow(audioURLforShow: sampleURL, audioURLforSave: $audioURL, audioName: $audioName)
+                    }
+                }
+                .navigationBarTitle("")
+                .navigationBarHidden(true)
+            }
         }
         .audioURLExceptionAlert(isShowing: $showAlert, message: "알람으로 설정된 소리는 지울 수 없습니다.")
         .onAppear(perform: {
             audioRecorder.fatchRecordings()
         })
+        
     }
     
     func delete(at offsets: IndexSet){
@@ -73,7 +97,7 @@ struct RecordingRow: View{
     @Binding var audioURLforSave: URL?
     @Binding var audioName:String
     
-    @ObservedObject var audioPlayer = AudioPlayer()
+    @ObservedObject var audioPlayer = AudioPlayer.instance
     
     var body: some View{
         HStack{
@@ -102,5 +126,41 @@ struct RecordingRow: View{
     }
 }
 
+struct SampleRow: View{
+    @Environment(\.presentationMode) var presentationMode
+    
+    var audioURLforShow: URL
+    
+    @Binding var audioURLforSave: URL?
+    @Binding var audioName:String
+    
+    @ObservedObject var audioPlayer = AudioPlayer.instance
+    
+    var body: some View{
+        HStack{
+            Text("\(audioURLforShow.lastPathComponent)").foregroundColor(.textBlack)
+                .onTapGesture {
+                    audioURLforSave = audioURLforShow
+                    audioName = audioURLforShow.lastPathComponent
+                    presentationMode.wrappedValue.dismiss()
+                }
+            
+            Spacer()
+            if audioPlayer.isPlaying == false {
+                Button(action: {
+                    audioPlayer.startPlayback(audio: self.audioURLforShow)
+                }){
+                    Image(systemName: "play.circle").imageScale(.large).foregroundColor(.textBlack)
+                }
+            }else{
+                Button(action: {
+                    audioPlayer.stopPlayback()
+                }){
+                    Image(systemName: "stop.fill").imageScale(.large).foregroundColor(.textBlack)
+                }
+            }
+        }
+    }
+}
 
 

@@ -29,7 +29,7 @@ class NotificationManager{
     
     func scheduleAlarm(tagName:String, fireAt: Date, audioName: String, id: String, isNonRepeatingUpdate:Bool) {
         print("=================== scheduleAlarm called ===================")
-        
+        print("debug sample audio name : \(audioName)")
         print("===== main alarm id \(id) =====")
         print("2022 05 15 debug is it a non-repeat update ? : \(isNonRepeatingUpdate) ")
         let now = Date()

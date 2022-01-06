@@ -13,6 +13,11 @@ import AVFoundation
 class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
     static let instance = AudioPlayer()
     
+    override init() {
+        super.init()
+        print("audio player initialized")
+    }
+    
     var audioPlayer: AVAudioPlayer?
     
     @Published var isPlaying = false
@@ -20,6 +25,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
     func startAlarmSound(audio: URL, volume: Float){
         let playbackSession = AVAudioSession.sharedInstance()
         
+        //3트까지 해봄으로써 OSStatus -50을 막아본다...
         do{
             try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
         }catch let error{
