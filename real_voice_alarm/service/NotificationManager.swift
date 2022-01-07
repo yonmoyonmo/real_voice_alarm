@@ -29,12 +29,14 @@ class NotificationManager{
     
     func scheduleAlarm(tagName:String, fireAt: Date, audioName: String, id: String, isNonRepeatingUpdate:Bool) {
         print("=================== scheduleAlarm called ===================")
-        print("2022 05 15 debug is it a non-repeat update ? : \(isNonRepeatingUpdate) ")
+        print("2022 05 15 debug is it a non-repeat update ? : \(isNonRepeatingUpdate)")
         let now = Date()
         let nowDateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: now)
         
         var dateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: fireAt)
-        dateComponents.second = 0
+        dateComponents.second = 3
+        
+        //반복알람에서 단발알람으로 올 때 윅데이 기준을 오늘로 잡아줘야한다.
         if(isNonRepeatingUpdate){
             dateComponents.weekday = nowDateComponents.weekday!
         }
@@ -61,6 +63,7 @@ class NotificationManager{
                 dateComponents.weekday = 1
             }
         }
+        
         print("20211220 debug 2.5: now : \(nowDateComponents) || after edit input \(dateComponents)")
         print("#############################################")
         let content = UNMutableNotificationContent()
@@ -92,7 +95,7 @@ class NotificationManager{
         
         //let's make this alarm ringing!
         var ringingDateComponent  = dateComponents
-        var intervalSecond = 0
+        var intervalSecond = 3
         
         for i in 0..<5{
             intervalSecond += 11
@@ -136,7 +139,7 @@ class NotificationManager{
             let repeatingId = RepeatDays(rawValue: componentsToSave.weekday!)?.fullName
             let devider:String = "@"
             let newId = id + devider + repeatingId!
-            componentsToSave.second = 0
+            componentsToSave.second = 3
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: componentsToSave, repeats: true)
             
@@ -162,7 +165,7 @@ class NotificationManager{
             j += 1
             
             var ringingDateComponent  = componentsToSave
-            var intervalSecond = 0
+            var intervalSecond = 3
             
             for i in 0..<5{
                 intervalSecond += 11

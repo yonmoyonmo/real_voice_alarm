@@ -53,19 +53,21 @@ struct AlarmEdit: View {
             }
         }
         
-        print("debug audio values :\(audioNameEditted) || \(audioURLEditted!)")
+//        print("debug audio values :\(audioNameEditted) || \(audioURLEditted!)")
         
         if(!repeatDaysEditted.isEmpty){
             //반복알람으로 수정
             var weekDayFireAtSet:[Date] = []
-            let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAtEditted)
+            let components = Calendar.current.dateComponents([.hour, .minute, .year, .month, .day], from: fireAtEditted)
             for repeatDay in repeatDaysEditted {
                 weekDayFireAtSet.append(createDate(
                     weekday: repeatDay.intName,
                     hour:components.hour!,
                     minute:components.minute!,
-                    year: components.year!)
-                )
+                    year: components.year!,
+                    month: components.month!,
+                    day: components.day!
+                ))
             }
             //반복알람 업데이트
             recorderAlarm.updateRepeatingAlarms(
@@ -83,8 +85,7 @@ struct AlarmEdit: View {
             self.presentationMode.wrappedValue.dismiss()
         }else{
             //반복알람 아닌 경우의 업데이트
-            let debugcomps = Calendar.current.dateComponents([.hour, .minute, .year, .weekday], from: fireAtEditted)
-            print("2022 01 05 debug alarmEdit input date : \(debugcomps)")
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!! alarmEdit fireAtEditted : \(fireAtEditted)")
             recorderAlarm.updateAlarm(
                 alarm: alarm,
                 tagName: tagNameEditted,

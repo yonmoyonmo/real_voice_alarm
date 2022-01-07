@@ -29,6 +29,7 @@ class RecorderAlarm: ObservableObject {
     }
  
     func saveAlarm(tagName:String, fireAt: Date, audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]) {
+        print("saveAlarm fireAt debug : \(fireAt)")
         let id:UUID = UUID()
         
         //print("20211220 debug 06 fire at check before make entity: \(fireAt)")
@@ -57,6 +58,7 @@ class RecorderAlarm: ObservableObject {
     }
     
     func saveRepeatingAlarms(tagName:String, fireAtList: [Date], audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]){
+        print("saveRepeatingAlarms debug : fireAtList : \(fireAtList)")
         let id:UUID = UUID()
         
         let newAlarm = AlarmEntity(context: coreDataManager.context)
@@ -84,8 +86,9 @@ class RecorderAlarm: ObservableObject {
     }
     
     func updateAlarm(alarm: AlarmEntity, tagName:String, fireAt: Date, audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]){
+        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         print("------------------------- \(tagName) is now updating... -------------------------")
-        //한개만 업데이트 == 항상 오늘내일 == weekday를 오늘기준으로 세팅해줄 필요가 있음
+        print("updateAlarm fireAt debug : \(fireAt)")
         alarm.tagName = tagName
         alarm.fireAt = fireAt
         alarm.audioName = audioName
@@ -96,9 +99,8 @@ class RecorderAlarm: ObservableObject {
         alarm.isDay = isDay(fireAt: fireAt)
         alarm.isRepeating = false
         
-        print("********* 2022 01 05 debug : fireAt check before make entity: \(fireAt)")
         let debugComps = Calendar.current.dateComponents([.year ,.month, .day, .hour, .minute, .weekday], from: fireAt)
-        print("********* 2022 01 05 debug : fireComps at check before make entity: \(debugComps)")
+        print("********* in update target datecomps debug : \(debugComps)")
         
         coreDataManager.save(savedAlarmName: tagName)
         
@@ -115,12 +117,16 @@ class RecorderAlarm: ObservableObject {
                 id: alarm.uuid!,
                 isNonRepeatingUpdate: true
             )
-            print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxß")
+            print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         }
         print("------------------------- alarm updated and re-scheduled -------------------------")
+        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
     }
     
     func updateRepeatingAlarms(alarm: AlarmEntity,tagName:String, fireAtList: [Date], audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]){
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\(tagName)$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("update repeating alarm : repeat to repeat, non-repeat to repeat")
+        print("updateRepeatingAlarms debug : fireAtList : \(fireAtList)")
         alarm.tagName = tagName
         alarm.fireAt = fireAtList[0]
         alarm.isDay = isDay(fireAt: fireAtList[0])
@@ -156,9 +162,11 @@ class RecorderAlarm: ObservableObject {
 //            debugPendingAlarms(semaphore:semaphore)
 //            semaphore.wait()
             
-            print("xxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxß")
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         }
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         print("------------------------- alarms updated and re-scheduled -------------------------")
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
     }
     
     func deleteAlarm(id:String, repeatingDays:[Int]){
@@ -193,12 +201,14 @@ class RecorderAlarm: ObservableObject {
             if(alarm.repeatingDays != []){
                 //repeatingDays가 있을 때
                 var weekDayFireAtSet:[Date] = []
-                let components = Calendar.current.dateComponents([.hour, .minute, .year], from: alarm.fireAt!)
+                let components = Calendar.current.dateComponents([.hour, .minute, .year, .month, .day], from: alarm.fireAt!)
                 for repeatDay in alarm.repeatingDays {
                     weekDayFireAtSet.append(createDate(weekday: repeatDay,
                                                        hour:components.hour!,
                                                        minute:components.minute! ,
-                                                       year: components.year!))
+                                                       year: components.year!,
+                                                       month: components.month!,
+                                                       day: components.day!))
                 }
                 notificationManager.scheduleRepeatingAlarms(dates: weekDayFireAtSet,
                                                             tagName: alarm.tagName!,
@@ -213,7 +223,7 @@ class RecorderAlarm: ObservableObject {
                                                   fireAt: alarm.fireAt!,
                                                   audioName: alarm.audioName!,
                                                   id: alarm.uuid!,
-                                                  isNonRepeatingUpdate: true)
+                                                  isNonRepeatingUpdate: false)
                 //isActive = true
                 alarmActiveSwitch(alarm: alarm)
                 setLastingTimeOfNext()
@@ -292,11 +302,15 @@ class RecorderAlarm: ObservableObject {
         
         center.getPendingNotificationRequests(completionHandler: { requests in
             //setPendings
+            //print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
             for request in requests {
+                //print("getPendingNotificationRequests : \(request)")
                 if(!request.content.userInfo.isEmpty){
+                    //print("getPendingNotificationRequests debug what's pending in here? : \(request.content.userInfo)")
                     pendingAlarmsDates.append(request.content.userInfo)
                 }
             }
+            //print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
             //find today's fastest alarm
             var minTargetHour = 25
             var minTargetMinute = 61

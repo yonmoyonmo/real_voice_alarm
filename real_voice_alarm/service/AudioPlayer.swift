@@ -25,7 +25,7 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
     func startAlarmSound(audio: URL, volume: Float){
         let playbackSession = AVAudioSession.sharedInstance()
         
-        //3트까지 해봄으로써 OSStatus -50을 막아본다...
+        //3트까지 해봄으로써 OSStatus -50을 막아본다... -> 5트까지 도전...
         do{
             try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
         }catch let error{
@@ -35,6 +35,16 @@ class AudioPlayer: NSObject,ObservableObject, AVAudioPlayerDelegate {
                 do{
                     try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
                 }catch let error3{
+                    do{
+                        try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
+                    }catch let error4{
+                        do{
+                            try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
+                        }catch let error5{
+                            print("Playing over the device's speakers failed :\(error5.localizedDescription) 5try")
+                        }
+                        print("Playing over the device's speakers failed :\(error4.localizedDescription) 4try")
+                    }
                     print("Playing over the device's speakers failed :\(error3.localizedDescription) 3try")
                 }
                 print("Playing over the device's speakers failed :\(error2.localizedDescription) 2try")

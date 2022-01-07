@@ -33,50 +33,6 @@ struct AlarmSetting: View {
     var isDay:Bool
     var themeType:String
     
-//    var DaydateClosedRange: ClosedRange<Date> {
-//        var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-//        minComps.hour = 4
-//        minComps.minute = 0
-//
-//        var maxComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-//        maxComps.hour = 16
-//        maxComps.minute = 59
-//
-//        let myCalendar = Calendar(identifier: .gregorian)
-//
-//        let min = myCalendar.date(from: minComps)!
-//        let max = myCalendar.date(from: maxComps)!
-//
-//        return min...max
-//    }
-//
-//    var NightdateClosedRange: ClosedRange<Date> {
-//
-//        var minComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-//        minComps.hour = 17
-//        minComps.minute = 0
-//
-//        var maxComps = Calendar.current.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-//        maxComps.day = maxComps.day! + 1
-//        maxComps.hour = 3
-//        maxComps.minute = 59
-//
-//        let myCalendar = Calendar(identifier: .gregorian)
-//
-//        let min = myCalendar.date(from: minComps)!
-//        let max = myCalendar.date(from: maxComps)!
-//
-//        return min...max
-//    }
-    
-//    var TwoDaysClosedRange: ClosedRange<Date>{
-//        let calendar = Calendar(identifier: .gregorian)
-//        //var todayComps = calendar.dateComponents([.year, .month, .day ,.hour, .minute], from: Date())
-//        let todayDate = Date()
-//        let tomorrowDate = calendar.date(byAdding: .day, value: 1, to: todayDate)!
-//        return todayDate...tomorrowDate
-//    }
-    
     func saveAlarm(){
         if(audioURL==nil){
             audioURLException.toggle()
@@ -97,16 +53,16 @@ struct AlarmSetting: View {
             }
         }
         
-        //print("debug audio values :\(audioName) || \(audioURL!)")
-        
         if(!repeatDays.isEmpty){
             var weekDayFireAtSet:[Date] = []
-            let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAt)
+            let components = Calendar.current.dateComponents([.hour, .minute, .year, .month, .day], from: fireAt)
             for repeatDay in repeatDays {
                 weekDayFireAtSet.append(createDate(weekday: repeatDay.intName,
                                                    hour:components.hour!,
                                                    minute:components.minute! ,
-                                                   year: components.year!
+                                                   year: components.year!,
+                                                   month: components.month!,
+                                                   day: components.day!
                                                   ))
             }
             recorderAlarm.saveRepeatingAlarms(tagName: tagName,
