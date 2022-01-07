@@ -15,22 +15,6 @@
 		0B6AAF74272C0807004769CE /* AlarmingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6AAF73272C0807004769CE /* AlarmingScreen.swift */; };
 		0B841991274A80D100B49263 /* AlarmEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B84198F274A80D100B49263 /* AlarmEntity+CoreDataClass.swift */; };
 		0B841992274A80D100B49263 /* AlarmEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B841990274A80D100B49263 /* AlarmEntity+CoreDataProperties.swift */; };
-		0B96E9C42786D7C60043780E /* sample11.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9B42786D7C60043780E /* sample11.wav */; };
-		0B96E9C52786D7C60043780E /* sample10.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9B52786D7C60043780E /* sample10.wav */; };
-		0B96E9C62786D7C60043780E /* sample12.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9B62786D7C60043780E /* sample12.wav */; };
-		0B96E9C72786D7C60043780E /* sample13.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9B72786D7C60043780E /* sample13.wav */; };
-		0B96E9C82786D7C60043780E /* sample16.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9B82786D7C60043780E /* sample16.wav */; };
-		0B96E9C92786D7C60043780E /* sample8.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9B92786D7C60043780E /* sample8.wav */; };
-		0B96E9CA2786D7C60043780E /* sample14.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9BA2786D7C60043780E /* sample14.wav */; };
-		0B96E9CB2786D7C60043780E /* sample15.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9BB2786D7C60043780E /* sample15.wav */; };
-		0B96E9CC2786D7C60043780E /* sample9.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9BC2786D7C60043780E /* sample9.wav */; };
-		0B96E9CD2786D7C60043780E /* sample4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9BD2786D7C60043780E /* sample4.wav */; };
-		0B96E9CE2786D7C60043780E /* sample5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9BE2786D7C60043780E /* sample5.wav */; };
-		0B96E9CF2786D7C60043780E /* sample7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9BF2786D7C60043780E /* sample7.wav */; };
-		0B96E9D02786D7C60043780E /* sample6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9C02786D7C60043780E /* sample6.wav */; };
-		0B96E9D12786D7C60043780E /* sample2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9C12786D7C60043780E /* sample2.wav */; };
-		0B96E9D22786D7C60043780E /* sample3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9C22786D7C60043780E /* sample3.wav */; };
-		0B96E9D32786D7C60043780E /* sample1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B96E9C32786D7C60043780E /* sample1.wav */; };
 		0B974AE72726A249000D21D2 /* real_voice_alarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */; };
 		0B974AE92726A249000D21D2 /* VoiceAlarmHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B974AE82726A249000D21D2 /* VoiceAlarmHome.swift */; };
 		0B974AEB2726A24A000D21D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B974AEA2726A24A000D21D2 /* Assets.xcassets */; };
@@ -52,6 +36,20 @@
 		0BDDA64F272A93120005F810 /* AlarmSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA64E272A93120005F810 /* AlarmSetting.swift */; };
 		0BDDA651272AD49C0005F810 /* RecordingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDA650272AD49C0005F810 /* RecordingList.swift */; };
 		0BE1C7972731B3DF0021501B /* AlarmCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE1C7962731B3DF0021501B /* AlarmCardView.swift */; };
+		0BE72C9727883BBE00E4FB02 /* 8.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C8927883BBD00E4FB02 /* 8.wav */; };
+		0BE72C9827883BBE00E4FB02 /* 13.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C8A27883BBD00E4FB02 /* 13.wav */; };
+		0BE72C9927883BBE00E4FB02 /* 4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C8B27883BBD00E4FB02 /* 4.wav */; };
+		0BE72C9A27883BBE00E4FB02 /* 6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C8C27883BBD00E4FB02 /* 6.wav */; };
+		0BE72C9B27883BBE00E4FB02 /* 7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C8D27883BBD00E4FB02 /* 7.wav */; };
+		0BE72C9C27883BBE00E4FB02 /* 10.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C8E27883BBD00E4FB02 /* 10.wav */; };
+		0BE72C9D27883BBE00E4FB02 /* 5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C8F27883BBD00E4FB02 /* 5.wav */; };
+		0BE72C9E27883BBE00E4FB02 /* 2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C9027883BBD00E4FB02 /* 2.wav */; };
+		0BE72C9F27883BBE00E4FB02 /* 0.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C9127883BBD00E4FB02 /* 0.wav */; };
+		0BE72CA027883BBE00E4FB02 /* 3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C9227883BBD00E4FB02 /* 3.wav */; };
+		0BE72CA127883BBE00E4FB02 /* 12.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C9327883BBD00E4FB02 /* 12.wav */; };
+		0BE72CA227883BBE00E4FB02 /* 1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C9427883BBD00E4FB02 /* 1.wav */; };
+		0BE72CA327883BBE00E4FB02 /* 9.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C9527883BBE00E4FB02 /* 9.wav */; };
+		0BE72CA427883BBE00E4FB02 /* 11.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BE72C9627883BBE00E4FB02 /* 11.wav */; };
 		0BE8F1A42736AFFE009B97FE /* RepeatDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE8F1A32736AFFE009B97FE /* RepeatDays.swift */; };
 		0BE8F1B62736BB84009B97FE /* RepeatDaysSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE8F1B52736BB84009B97FE /* RepeatDaysSettingView.swift */; };
 		0BEFDED5276F4B5E003726F3 /* BannerAdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEFDED4276F4B5E003726F3 /* BannerAdVC.swift */; };
@@ -69,22 +67,6 @@
 		0B6AAF73272C0807004769CE /* AlarmingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmingScreen.swift; sourceTree = "<group>"; };
 		0B84198F274A80D100B49263 /* AlarmEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlarmEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		0B841990274A80D100B49263 /* AlarmEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlarmEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		0B96E9B42786D7C60043780E /* sample11.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample11.wav; sourceTree = "<group>"; };
-		0B96E9B52786D7C60043780E /* sample10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample10.wav; sourceTree = "<group>"; };
-		0B96E9B62786D7C60043780E /* sample12.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample12.wav; sourceTree = "<group>"; };
-		0B96E9B72786D7C60043780E /* sample13.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample13.wav; sourceTree = "<group>"; };
-		0B96E9B82786D7C60043780E /* sample16.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample16.wav; sourceTree = "<group>"; };
-		0B96E9B92786D7C60043780E /* sample8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample8.wav; sourceTree = "<group>"; };
-		0B96E9BA2786D7C60043780E /* sample14.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample14.wav; sourceTree = "<group>"; };
-		0B96E9BB2786D7C60043780E /* sample15.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample15.wav; sourceTree = "<group>"; };
-		0B96E9BC2786D7C60043780E /* sample9.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample9.wav; sourceTree = "<group>"; };
-		0B96E9BD2786D7C60043780E /* sample4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample4.wav; sourceTree = "<group>"; };
-		0B96E9BE2786D7C60043780E /* sample5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample5.wav; sourceTree = "<group>"; };
-		0B96E9BF2786D7C60043780E /* sample7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample7.wav; sourceTree = "<group>"; };
-		0B96E9C02786D7C60043780E /* sample6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample6.wav; sourceTree = "<group>"; };
-		0B96E9C12786D7C60043780E /* sample2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample2.wav; sourceTree = "<group>"; };
-		0B96E9C22786D7C60043780E /* sample3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample3.wav; sourceTree = "<group>"; };
-		0B96E9C32786D7C60043780E /* sample1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sample1.wav; sourceTree = "<group>"; };
 		0B974AE32726A249000D21D2 /* real_voice_alarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = real_voice_alarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = real_voice_alarmApp.swift; sourceTree = "<group>"; };
 		0B974AE82726A249000D21D2 /* VoiceAlarmHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAlarmHome.swift; sourceTree = "<group>"; };
@@ -108,6 +90,20 @@
 		0BDDA64E272A93120005F810 /* AlarmSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSetting.swift; sourceTree = "<group>"; };
 		0BDDA650272AD49C0005F810 /* RecordingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingList.swift; sourceTree = "<group>"; };
 		0BE1C7962731B3DF0021501B /* AlarmCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmCardView.swift; sourceTree = "<group>"; };
+		0BE72C8927883BBD00E4FB02 /* 8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 8.wav; sourceTree = "<group>"; };
+		0BE72C8A27883BBD00E4FB02 /* 13.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 13.wav; sourceTree = "<group>"; };
+		0BE72C8B27883BBD00E4FB02 /* 4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 4.wav; sourceTree = "<group>"; };
+		0BE72C8C27883BBD00E4FB02 /* 6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 6.wav; sourceTree = "<group>"; };
+		0BE72C8D27883BBD00E4FB02 /* 7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 7.wav; sourceTree = "<group>"; };
+		0BE72C8E27883BBD00E4FB02 /* 10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 10.wav; sourceTree = "<group>"; };
+		0BE72C8F27883BBD00E4FB02 /* 5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 5.wav; sourceTree = "<group>"; };
+		0BE72C9027883BBD00E4FB02 /* 2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 2.wav; sourceTree = "<group>"; };
+		0BE72C9127883BBD00E4FB02 /* 0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 0.wav; sourceTree = "<group>"; };
+		0BE72C9227883BBD00E4FB02 /* 3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 3.wav; sourceTree = "<group>"; };
+		0BE72C9327883BBD00E4FB02 /* 12.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 12.wav; sourceTree = "<group>"; };
+		0BE72C9427883BBD00E4FB02 /* 1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 1.wav; sourceTree = "<group>"; };
+		0BE72C9527883BBE00E4FB02 /* 9.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 9.wav; sourceTree = "<group>"; };
+		0BE72C9627883BBE00E4FB02 /* 11.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 11.wav; sourceTree = "<group>"; };
 		0BE8F1A32736AFFE009B97FE /* RepeatDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDays.swift; sourceTree = "<group>"; };
 		0BE8F1B52736BB84009B97FE /* RepeatDaysSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaysSettingView.swift; sourceTree = "<group>"; };
 		0BEFDED4276F4B5E003726F3 /* BannerAdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdVC.swift; sourceTree = "<group>"; };
@@ -137,29 +133,6 @@
 			path = menu;
 			sourceTree = "<group>";
 		};
-		0B96E9B32786D7C60043780E /* sample_audio */ = {
-			isa = PBXGroup;
-			children = (
-				0B96E9B42786D7C60043780E /* sample11.wav */,
-				0B96E9B52786D7C60043780E /* sample10.wav */,
-				0B96E9B62786D7C60043780E /* sample12.wav */,
-				0B96E9B72786D7C60043780E /* sample13.wav */,
-				0B96E9B82786D7C60043780E /* sample16.wav */,
-				0B96E9B92786D7C60043780E /* sample8.wav */,
-				0B96E9BA2786D7C60043780E /* sample14.wav */,
-				0B96E9BB2786D7C60043780E /* sample15.wav */,
-				0B96E9BC2786D7C60043780E /* sample9.wav */,
-				0B96E9BD2786D7C60043780E /* sample4.wav */,
-				0B96E9BE2786D7C60043780E /* sample5.wav */,
-				0B96E9BF2786D7C60043780E /* sample7.wav */,
-				0B96E9C02786D7C60043780E /* sample6.wav */,
-				0B96E9C12786D7C60043780E /* sample2.wav */,
-				0B96E9C22786D7C60043780E /* sample3.wav */,
-				0B96E9C32786D7C60043780E /* sample1.wav */,
-			);
-			path = sample_audio;
-			sourceTree = "<group>";
-		};
 		0B974ADA2726A249000D21D2 = {
 			isa = PBXGroup;
 			children = (
@@ -182,7 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				0B6759892748DF5B000062DF /* real-voice-alarm-Info.plist */,
-				0B96E9B32786D7C60043780E /* sample_audio */,
+				0BE72C502788357800E4FB02 /* sample_audio */,
 				0BDDA643272A8C010005F810 /* util */,
 				0BA14D7F2729588500A9E646 /* model */,
 				0B974AF72726C2F0000D21D2 /* service */,
@@ -283,6 +256,27 @@
 			path = component;
 			sourceTree = "<group>";
 		};
+		0BE72C502788357800E4FB02 /* sample_audio */ = {
+			isa = PBXGroup;
+			children = (
+				0BE72C9127883BBD00E4FB02 /* 0.wav */,
+				0BE72C9427883BBD00E4FB02 /* 1.wav */,
+				0BE72C9027883BBD00E4FB02 /* 2.wav */,
+				0BE72C9227883BBD00E4FB02 /* 3.wav */,
+				0BE72C8B27883BBD00E4FB02 /* 4.wav */,
+				0BE72C8F27883BBD00E4FB02 /* 5.wav */,
+				0BE72C8C27883BBD00E4FB02 /* 6.wav */,
+				0BE72C8D27883BBD00E4FB02 /* 7.wav */,
+				0BE72C8927883BBD00E4FB02 /* 8.wav */,
+				0BE72C9527883BBE00E4FB02 /* 9.wav */,
+				0BE72C8E27883BBD00E4FB02 /* 10.wav */,
+				0BE72C9627883BBE00E4FB02 /* 11.wav */,
+				0BE72C9327883BBD00E4FB02 /* 12.wav */,
+				0BE72C8A27883BBD00E4FB02 /* 13.wav */,
+			);
+			path = sample_audio;
+			sourceTree = "<group>";
+		};
 		0BEFDED3276F4B36003726F3 /* view_controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -368,24 +362,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B96E9C72786D7C60043780E /* sample13.wav in Resources */,
-				0B96E9CE2786D7C60043780E /* sample5.wav in Resources */,
-				0B96E9CF2786D7C60043780E /* sample7.wav in Resources */,
-				0B96E9C92786D7C60043780E /* sample8.wav in Resources */,
-				0B96E9C82786D7C60043780E /* sample16.wav in Resources */,
-				0B96E9C42786D7C60043780E /* sample11.wav in Resources */,
-				0B96E9CC2786D7C60043780E /* sample9.wav in Resources */,
-				0B96E9CD2786D7C60043780E /* sample4.wav in Resources */,
+				0BE72CA127883BBE00E4FB02 /* 12.wav in Resources */,
+				0BE72CA027883BBE00E4FB02 /* 3.wav in Resources */,
+				0BE72C9F27883BBE00E4FB02 /* 0.wav in Resources */,
+				0BE72C9D27883BBE00E4FB02 /* 5.wav in Resources */,
+				0BE72CA427883BBE00E4FB02 /* 11.wav in Resources */,
+				0BE72C9727883BBE00E4FB02 /* 8.wav in Resources */,
 				0B974AEE2726A24A000D21D2 /* Preview Assets.xcassets in Resources */,
+				0BE72C9E27883BBE00E4FB02 /* 2.wav in Resources */,
+				0BE72C9827883BBE00E4FB02 /* 13.wav in Resources */,
+				0BE72CA227883BBE00E4FB02 /* 1.wav in Resources */,
+				0BE72CA327883BBE00E4FB02 /* 9.wav in Resources */,
+				0BE72C9C27883BBE00E4FB02 /* 10.wav in Resources */,
+				0BE72C9A27883BBE00E4FB02 /* 6.wav in Resources */,
 				0B974AEB2726A24A000D21D2 /* Assets.xcassets in Resources */,
-				0B96E9CA2786D7C60043780E /* sample14.wav in Resources */,
-				0B96E9D12786D7C60043780E /* sample2.wav in Resources */,
-				0B96E9D02786D7C60043780E /* sample6.wav in Resources */,
-				0B96E9C62786D7C60043780E /* sample12.wav in Resources */,
-				0B96E9D32786D7C60043780E /* sample1.wav in Resources */,
-				0B96E9CB2786D7C60043780E /* sample15.wav in Resources */,
-				0B96E9D22786D7C60043780E /* sample3.wav in Resources */,
-				0B96E9C52786D7C60043780E /* sample10.wav in Resources */,
+				0BE72C9B27883BBE00E4FB02 /* 7.wav in Resources */,
+				0BE72C9927883BBE00E4FB02 /* 4.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -37,9 +37,6 @@ class AudioRecorder: NSObject, ObservableObject {
     var recordings = [Recording]()
     var samples = [Sample]()
     
-    let sampleNames = "sample"
-    
-    
     func requestMicrophonePermission(){
             AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
                 if granted {
@@ -168,11 +165,12 @@ class AudioRecorder: NSObject, ObservableObject {
     
     func fetchSamples(){
         samples.removeAll()
-        
-        for i in 1...16 {
+        //14개의 샘플입니다.
+        for i in 0...13 {
             //this relative path is playable anyway... and it's string...
-            let sampleURL = Bundle.main.path(forResource: "sample\(i)", ofType: "wav")!
-            let sample = Sample(sampleURL: sampleURL, sampleName: "sample\(i).wav")
+            let sampleURL = Bundle.main.path(forResource: "\(i)", ofType: "wav")!
+            let sample = Sample(sampleURL: sampleURL, sampleName: "\(sampleNames[i]).wav")
+            print("fetchSamples debug sample values : URL = \(sampleURL) || name = \(sampleNames[i])")
             samples.append(sample)
         }
         

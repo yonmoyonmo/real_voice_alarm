@@ -39,7 +39,7 @@ struct RecordingsList: View {
                 Section(header: Text("기본 모티보이스")){
                     ForEach(audioRecorder.samples, id: \.sampleName){ sample in
                         let sampleURL = URL(string: sample.sampleURL)!
-                        SampleRow(audioURLforShow: sampleURL, audioURLforSave: $audioURL, audioName: $audioName)
+                        SampleRow(audioURLforShow: sampleURL, audioSampleStruct: sample, audioURLforSave: $audioURL, audioName: $audioName)
                     }
                 }
                 .navigationBarTitle("")
@@ -107,6 +107,7 @@ struct RecordingRow: View{
                 .onTapGesture {
                     audioURLforSave = audioURLforShow
                     audioName = audioURLforShow.lastPathComponent
+                    audioPlayer.stopPlayback()
                     presentationMode.wrappedValue.dismiss()
                 }
             
@@ -132,6 +133,7 @@ struct SampleRow: View{
     @Environment(\.presentationMode) var presentationMode
     
     var audioURLforShow: URL
+    let audioSampleStruct: Sample
     
     @Binding var audioURLforSave: URL?
     @Binding var audioName:String
@@ -140,10 +142,11 @@ struct SampleRow: View{
     
     var body: some View{
         HStack{
-            Text("\(audioURLforShow.lastPathComponent)").foregroundColor(.textBlack)
+            Text("\(audioSampleStruct.sampleName)").foregroundColor(.textBlack)
                 .onTapGesture {
                     audioURLforSave = audioURLforShow
                     audioName = audioURLforShow.lastPathComponent
+                    audioPlayer.stopPlayback()
                     presentationMode.wrappedValue.dismiss()
                 }
             

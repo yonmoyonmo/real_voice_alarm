@@ -170,7 +170,10 @@ struct AlarmSetting: View {
                                 }
                                 Divider()
                                 HStack{
-                                    Text("\(audioName)")
+                                    Text(audioName.contains(".wav") ?
+                                         sampleNames[Int(audioName.split(separator: ".")[0])!]
+                                         : audioName)
+                                    //Text("\(audioName)")
                                     Spacer()
                                     NavigationLink(destination: RecordingsList(
                                         audioRecorder: audioRecorder,
