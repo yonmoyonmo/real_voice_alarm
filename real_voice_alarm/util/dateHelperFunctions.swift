@@ -16,15 +16,17 @@ func getCreationDate(for file: URL)->Date {
     }
 }
 
-func createDate(weekday: Int, hour: Int, minute: Int, year: Int, month: Int, day: Int)->Date{
+func createDate(weekday: Int, hour: Int, minute: Int, year: Int, month: Int?, day: Int?)->Date{
     var components = DateComponents()
     components.hour = hour
     components.minute = minute
     components.year = year
     components.weekday = weekday // sunday = 1 ... saturday = 7
     components.weekdayOrdinal = 10
-    components.month =  month
-    components.day = day
+    if(month != nil && day != nil){
+        components.month =  month
+        components.day = day
+    }
     components.timeZone = .current
     
     let calendar = Calendar(identifier: .gregorian)

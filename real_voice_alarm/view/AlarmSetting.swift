@@ -55,14 +55,14 @@ struct AlarmSetting: View {
         
         if(!repeatDays.isEmpty){
             var weekDayFireAtSet:[Date] = []
-            let components = Calendar.current.dateComponents([.hour, .minute, .year, .month, .day], from: fireAt)
+            let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAt)
             for repeatDay in repeatDays {
                 weekDayFireAtSet.append(createDate(weekday: repeatDay.intName,
                                                    hour:components.hour!,
                                                    minute:components.minute! ,
                                                    year: components.year!,
-                                                   month: components.month!,
-                                                   day: components.day!
+                                                   month: nil,
+                                                   day: nil
                                                   ))
             }
             recorderAlarm.saveRepeatingAlarms(tagName: tagName,

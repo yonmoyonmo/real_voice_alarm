@@ -119,7 +119,7 @@ struct AlarmingScreen: View {
                         audioPlayer.startAlarmSound(audio: alarmingScreenVm.currentAlarm!.audioURL!, volume: floatVolume)
                     }
                 }).sheet(isPresented: self.$showModal) {
-                    AfterAlarmScreen(isDay: isDay)
+                    AfterAlarmScreen(isDay: alarmingScreenVm.currentAlarm!.isDay)
                 }
                 
             }.frame(width: CGFloat(geometry.size.width),height: UIScreen.screenHeight, alignment: .center)

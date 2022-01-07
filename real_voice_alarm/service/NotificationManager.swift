@@ -34,16 +34,16 @@ class NotificationManager{
         let nowDateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: now)
         
         var dateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: fireAt)
-        dateComponents.second = 3
+        dateComponents.second = 0
         
         //반복알람에서 단발알람으로 올 때 윅데이 기준을 오늘로 잡아줘야한다.
         if(isNonRepeatingUpdate){
             dateComponents.weekday = nowDateComponents.weekday!
         }
         
-        print("#############################################")
-        print("20211220 debug 01 input : \(dateComponents)")
-        print("20211220 debug 02 now : \(nowDateComponents)")
+//        print("#############################################")
+//        print("20211220 debug 01 input : \(dateComponents)")
+//        print("20211220 debug 02 now : \(nowDateComponents)")
         var nowDateCompsHour = nowDateComponents.hour!
         
         //00시의 경우 24시로 비교한다.
@@ -64,8 +64,8 @@ class NotificationManager{
             }
         }
         
-        print("20211220 debug 2.5: now : \(nowDateComponents) || after edit input \(dateComponents)")
-        print("#############################################")
+//        print("20211220 debug 2.5: now : \(nowDateComponents) || after edit input \(dateComponents)")
+//        print("#############################################")
         let content = UNMutableNotificationContent()
         content.title = "Motivoice is arrived"
         content.subtitle = "\(tagName)"
@@ -95,7 +95,7 @@ class NotificationManager{
         
         //let's make this alarm ringing!
         var ringingDateComponent  = dateComponents
-        var intervalSecond = 3
+        var intervalSecond = 0
         
         for i in 0..<5{
             intervalSecond += 11
@@ -139,7 +139,7 @@ class NotificationManager{
             let repeatingId = RepeatDays(rawValue: componentsToSave.weekday!)?.fullName
             let devider:String = "@"
             let newId = id + devider + repeatingId!
-            componentsToSave.second = 3
+            componentsToSave.second = 0
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: componentsToSave, repeats: true)
             
@@ -165,7 +165,7 @@ class NotificationManager{
             j += 1
             
             var ringingDateComponent  = componentsToSave
-            var intervalSecond = 3
+            var intervalSecond = 0
             
             for i in 0..<5{
                 intervalSecond += 11

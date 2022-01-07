@@ -32,10 +32,6 @@ class RecorderAlarm: ObservableObject {
         print("saveAlarm fireAt debug : \(fireAt)")
         let id:UUID = UUID()
         
-        //print("20211220 debug 06 fire at check before make entity: \(fireAt)")
-        //let debugComps = Calendar.current.dateComponents([.year ,.month, .day, .hour, .minute, .weekday], from: fireAt)
-        //print("20211220 debug 06 fireComps at check before make entity: \(debugComps)")
-        
         let newAlarm = AlarmEntity(context: coreDataManager.context)
         newAlarm.uuid = id.uuidString
         
@@ -201,14 +197,14 @@ class RecorderAlarm: ObservableObject {
             if(alarm.repeatingDays != []){
                 //repeatingDays가 있을 때
                 var weekDayFireAtSet:[Date] = []
-                let components = Calendar.current.dateComponents([.hour, .minute, .year, .month, .day], from: alarm.fireAt!)
+                let components = Calendar.current.dateComponents([.hour, .minute, .year], from: alarm.fireAt!)
                 for repeatDay in alarm.repeatingDays {
                     weekDayFireAtSet.append(createDate(weekday: repeatDay,
                                                        hour:components.hour!,
                                                        minute:components.minute! ,
                                                        year: components.year!,
-                                                       month: components.month!,
-                                                       day: components.day!))
+                                                       month: nil,
+                                                       day: nil))
                 }
                 notificationManager.scheduleRepeatingAlarms(dates: weekDayFireAtSet,
                                                             tagName: alarm.tagName!,

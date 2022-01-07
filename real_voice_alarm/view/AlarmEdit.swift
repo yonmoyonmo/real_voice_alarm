@@ -38,7 +38,7 @@ struct AlarmEdit: View {
             return
         }
         
-        //save alarm
+        //sample checker
         if(!audioNameEditted.contains(".wav")){
             if(audioNameEditted.count < 4){
                 audioNameEditted = "\(audioNameEditted).m4a"
@@ -53,20 +53,18 @@ struct AlarmEdit: View {
             }
         }
         
-//        print("debug audio values :\(audioNameEditted) || \(audioURLEditted!)")
-        
         if(!repeatDaysEditted.isEmpty){
             //반복알람으로 수정
             var weekDayFireAtSet:[Date] = []
-            let components = Calendar.current.dateComponents([.hour, .minute, .year, .month, .day], from: fireAtEditted)
+            let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAtEditted)
             for repeatDay in repeatDaysEditted {
                 weekDayFireAtSet.append(createDate(
                     weekday: repeatDay.intName,
                     hour:components.hour!,
                     minute:components.minute!,
                     year: components.year!,
-                    month: components.month!,
-                    day: components.day!
+                    month: nil,
+                    day: nil
                 ))
             }
             //반복알람 업데이트
@@ -86,6 +84,14 @@ struct AlarmEdit: View {
         }else{
             //반복알람 아닌 경우의 업데이트
             print("!!!!!!!!!!!!!!!!!!!!!!!!!! alarmEdit fireAtEditted : \(fireAtEditted)")
+            let now = Date()
+            let nowDateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: now)
+            var components = Calendar.current.dateComponents([.hour, .minute, .year, .month, .day], from: fireAtEditted)
+            components.year = nowDateComponents.year!
+            components.month = nowDateComponents.month!
+            components.day = nowDateComponents.day!
+            fireAtEditted = Calendar.current.date(from: components)!
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!! alarmEdit fireAtEditted after processing : \(fireAtEditted)")
             recorderAlarm.updateAlarm(
                 alarm: alarm,
                 tagName: tagNameEditted,
