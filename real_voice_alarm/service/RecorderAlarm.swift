@@ -302,7 +302,7 @@ class RecorderAlarm: ObservableObject {
             var minTargetMinute = 61
             for pendingAlarmsDate in pendingAlarmsDates {
                 
-                print("@@ debug : \(pendingAlarmsDate)")
+                print("@@ debug pendingAlarmsDate : \(pendingAlarmsDate)")
                 
                 let targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
                 let targetHour = (pendingAlarmsDate["hour" as String] as? NSString)!.intValue

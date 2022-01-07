@@ -29,8 +29,6 @@ class NotificationManager{
     
     func scheduleAlarm(tagName:String, fireAt: Date, audioName: String, id: String, isNonRepeatingUpdate:Bool) {
         print("=================== scheduleAlarm called ===================")
-        print("debug sample audio name : \(audioName)")
-        print("===== main alarm id \(id) =====")
         print("2022 05 15 debug is it a non-repeat update ? : \(isNonRepeatingUpdate) ")
         let now = Date()
         let nowDateComponents = Calendar.current.dateComponents([.year,.month,.day, .hour, .minute, .weekday, .second], from: now)
@@ -103,7 +101,7 @@ class NotificationManager{
             let ringingId = "\(id)#\(intervalSecond)"
             
             let ringingContent = UNMutableNotificationContent()
-            ringingContent.title = "Motivoice is arrived"
+            ringingContent.title = "Motivoice has been arrived"
             ringingContent.subtitle = "\(tagName)"
             ringingContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
             ringingContent.userInfo = [:]
@@ -142,7 +140,7 @@ class NotificationManager{
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: componentsToSave, repeats: true)
             
-            content.title = "Motivoice is arrived"
+            content.title = "Motivoice has been arrived"
             content.body = "\(tagName)"
             content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
             content.userInfo = [

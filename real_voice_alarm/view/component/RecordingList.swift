@@ -12,6 +12,7 @@ struct RecordingsList: View {
     
     @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
     @ObservedObject var audioRecorder: AudioRecorder
+    @ObservedObject var audioPlayer = AudioPlayer.instance
     @Binding var audioName:String
     @Binding var audioURL:URL?
     
@@ -23,6 +24,7 @@ struct RecordingsList: View {
                 Text("Motivoice").foregroundColor(Color.myAccent)
                 Spacer()
                 Button(action: {
+                    audioPlayer.stopPlayback()
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
                     Text("완료").foregroundColor(Color.textBlack)

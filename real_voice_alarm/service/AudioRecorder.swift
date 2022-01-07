@@ -158,7 +158,6 @@ class AudioRecorder: NSObject, ObservableObject {
         
         for audio in directoryContents {
             let recording = Recording(fileURL: audio, createdAt: getCreationDate(for: audio))
-            //print("debug sound directory : \(audio)")
             recordings.append(recording)
         }
         
@@ -173,7 +172,6 @@ class AudioRecorder: NSObject, ObservableObject {
         for i in 1...16 {
             //this relative path is playable anyway... and it's string...
             let sampleURL = Bundle.main.path(forResource: "sample\(i)", ofType: "wav")!
-            print("debug sample URL : \(sampleURL))")
             let sample = Sample(sampleURL: sampleURL, sampleName: "sample\(i).wav")
             samples.append(sample)
         }
@@ -183,7 +181,6 @@ class AudioRecorder: NSObject, ObservableObject {
     
     func deleteRecording(urlsToDelete: [URL]){
         for url in urlsToDelete {
-            print("delete Recordeing debug : \(url)")
             do{
                 try FileManager.default.removeItem(at: url)
             }catch let error{
