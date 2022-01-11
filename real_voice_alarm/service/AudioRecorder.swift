@@ -170,7 +170,7 @@ class AudioRecorder: NSObject, ObservableObject {
             //this relative path is playable anyway... and it's string...
             let sampleURL = Bundle.main.path(forResource: "\(i)", ofType: "wav")!
             let sample = Sample(sampleURL: sampleURL, sampleName: "\(sampleNames[i]).wav")
-            print("fetchSamples debug sample values : URL = \(sampleURL) || name = \(sampleNames[i])")
+            //print("fetchSamples debug sample values : URL = \(sampleURL) || name = \(sampleNames[i])")
             samples.append(sample)
         }
         

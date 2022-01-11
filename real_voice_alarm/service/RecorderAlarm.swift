@@ -82,7 +82,7 @@ class RecorderAlarm: ObservableObject {
     }
     
     func updateAlarm(alarm: AlarmEntity, tagName:String, fireAt: Date, audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]){
-        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         print("------------------------- \(tagName) is now updating... -------------------------")
         print("updateAlarm fireAt debug : \(fireAt)")
         alarm.tagName = tagName
@@ -113,14 +113,14 @@ class RecorderAlarm: ObservableObject {
                 id: alarm.uuid!,
                 isNonRepeatingUpdate: true
             )
-            print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+            print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         }
         print("------------------------- alarm updated and re-scheduled -------------------------")
-        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
     }
     
     func updateRepeatingAlarms(alarm: AlarmEntity,tagName:String, fireAtList: [Date], audioName: String, audioURL: URL, volume: Double, repeatingDays: [RepeatDays]){
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\(tagName)$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\(tagName)$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         print("update repeating alarm : repeat to repeat, non-repeat to repeat")
         print("updateRepeatingAlarms debug : fireAtList : \(fireAtList)")
         alarm.tagName = tagName
@@ -153,16 +153,17 @@ class RecorderAlarm: ObservableObject {
                 dates: fireAtList,
                 tagName: tagName,
                 id: alarm.uuid!,
-                audioName: audioName)
+                audioName: audioName
+            )
             
 //            debugPendingAlarms(semaphore:semaphore)
 //            semaphore.wait()
             
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
         }
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         print("------------------------- alarms updated and re-scheduled -------------------------")
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
     }
     
     func deleteAlarm(id:String, repeatingDays:[Int]){
@@ -298,34 +299,35 @@ class RecorderAlarm: ObservableObject {
         
         center.getPendingNotificationRequests(completionHandler: { requests in
             //setPendings
-            //print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+            print("xxxxxxxxxxxxxxx request count xxxxxxxx\(requests.count)xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
             for request in requests {
-                //print("getPendingNotificationRequests : \(request)")
+                //print("getPendingNotificationRequests : \(String(describing: request.trigger))")
                 if(!request.content.userInfo.isEmpty){
-                    //print("getPendingNotificationRequests debug what's pending in here? : \(request.content.userInfo)")
+                    print("getPendingNotificationRequests debug what's pending in here? : \(request.content.userInfo)")
                     pendingAlarmsDates.append(request.content.userInfo)
                 }
             }
-            //print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+            print("xxxxxxxxxxxxxxxxx pending count xxxxxxxxxxx\(pendingAlarmsDates.count)xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
             //find today's fastest alarm
             var minTargetHour = 25
             var minTargetMinute = 61
             for pendingAlarmsDate in pendingAlarmsDates {
                 
-                print("@@ debug pendingAlarmsDate : \(pendingAlarmsDate)")
+                //print("@@ debug pendingAlarmsDate : \(pendingAlarmsDate)")
                 
                 let targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
                 let targetHour = (pendingAlarmsDate["hour" as String] as? NSString)!.intValue
                 let targetMinute = (pendingAlarmsDate["minute" as String] as? NSString)!.intValue
                 
-                var isRepeating = false
-                if((Int(targetHour) - nowDateComponents.hour!) < 0){
-                    isRepeating = true
-                }else if((Int(targetHour) - nowDateComponents.hour!) == 0 && (Int(targetMinute) - nowDateComponents.minute!) <= 0){
-                    isRepeating = true
-                }
+                //i don't know why this var exists just leave it for it's sake....
+//                var overDay = false
+//                if((Int(targetHour) - nowDateComponents.hour!) < 0){
+//                    overDay = true
+//                }else if((Int(targetHour) - nowDateComponents.hour!) == 0 && (Int(targetMinute) - nowDateComponents.minute!) <= 0){
+//                    overDay = true
+//                }
                 
-                if(targetWeekday == nowDateComponents.weekday! && !isRepeating){
+                if(targetWeekday == nowDateComponents.weekday!){
                     if(targetHour >= nowDateComponents.hour!){
                         if(minTargetHour > targetHour){
                             minTargetHour = Int(targetHour)
@@ -420,17 +422,15 @@ class RecorderAlarm: ObservableObject {
                     if(nowDateCompsHour == 0){
                         nowDateCompsHour = 24
                     }
+                    
                     print("nowDateCompsHour : \(nowDateCompsHour) || targetHours : \(targetHours)")
                     print("the diff : \(diff)")
                     print("the targetHours : \(targetHours) and nowDateCompsHour \(nowDateCompsHour)")
+                    
                     //1일 차이 나는 것들 간의 비교이므로 아래와 같이 해야함
                     //hourDiff = 24 - 지금시간 + 타겟 시간
                     hourDiff = 24 - nowDateCompsHour + targetHours
-//                    if(nowDateCompsHour < targetHours){
-//                        hourDiff = targetHours - nowDateCompsHour
-//                    }else if(nowDateCompsHour >= targetHours){
-//                        hourDiff = (targetHours + 24) - nowDateCompsHour
-//                    }
+
                     
                     print("hourDiff: \(hourDiff)")
                     //set the tomorrow's next's hours and minutes

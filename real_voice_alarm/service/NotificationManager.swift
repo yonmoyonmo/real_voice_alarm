@@ -67,7 +67,7 @@ class NotificationManager{
 //        print("20211220 debug 2.5: now : \(nowDateComponents) || after edit input \(dateComponents)")
 //        print("#############################################")
         let content = UNMutableNotificationContent()
-        content.title = "Motivoice is arrived"
+        content.title = "모티보이스가 도착했습니다!"
         content.subtitle = "\(tagName)"
         content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
         content.userInfo = [
@@ -104,7 +104,7 @@ class NotificationManager{
             let ringingId = "\(id)#\(intervalSecond)"
             
             let ringingContent = UNMutableNotificationContent()
-            ringingContent.title = "Motivoice has been arrived"
+            ringingContent.title = "모티보이스가 도착했습니다!"
             ringingContent.subtitle = "\(tagName)"
             ringingContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
             ringingContent.userInfo = [:]
@@ -127,15 +127,75 @@ class NotificationManager{
     func scheduleRepeatingAlarms(dates: [Date],tagName:String, id:String, audioName:String) {
         print("=================== scheduleRepeatingAlarms called ===================")
         print("===== main alarm id \(id) =====")
+        print("******************* 1.0.4 version of Repeating Alarm Scheduling ************")
+        //set nearest next alarm by today
+        //only schedule one alarm. dismiss is gonna call this after check is it a repeating alarm
+        //nothing changes in recorderAlarm class just dismiss and schedule
+        
+        let today = Date()
+        let todayComponents = Calendar.current.dateComponents([.weekday, .hour, .minute, .second, .year], from: today)
         
         var componentsToSaveList:[DateComponents] = []
-        let content = UNMutableNotificationContent()
         
+        //set nearest one
+        var min = 8
+        var nextWeekDay = 0
+        var weekDayList:[Int] = []
         for date in dates {
-            componentsToSaveList.append(Calendar.current.dateComponents([.weekday,.hour,.minute,.second, .year], from: date))
+            let targetComponents = Calendar.current.dateComponents([.weekday], from: date)
+            print("******************* 1.0.4 schedule debug target : \(targetComponents) *******************")
+            var targetWeekday = targetComponents.weekday!
+            //nearest one by today
+            print("******************* let's find nearest *******************")
+            if(targetWeekday < todayComponents.weekday!){
+                targetWeekday = targetWeekday + 7
+            }
+            let diff = Int(targetWeekday) - todayComponents.weekday!
+            print("repeating alarm schedule debug the diff : \(diff)")
+            
+            weekDayList.append(targetWeekday)
+            
+            if(diff < min){
+                min = diff
+                componentsToSaveList.removeAll()
+                componentsToSaveList.append(Calendar.current.dateComponents([.weekday,.hour,.minute,.second, .year], from: date))
+                print("******************* nearest added \(componentsToSaveList) ***** \(min) ************")
+            }
         }
+        weekDayList.sort()
+        print("weekDayList \(weekDayList)")
+        if(weekDayList.count > 1){
+            var beforeAsign = weekDayList[1]
+            if(beforeAsign > 7){
+                beforeAsign = weekDayList[1] - 7
+            }
+            nextWeekDay = beforeAsign
+            print("ok next weekdat is \(nextWeekDay)")
+        }else{
+            var beforeAsign = weekDayList[0]
+            if(beforeAsign > 7){
+                beforeAsign = weekDayList[0] - 7
+            }
+            nextWeekDay = beforeAsign
+            print("ok next weekdat is \(nextWeekDay)")
+        }
+        print("*******************! final target to schedule \(componentsToSaveList) ******** \(componentsToSaveList.count) -> should be 1 !***********")
+        
         var j = 1
+        let content = UNMutableNotificationContent()
         for var componentsToSave in componentsToSaveList {
+            
+            var nowDateCompsHour = todayComponents.hour!
+            if(nowDateCompsHour == 0){
+                nowDateCompsHour = 24
+            }
+            //지금보다 이전시간에 설정한다면 반복의 다음날로 넘긴다
+            if(componentsToSave.hour! <= nowDateCompsHour  && componentsToSave.minute! <= todayComponents.minute! && componentsToSave.weekday! == todayComponents.weekday!){
+                print("지금보다 과거라면 다음 날로... (반복알람)")
+                componentsToSave.weekday = nextWeekDay
+            }
+            print("*******************! final final target to schedule \(componentsToSave) !***********")
+            
             let repeatingId = RepeatDays(rawValue: componentsToSave.weekday!)?.fullName
             let devider:String = "@"
             let newId = id + devider + repeatingId!
@@ -143,7 +203,7 @@ class NotificationManager{
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: componentsToSave, repeats: true)
             
-            content.title = "Motivoice has been arrived"
+            content.title = "모티보이스가 도착했습니다!"
             content.body = "\(tagName)"
             content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
             content.userInfo = [
@@ -174,7 +234,7 @@ class NotificationManager{
                 let ringingId = "\(newId)#\(intervalSecond)"
                 
                 let ringingContent = UNMutableNotificationContent()
-                ringingContent.title = "Motivoice is arrived"
+                ringingContent.title = "모티보이스가 도착했습니다!"
                 ringingContent.subtitle = "\(tagName)"
                 ringingContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: audioName))
                 ringingContent.userInfo = [:]

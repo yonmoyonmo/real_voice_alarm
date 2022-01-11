@@ -57,6 +57,7 @@ struct AlarmSetting: View {
             var weekDayFireAtSet:[Date] = []
             let components = Calendar.current.dateComponents([.hour, .minute, .year], from: fireAt)
             for repeatDay in repeatDays {
+                //set repeating weekdays of fireAt
                 weekDayFireAtSet.append(createDate(weekday: repeatDay.intName,
                                                    hour:components.hour!,
                                                    minute:components.minute! ,

@@ -10,8 +10,11 @@ import SwiftUI
 struct AfterAlarmScreen: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     let recorderAlarm = RecorderAlarm.instance
+    let notificationManager = NotificationManager.instance
     @EnvironmentObject var vm: VoiceAlarmHomeViewModel
     var isDay:Bool
+    let currentAlarm:AlarmEntity
+    
     var cardType:String = UserDefaults.standard.string(forKey: "cardType")!
     var themeType:String = UserDefaults.standard.string(forKey: "themeType")!
     
@@ -44,6 +47,37 @@ struct AfterAlarmScreen: View {
                     
                     Button(action: {
                         recorderAlarm.isFiring = false
+                        //1.0.4 schedule repeating alarms one by one at dismiss timing
+                        if(currentAlarm.isRepeating){
+                            var weekDayFireAtSet:[Date] = []
+                            let components = Calendar.current.dateComponents([.hour, .minute, .year], from: currentAlarm.fireAt!)
+                            let todayComps = Calendar.current.dateComponents([.weekday], from: Date())
+                            print("+++++++++++++++++++ dismiss and schedule next ++++++++++++++++++++++")
+                            print("+++++++++++++++++++ cancel all first ++++++++++++++++++++++")
+                            let semaphore = DispatchSemaphore(value: 0)
+                            notificationManager.cancelNotification(id: currentAlarm.uuid!,
+                                                                   repeatingDays: currentAlarm.repeatingDays,
+                                                                   semaphore: semaphore)
+                            semaphore.wait()
+                            
+                            for repeatDay in currentAlarm.repeatingDays {
+                                //set repeating weekdays of fireAt
+                                if(repeatDay != todayComps.weekday!){
+                                    weekDayFireAtSet.append(createDate(weekday: repeatDay,
+                                                                       hour:components.hour!,
+                                                                       minute:components.minute! ,
+                                                                       year: components.year!,
+                                                                       month: nil,
+                                                                       day: nil
+                                                                      ))
+                                }
+                            }
+                            notificationManager.scheduleRepeatingAlarms(dates: weekDayFireAtSet,
+                                                                        tagName: currentAlarm.tagName!,
+                                                                        id: currentAlarm.uuid!,
+                                                                        audioName: currentAlarm.audioName!)
+                        }
+                        print("+++++++++++++++++++ dismiss and schedule next done ++++++++++++++++++++++")
                         recorderAlarm.setLastingTimeOfNext()
                         self.presentationMode.wrappedValue.dismiss()
                     }, label: {
