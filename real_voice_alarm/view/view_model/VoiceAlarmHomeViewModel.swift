@@ -16,6 +16,7 @@ class VoiceAlarmHomeViewModel: ObservableObject {
     
     @Published var dayAlarms:[AlarmEntity] = []
     @Published var nightAlarms:[AlarmEntity] = []
+    @Published var isFull:Bool = false
     
     init(){
         getAlarms()
@@ -44,6 +45,13 @@ class VoiceAlarmHomeViewModel: ObservableObject {
         //sort by isActive true
         dayAlarms.sort{ $0.isActive && !$1.isActive }
         nightAlarms.sort{ $0.isActive && !$1.isActive }
+        let total = dayAlarms.count + nightAlarms.count
+        if total >= 10 {
+            print("Home VM : alarms count FULL \(total)")
+            isFull = true
+        }else{
+            isFull = false
+        }
         
         recorderAlarm.setLastingTimeOfNext()
     }

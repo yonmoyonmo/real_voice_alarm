@@ -31,7 +31,9 @@ struct AlarmCardView: View {
                 ForEach($alarms){$alarm in
                     AlarmCard(alarm: $alarm, alarmToggle: alarm.isActive, isDay:isDay, cardType:self.cardType, themeType: self.themeType)
                 }
-                addNewCardCard(isDay: self.isDay, themeType:self.themeType)
+                if(viewModel.isFull == false){
+                    addNewCardCard(isDay: self.isDay, themeType:self.themeType)
+                }
             }.padding(.leading, 24)
                 .padding(.bottom, 20)
         }
