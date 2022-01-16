@@ -13,6 +13,7 @@ struct AlarmingScreen: View {
     @ObservedObject var alarmingScreenVm: AlarmingScreenViewModel = AlarmingScreenViewModel()
     
     let audioPlayer:AudioPlayer = AudioPlayer.instance
+    let notificationManager = NotificationManager.instance
     
     @State var showModal:Bool = false
     @State var isDay:Bool = false
@@ -118,7 +119,42 @@ struct AlarmingScreen: View {
                         print("now playing this \(alarmingScreenVm.currentAlarm!.audioURL!) if player chrash? its not the URL's fault")
                         audioPlayer.startAlarmSound(audio: alarmingScreenVm.currentAlarm!.audioURL!, volume: floatVolume)
                     }
-                }).sheet(isPresented: self.$showModal) {
+                }).sheet(isPresented: self.$showModal, onDismiss: {
+                    recorderAlarm.isFiring = false
+                    //1.0.4 schedule repeating alarms one by one at dismiss timing
+                    let currentAlarm = alarmingScreenVm.currentAlarm!
+                    if(currentAlarm.isRepeating){
+                        var weekDayFireAtSet:[Date] = []
+                        let components = Calendar.current.dateComponents([.hour, .minute, .year], from: currentAlarm.fireAt!)
+                        let todayComps = Calendar.current.dateComponents([.weekday], from: Date())
+                        print("+++++++++++++++++++ dismiss and schedule next ++++++++++++++++++++++")
+                        print("+++++++++++++++++++ cancel all first ++++++++++++++++++++++")
+                        let semaphore = DispatchSemaphore(value: 0)
+                        notificationManager.cancelNotification(id: currentAlarm.uuid!,
+                                                               repeatingDays: currentAlarm.repeatingDays,
+                                                               semaphore: semaphore)
+                        semaphore.wait()
+                        
+                        for repeatDay in currentAlarm.repeatingDays {
+                            //set repeating weekdays of fireAt
+                            if(repeatDay != todayComps.weekday!){
+                                weekDayFireAtSet.append(createDate(weekday: repeatDay,
+                                                                   hour:components.hour!,
+                                                                   minute:components.minute! ,
+                                                                   year: components.year!,
+                                                                   month: nil,
+                                                                   day: nil
+                                                                  ))
+                            }
+                        }
+                        notificationManager.scheduleRepeatingAlarms(dates: weekDayFireAtSet,
+                                                                    tagName: currentAlarm.tagName!,
+                                                                    id: currentAlarm.uuid!,
+                                                                    audioName: currentAlarm.audioName!)
+                    }
+                    print("+++++++++++++++++++ dismiss and schedule next done ++++++++++++++++++++++")
+                    recorderAlarm.setLastingTimeOfNext()
+                }) {
                     AfterAlarmScreen(isDay: alarmingScreenVm.currentAlarm!.isDay, currentAlarm: alarmingScreenVm.currentAlarm!)
                 }
                 
