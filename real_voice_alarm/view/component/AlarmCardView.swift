@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-//let cardWidth = 320.0
-//let cardHeight = 213.34
-//let cardRadius = 10.0
-//let shadowX = 0.0
-//let shadowY = 4.0
 let cardWidth = CGFloat(UIScreen.screenWidth * 0.85)
 let cardHeight = CGFloat(UIScreen.screenWidth * 0.55)
 let cardRadius = CGFloat(15.0)
@@ -112,8 +107,8 @@ struct AlarmCard: View {
                                     Image(systemName: "trash").font(.system(size: 23, weight: .bold)).foregroundColor(.white)
                                 }).alert(isPresented: $deleteAlert) {
                                     Alert(
-                                        title: Text("알람 삭제"),
-                                        message: Text("진짜 알람을 삭제합니까?"),
+                                        title: Text("알림 삭제"),
+                                        message: Text("정말 알림을 삭제하시겠습니까?"),
                                         primaryButton: .default(Text("아니오"), action: {
                                             deleteAlert.toggle()
                                         }),

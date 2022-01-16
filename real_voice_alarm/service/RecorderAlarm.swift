@@ -311,29 +311,24 @@ class RecorderAlarm: ObservableObject {
             //find today's fastest alarm
             var minTargetHour = 25
             var minTargetMinute = 61
+            
             for pendingAlarmsDate in pendingAlarmsDates {
                 
-                //print("@@ debug pendingAlarmsDate : \(pendingAlarmsDate)")
+                print("@@ debug pendingAlarmsDate : \(pendingAlarmsDate)")
                 
                 let targetWeekday = (pendingAlarmsDate["weekday" as String] as? NSString)!.intValue
                 let targetHour = (pendingAlarmsDate["hour" as String] as? NSString)!.intValue
                 let targetMinute = (pendingAlarmsDate["minute" as String] as? NSString)!.intValue
                 
-                //i don't know why this var exists just leave it for it's sake....
-//                var overDay = false
-//                if((Int(targetHour) - nowDateComponents.hour!) < 0){
-//                    overDay = true
-//                }else if((Int(targetHour) - nowDateComponents.hour!) == 0 && (Int(targetMinute) - nowDateComponents.minute!) <= 0){
-//                    overDay = true
-//                }
-                
                 if(targetWeekday == nowDateComponents.weekday!){
                     if(targetHour >= nowDateComponents.hour!){
                         if(minTargetHour > targetHour){
                             minTargetHour = Int(targetHour)
+                            minTargetMinute = Int(targetMinute)
                             target = pendingAlarmsDate
                         }else if(minTargetHour == targetHour){
                             if(minTargetMinute > targetMinute){
+                                print("2020 01 16 debug : minTargetMinute == \(minTargetMinute) && targetMinute == \(targetMinute)")
                                 minTargetHour = Int(targetHour)
                                 minTargetMinute = Int(targetMinute)
                                 target = pendingAlarmsDate

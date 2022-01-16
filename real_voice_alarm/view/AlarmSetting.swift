@@ -21,7 +21,7 @@ struct AlarmSetting: View {
     
     @State var audioName: String = "선택된 목소리 없음"
     @State var audioURL: URL?
-    @State private var volume: Double = 10
+    @State private var volume: Double = 1
     
     @State var audioData: [String:Any] = [:]
     @State var fileName: String = "제목 없음"
@@ -167,7 +167,7 @@ struct AlarmSetting: View {
                                 HStack{
                                     Image(systemName: "speaker.wave.3.fill")
                                     //volume slider
-                                    Slider(value: $volume, in: 0...20, step: 0.1)
+                                    Slider(value: $volume, in: 0...2, step: 0.1)
                                 }
                                 Divider()
                                 HStack{
@@ -234,7 +234,7 @@ struct AlarmSetting: View {
                             :
                         Image("\(themeType)2").resizable().aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all)
                 )
-                .audioURLExceptionAlert(isShowing: $audioURLException, message: "목소리 없이는 알람을 만들 수 없습니다.")
+                .audioURLExceptionAlert(isShowing: $audioURLException, message: "목소리 없이는 알림을 만들 수 없습니다.")
                 .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName)
                 .playBackAlert(isShowing: $isPlayBack,
                                audioPlayer: self.audioPlayer,

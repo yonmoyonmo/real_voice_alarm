@@ -9,7 +9,9 @@ import SwiftUI
 
 struct QandADetail: View {
     let title:String
-    let content:String
+    let content01:String
+    let content02:String
+    let content03:String
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
@@ -23,12 +25,15 @@ struct QandADetail: View {
                 })
             }.padding(.top).padding(.horizontal)
             
-            VStack{
+            VStack(alignment:.leading){
                 Text(title).font(.system(size: 19, weight: .bold)).foregroundColor(Color.textBlack).lineSpacing(15).padding()
-                    .frame(width: UIScreen.screenWidth, alignment: .leading)
                 
-                Text(content).font(.system(size: 16, weight: .regular)).foregroundColor(Color.textBlack).lineSpacing(15).padding(.horizontal)
-            }
+                Text(content01).font(.system(size: 16, weight: .regular)).foregroundColor(Color.textBlack).lineSpacing(15).padding()
+                
+                Text(content02).font(.system(size: 16, weight: .regular)).foregroundColor(Color.textBlack).lineSpacing(15).padding()
+                
+                Text(content03).font(.system(size: 16, weight: .regular)).foregroundColor(Color.textBlack).lineSpacing(15).padding()
+            }.frame(width: UIScreen.screenWidth)
             .navigationBarHidden(true)
         }
     }

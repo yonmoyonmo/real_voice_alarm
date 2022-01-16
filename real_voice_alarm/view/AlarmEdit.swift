@@ -163,7 +163,7 @@ struct AlarmEdit: View {
                                 HStack{
                                     Image(systemName: "speaker.wave.3.fill")
                                     //volume slider
-                                    Slider(value: $volumeEditted, in: 0...20, step: 0.1)
+                                    Slider(value: $volumeEditted, in: 0...2, step: 0.1)
                                 }
                                 Divider()
                                 HStack{
@@ -226,7 +226,7 @@ struct AlarmEdit: View {
                                     .resizable()
                                     .aspectRatio(geometry.size.width, contentMode: .fill)
                                     .edgesIgnoringSafeArea(.all).edgesIgnoringSafeArea(.all))
-                    .audioURLExceptionAlert(isShowing: $audioURLException, message: "목소리 없이는 알람을 만들 수 없습니다.")
+                    .audioURLExceptionAlert(isShowing: $audioURLException, message: "목소리 없이는 알림을 만들 수 없습니다.")
                     .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagNameEditted)
                     .playBackAlert(isShowing: $isPlayBack, audioPlayer: self.audioPlayer, audioURL: $audioURLEditted, audioName: $audioNameEditted)
                     .navigationBarHidden(true)

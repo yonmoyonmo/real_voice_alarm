@@ -46,7 +46,7 @@ struct RecordingsList: View {
                 .navigationBarHidden(true)
             }
         }
-        .audioURLExceptionAlert(isShowing: $showAlert, message: "알람으로 설정된 소리는 지울 수 없습니다.")
+        .audioURLExceptionAlert(isShowing: $showAlert, message: "알림으로 설정된 소리는 지울 수 없습니다.")
         .onAppear(perform: {
             audioRecorder.fatchRecordings()
         })
@@ -103,31 +103,35 @@ struct RecordingRow: View{
     
     var body: some View{
         HStack{
-            Text("\(audioURLforShow.lastPathComponent)").foregroundColor(.textBlack)
-                .onTapGesture {
-                    audioURLforSave = audioURLforShow
-                    audioName = audioURLforShow.lastPathComponent
-                    audioPlayer.stopPlayback()
-                    presentationMode.wrappedValue.dismiss()
-                }
-            
+            Button(action: {
+                audioURLforSave = audioURLforShow
+                audioName = audioURLforShow.lastPathComponent
+                audioPlayer.stopPlayback()
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                Text("\(audioURLforShow.lastPathComponent)").foregroundColor(.textBlack)
+            })
+                
             Spacer()
             if audioPlayer.isPlaying == false {
-                Button(action: {
-                    audioPlayer.startPlayback(audio: self.audioURLforShow)
-                }){
-                    Image(systemName: "play.circle").imageScale(.large).foregroundColor(.textBlack)
-                }
+                Image(systemName: "play.circle").imageScale(.large).foregroundColor(.textBlack)
+                    .onTapGesture {
+                        audioPlayer.startPlayback(audio: self.audioURLforShow)
+                    }
             }else{
-                Button(action: {
-                    audioPlayer.stopPlayback()
-                }){
-                    Image(systemName: "stop.fill").imageScale(.large).foregroundColor(.textBlack)
-                }
+                Image(systemName: "stop.fill").imageScale(.large).foregroundColor(.textBlack)
+                    .onTapGesture {
+                        audioPlayer.stopPlayback()
+                    }
+                
             }
         }
+        
     }
 }
+
+
+
 
 struct SampleRow: View{
     @Environment(\.presentationMode) var presentationMode
@@ -142,27 +146,27 @@ struct SampleRow: View{
     
     var body: some View{
         HStack{
-            Text("\(audioSampleStruct.sampleName)").foregroundColor(.textBlack)
-                .onTapGesture {
-                    audioURLforSave = audioURLforShow
-                    audioName = audioURLforShow.lastPathComponent
-                    audioPlayer.stopPlayback()
-                    presentationMode.wrappedValue.dismiss()
-                }
+            Button(action: {
+                audioURLforSave = audioURLforShow
+                audioName = audioURLforShow.lastPathComponent
+                audioPlayer.stopPlayback()
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                Text("\(audioSampleStruct.sampleName)").foregroundColor(.textBlack)
+            })
             
             Spacer()
             if audioPlayer.isPlaying == false {
-                Button(action: {
-                    audioPlayer.startPlayback(audio: self.audioURLforShow)
-                }){
-                    Image(systemName: "play.circle").imageScale(.large).foregroundColor(.textBlack)
-                }
+                Image(systemName: "play.circle").imageScale(.large).foregroundColor(.textBlack)
+                    .onTapGesture {
+                        audioPlayer.startPlayback(audio: self.audioURLforShow)
+                    }
             }else{
-                Button(action: {
-                    audioPlayer.stopPlayback()
-                }){
-                    Image(systemName: "stop.fill").imageScale(.large).foregroundColor(.textBlack)
-                }
+                Image(systemName: "stop.fill").imageScale(.large).foregroundColor(.textBlack)
+                    .onTapGesture {
+                        audioPlayer.stopPlayback()
+                    }
+                
             }
         }
     }

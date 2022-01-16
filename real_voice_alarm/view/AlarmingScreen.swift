@@ -71,7 +71,7 @@ struct AlarmingScreen: View {
                                 .padding()
                             
                         }.alert(isPresented: $showSnoozeConfirmAlert){
-                            Alert(title: Text("\(snoozeMinutes)분 뒤에 다시 알람이 울립니다."), dismissButton: .default(Text("OK").font(.system(size: 20)), action: {
+                            Alert(title: Text("\(snoozeMinutes)분 뒤에 다시 알림이 울립니다."), dismissButton: .default(Text("OK").font(.system(size: 20)), action: {
                                 recorderAlarm.snoozeAlarm(alarm: alarmingScreenVm.currentAlarm!, snoozeMimutes: snoozeMinutes)
                                 recorderAlarm.isFiring = false
                             }))
