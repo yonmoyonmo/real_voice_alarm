@@ -39,6 +39,7 @@ struct AlarmCard: View {
     @Binding var alarm:AlarmEntity
     @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
     let recorderAlarm = RecorderAlarm.instance
+    let audioPlayer:AudioPlayer = AudioPlayer.instance
     
     @State var alarmToggle:Bool
     @State var showEditAlarmModal:Bool = false
@@ -75,7 +76,11 @@ struct AlarmCard: View {
                                     }
                             }
                         ).frame(width: 60, height: 30, alignment: .center)
-                            .sheet(isPresented: self.$showEditAlarmModal) {
+                            .sheet(isPresented: self.$showEditAlarmModal, onDismiss: {
+                                if(audioPlayer.isPlaying){
+                                    audioPlayer.stopPlayback()
+                                }
+                            }) {
                                 AlarmEdit(
                                     alarm: self.alarm,
                                     tagNameEditted: self.alarm.tagName!,
@@ -166,6 +171,7 @@ struct AlarmCard: View {
 struct addNewCardCard: View{
     @State private var showAddAlarmModal = false
     @EnvironmentObject var viewModel:VoiceAlarmHomeViewModel
+    let audioPlayer:AudioPlayer = AudioPlayer.instance
     var isDay:Bool
     var themeType:String
     
@@ -180,7 +186,11 @@ struct addNewCardCard: View{
                     .foregroundColor(.black)
                     .font(.system(size: 65.0, weight: .bold))
             }
-            .sheet(isPresented: self.$showAddAlarmModal) {
+            .sheet(isPresented: self.$showAddAlarmModal, onDismiss: {
+                if(audioPlayer.isPlaying){
+                    audioPlayer.stopPlayback()
+                }
+            }) {
                 AlarmSetting(isDay: self.isDay, themeType:self.themeType)
             }
         }
