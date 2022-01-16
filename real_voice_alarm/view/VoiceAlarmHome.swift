@@ -118,48 +118,54 @@ struct OnboardingView: View {
     func setupAppearance() {
         UIPageControl.appearance().currentPageIndicatorTintColor = .black
         UIPageControl.appearance().pageIndicatorTintColor = UIColor.black.withAlphaComponent(0.2)
-      }
+    }
     
     var body: some View{
         TabView{
+            
+            OnboardingPageView2(
+                showOnboard: $showOnboarding,
+                imageName: "theIconWLogo",
+                description: "나를 변화시키는 목소리,\n모티보이스입니다.",
+                showBotton: false)
             OnboardingPageView(
                 showOnboard: $showOnboarding,
-                imageName: "speaker.slash.fill",
-                description: "1",
-                showBotton: false
-            )
+                imageName: "OBMain01",
+                description: "내일 아침의 나에게\n해주고 싶은 말은 위에",
+                showBotton: false)
             OnboardingPageView(
                 showOnboard: $showOnboarding,
-                imageName: "mic.fill",
-                description: "2",
-                showBotton: false
-            )
+                imageName: "OBMain02",
+                description: "오늘 밤의 나에게\n해주고 싶은 말은 아래에",
+                showBotton: false)
             OnboardingPageView(
                 showOnboard: $showOnboarding,
-                imageName: "mic.fill",
-                description: "3",
-                showBotton: false
-            )
-            OnboardingPageView(
+                imageName: "OBMain03",
+                description: "자신의 목소리가 부담스럽다면,\n성우가 녹음해 둔\n동기부여 메시지를 들을 수도 있어요!",
+                showBotton: false)
+            OnboardingPageView2(
                 showOnboard: $showOnboarding,
-                imageName: "mic.fill",
-                description: "4",
-                showBotton: false
-            )
-            OnboardingPageView(
+                imageName: "silenceWBell",
+                description: "무음모드와 방해금지모드를\n해제 해주세요!\n\n알림이 울리지 않아요...",
+                showBotton: false)
+            OnboardingPageView2(
                 showOnboard: $showOnboarding,
-                imageName: "hand.raised",
-                description: "5",
-                showBotton: true
-            )
+                imageName: "campFire",
+                description: "나의 목소리로 만드는\n나의 습관\n\n내일의 나에게\n메세지를 보내보세요",
+                showBotton: true)
+            
         }.tabViewStyle(PageTabViewStyle())
-            .background(Image("Filter40A").resizable().scaledToFill())
+            .background(
+                Image("Filter40A")
+                    .resizable()
+                    .aspectRatio(UIScreen.screenWidth, contentMode: .fill)
+                    .edgesIgnoringSafeArea(.all)
+            )
             .onAppear {
-            setupAppearance()
-          }
+                setupAppearance()
+            }
     }
 }
-
 
 struct OnboardingPageView:View {
     @Binding var showOnboard:Bool
@@ -169,45 +175,69 @@ struct OnboardingPageView:View {
     
     var body: some View{
         VStack{
-            GroupBox{
-                Image(systemName: imageName)
-                    .font(.system(size: 60))
+            Image(imageName).resizable().scaledToFit()
+                .frame(width: UIScreen.screenWidth*0.6, height: UIScreen.screenHeight*0.6)
+                .padding()
+            
+            Text(description).font(.system(size: 20, weight: .bold)).foregroundColor(Color.textBlack).lineSpacing(10)
+                .frame(width: UIScreen.screenWidth*0.9,alignment: .center)
+                .multilineTextAlignment(.center)
+            
+            if(showBotton){
+                Button{
+                    showOnboard.toggle()
+                    UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
+                }label: {
+                    Text("마침")
+                        .frame(width: UIScreen.screenWidth * 0.8, height: 40)
+                        .font(.system(size: 23, weight: .bold))
+                        .foregroundColor(Color.white)
+                        .padding()
+                }.background(Color("campColor"))
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .opacity(0.8)
+                    .shadow(radius: 5, x: 0, y: 5)
                     .padding()
                 
-                Text(description).font(.system(size:20,weight: .bold)).padding()
-                
-                if(showBotton){
-                    Button{
-                        showOnboard.toggle()
-                        UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
-                    }label: {
-                        Text("다시 보지 않겠습니다.")
-                            .font(.system(size: 18))
-                            .frame(maxWidth: 270)
-                            .foregroundColor(.black)
-                            .padding()
-                    }.background(Color.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                        .opacity(0.8)
-                        .shadow(radius: 5, x: 0, y: 5)
-                        .padding()
-                    
-                    Button{
-                        showOnboard.toggle()
-                        //UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
-                    }label: {
-                        Text("나중에 다시 보겠습니다.")
-                            .font(.system(size: 18))
-                            .frame(maxWidth: 270)
-                            .foregroundColor(.black)
-                            .padding()
-                    }.background(Color.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                        .opacity(0.8)
-                        .shadow(radius: 5, x: 0, y: 5)
-                        .padding()
-                }
-            }.frame(width: UIScreen.screenWidth, alignment: .center)
+            }
         }
     }
 }
+
+struct OnboardingPageView2:View {
+    @Binding var showOnboard:Bool
+    let imageName:String
+    let description:String
+    let showBotton:Bool
+    
+    var body: some View{
+        VStack{
+            Image(imageName).resizable().scaledToFit()
+                .frame(width: UIScreen.screenWidth*0.6, height: UIScreen.screenWidth*0.6)
+                .padding()
+            
+            Text(description).font(.system(size: 20, weight: .bold)).foregroundColor(Color.textBlack).lineSpacing(10)
+                .frame(width: UIScreen.screenWidth*0.9,alignment: .center)
+                .multilineTextAlignment(.center)
+            
+            if(showBotton){
+                Button{
+                    showOnboard.toggle()
+                    UserDefaults.standard.set(false, forKey: "doUserWantOnboardingView")
+                }label: {
+                    Text("마침")
+                        .frame(width: UIScreen.screenWidth * 0.8, height: 40)
+                        .font(.system(size: 23, weight: .bold))
+                        .foregroundColor(Color.white)
+                        .padding()
+                }.background(Color("campColor"))
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .opacity(0.8)
+                    .shadow(radius: 5, x: 0, y: 5)
+                    .padding()
+                
+            }
+        }
+    }
+}
+
