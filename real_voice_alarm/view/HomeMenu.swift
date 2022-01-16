@@ -14,8 +14,6 @@ struct HomeMenu: View {
     @Binding var themeType:String
     @Binding var cardType:String
     
-    @State var navigationLinkActive = false
-    
     var body: some View {
         GeometryReader { geometry in
             NavigationView{
@@ -28,12 +26,14 @@ struct HomeMenu: View {
                         }, label: {
                             Text("완료").foregroundColor(Color.textBlack)
                         })
-                    }.padding()
+                    }.padding(.top).padding(.horizontal)
                     List{
-                        NavigationLink(destination: QandAMenu(),label:{
-                            Text("자주 묻는 질문 리스트").foregroundColor(Color.textBlack)
+                        NavigationLink(destination: GuideList(),label:{
+                            Text("이용 가이드").foregroundColor(Color.textBlack)
                         })
-                        
+                        NavigationLink(destination: QandAList(),label:{
+                            Text("Q&A").foregroundColor(Color.textBlack)
+                        })
                         Toggle("앱 실행시 가이드 스크린 보기", isOn: $showingOnboardingView)
                             .onChange(of: showingOnboardingView){ value in
                                 UserDefaults.standard.set(showingOnboardingView, forKey: "doUserWantOnboardingView")
@@ -43,15 +43,15 @@ struct HomeMenu: View {
                             Text("앱 테마 바꾸기").foregroundColor(Color.textBlack)
                         })
                     }
+                    .cornerRadius(30)
+                    .padding(15)
                     
                 }
-//                .padding(.horizontal, UIScreen.screenWidth > 700.0 ? 200 : 10)
-//                    .padding(.top, UIScreen.screenWidth > 700.0 ? 150 : 10)
-                    .frame(width: CGFloat(geometry.size.width), alignment: .center)
-                        .background(
-                            Image(themeType).resizable()
-                                .aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all))
-                    .navigationBarHidden(true)
+                .frame(width: CGFloat(geometry.size.width), alignment: .center)
+                .background(
+                    Image(themeType).resizable()
+                        .aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all))
+                .navigationBarHidden(true)
             }.accentColor(.textBlack)
         }
     }
