@@ -26,7 +26,7 @@ struct PlayBackAlart<Presenting>: View where Presenting: View {
                 self.presenting.disabled(isShowing)
                 VStack {
                     TextField("녹음 파일의 이름을 입력하세요", text: self.$input).textFieldStyle(.roundedBorder).font(.system(size:20)).foregroundColor(.textBlack).padding()
-                    Text("방금 녹음 들어보기").foregroundColor(Color.textBlack).font(.system(size:18, weight: .bold)).padding()
+                    Text("들어보시겠어요?").foregroundColor(Color.textBlack).font(.system(size:18, weight: .bold)).padding()
                     HStack(spacing: 20){
                         Button(action: {
                             if(audioPlayer.isPlaying == false){

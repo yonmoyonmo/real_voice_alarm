@@ -46,7 +46,7 @@ struct RecordingsList: View {
                 .navigationBarHidden(true)
             }
         }
-        .audioURLExceptionAlert(isShowing: $showAlert, message: "알림으로 설정된 소리는 지울 수 없습니다.")
+        .audioURLExceptionAlert(isShowing: $showAlert, message: "알림으로 설정된 목소리는 지울 수 없습니다.")
         .onAppear(perform: {
             audioRecorder.fatchRecordings()
         })

@@ -234,7 +234,7 @@ struct AlarmSetting: View {
                             :
                         Image("\(themeType)2").resizable().aspectRatio(geometry.size.width, contentMode: .fill).edgesIgnoringSafeArea(.all)
                 )
-                .audioURLExceptionAlert(isShowing: $audioURLException, message: "목소리 없이는 알림을 만들 수 없습니다.")
+                .audioURLExceptionAlert(isShowing: $audioURLException, message: "알림 생성에는 목소리가 필요합니다.")
                 .tagNameAlert(isShowing: $isShowingTagNameEditAlert, text: $tagName)
                 .playBackAlert(isShowing: $isPlayBack,
                                audioPlayer: self.audioPlayer,

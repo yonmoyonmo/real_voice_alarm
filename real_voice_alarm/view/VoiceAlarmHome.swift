@@ -66,7 +66,7 @@ struct VoiceAlarmHome: View {
                                     }
                                 }
                                 if(vm.isFull){
-                                    Text("알림은 10개까지만 생성가능합니다. \n지금은 10개를 가득 채우셨어요.").font(.system(size: 12, weight: .bold)).foregroundColor(Color.white)
+                                    Text("알림은 10개까지 만들 수 있습니다. \n지금은 10개를 가득 채우셨어요.").font(.system(size: 12, weight: .bold)).foregroundColor(Color.white)
                                 }
                                 Spacer()
                             }.frame(width: CGFloat(geometry.size.width * 0.85),

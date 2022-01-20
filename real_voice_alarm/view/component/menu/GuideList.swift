@@ -41,7 +41,7 @@ struct GuideList: View {
                 }
                 NavigationLink(destination: QandADetail(
                     title: "적절한 녹음의 길이",
-                    content01:"알림의 적절한 녹음 길이는 알림간 반복 간격을 고려하여, 11초 내외를 추천드립니다.",
+                    content01:"알림의 적절한 녹음 길이는 알림간 반복 간격을 고려하여, 11초 내외를 권장합니다.",
                     content02: "",
                     content03: ""
                 )
