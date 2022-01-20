@@ -25,7 +25,7 @@ struct VoiceAlarmHome: View {
         GeometryReader { geometry in
             ScrollView{
                 ZStack{
-                    SwiftUIBannerAd(adPosition: .top, adUnitId: "ca-app-pub-3940256099942544/2934735716")
+                    SwiftUIBannerAd(adPosition: .top, adUnitId: "ca-app-pub-8227009639656125/4444801060")
                     VStack{
                         //conditional Screen
                         if recorderAlarm.isFiring == true {

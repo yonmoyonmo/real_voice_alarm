@@ -12,6 +12,7 @@
 		0B062B43276F20D0000A6CC4 /* QandAList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B062B42276F20D0000A6CC4 /* QandAList.swift */; };
 		0B062B45276F33C7000A6CC4 /* ThemeSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B062B44276F33C7000A6CC4 /* ThemeSelection.swift */; };
 		0B4B948F273135FB0075FC02 /* AlarmingScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4B948E273135FB0075FC02 /* AlarmingScreenViewModel.swift */; };
+		0B5AE14F27993AC100C1D6EF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B5AE14E27993AC100C1D6EF /* Launch Screen.storyboard */; };
 		0B5F4BE027940660005A9ECB /* 1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B5F4BD227940660005A9ECB /* 1.wav */; };
 		0B5F4BE127940660005A9ECB /* 3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B5F4BD327940660005A9ECB /* 3.wav */; };
 		0B5F4BE227940660005A9ECB /* 2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B5F4BD427940660005A9ECB /* 2.wav */; };
@@ -67,6 +68,7 @@
 		0B062B42276F20D0000A6CC4 /* QandAList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QandAList.swift; sourceTree = "<group>"; };
 		0B062B44276F33C7000A6CC4 /* ThemeSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelection.swift; sourceTree = "<group>"; };
 		0B4B948E273135FB0075FC02 /* AlarmingScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmingScreenViewModel.swift; sourceTree = "<group>"; };
+		0B5AE14E27993AC100C1D6EF /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		0B5F4BD227940660005A9ECB /* 1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 1.wav; sourceTree = "<group>"; };
 		0B5F4BD327940660005A9ECB /* 3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 3.wav; sourceTree = "<group>"; };
 		0B5F4BD427940660005A9ECB /* 2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 2.wav; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				0B974AE62726A249000D21D2 /* real_voice_alarmApp.swift */,
 				0B974AEA2726A24A000D21D2 /* Assets.xcassets */,
 				0B974AEC2726A24A000D21D2 /* Preview Content */,
+				0B5AE14E27993AC100C1D6EF /* Launch Screen.storyboard */,
 			);
 			path = real_voice_alarm;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 			files = (
 				0B5F4BEC27940660005A9ECB /* 13.wav in Resources */,
 				0B5F4BE827940660005A9ECB /* 4.wav in Resources */,
+				0B5AE14F27993AC100C1D6EF /* Launch Screen.storyboard in Resources */,
 				0B5F4BE927940660005A9ECB /* 12.wav in Resources */,
 				0B5F4BE527940660005A9ECB /* 7.wav in Resources */,
 				0B5F4BE127940660005A9ECB /* 3.wav in Resources */,
@@ -617,6 +621,7 @@
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app uses microphone for record user's voice. The voice is for the motivoice notification sound and alarming audio.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -651,6 +656,7 @@
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app uses microphone for record user's voice. The voice is for the motivoice notification sound and alarming audio.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
